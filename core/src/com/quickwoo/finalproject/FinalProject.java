@@ -1,30 +1,44 @@
 package com.quickwoo.finalproject;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.quickwoo.finalproject.screens.GameScreen;
+import com.quickwoo.finalproject.screens.MenuScreen;
 
-public class FinalProject extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
+public class FinalProject extends Game {
+	public static final int MENU = 0;
+	public static final int GAME = 1;
+
+	private SpriteBatch batch;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+
+		this.setScreen(MENU);
 	}
 	@Override
 	public void render () {
-		ScreenUtils.clear(0, 0, 0, 1);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+		super.render();
 	}
 	
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
+	}
+
+	public SpriteBatch getBatch() {
+		return batch;
+	}
+
+	public void setScreen(int screen) {
+		switch (screen) {
+			case MENU:
+				this.setScreen(new MenuScreen(this));
+				break;
+			case GAME:
+				this.setScreen(new GameScreen());
+
+		}
 	}
 }
