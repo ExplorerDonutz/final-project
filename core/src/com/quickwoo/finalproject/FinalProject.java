@@ -1,20 +1,32 @@
 package com.quickwoo.finalproject;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.quickwoo.finalproject.screens.GameScreen;
 import com.quickwoo.finalproject.screens.MenuScreen;
+
+import static com.quickwoo.finalproject.Constants.*;
 
 public class FinalProject extends Game {
 	public static final int MENU = 0;
 	public static final int GAME = 1;
 
+	// Set to true to get debug information
+	public static final boolean DEBUG = true;
+
 	private SpriteBatch batch;
+	private OrthographicCamera cam;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 
+		// Create camera and set position with scale
+		cam = new OrthographicCamera(WIDTH / PPM, HEIGHT / PPM);
+		cam.position.set(WIDTH / PPM / SCALE, HEIGHT / PPM / SCALE, 0);
+
+		// Set the first screen
 		this.setScreen(MENU);
 	}
 	@Override
@@ -31,13 +43,17 @@ public class FinalProject extends Game {
 		return batch;
 	}
 
+	public OrthographicCamera getCamera() {
+		return cam;
+	}
+
 	public void setScreen(int screen) {
 		switch (screen) {
 			case MENU:
 				this.setScreen(new MenuScreen(this));
 				break;
 			case GAME:
-				this.setScreen(new GameScreen());
+				this.setScreen(new GameScreen(this));
 
 		}
 	}
