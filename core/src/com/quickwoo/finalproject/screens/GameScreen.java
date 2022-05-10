@@ -1,5 +1,6 @@
 package com.quickwoo.finalproject.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
@@ -13,6 +14,9 @@ public class GameScreen implements Screen {
     private final ECSEngine ecsEngine;
 
     public GameScreen(FinalProject game) {
+        // Set input manager as the input processor
+        Gdx.input.setInputProcessor(game.getInputManager());
+
         // Create a new physics world with no gravity
         world = new World(Vector2.Zero,false);
         ecsEngine = new ECSEngine(world, game, this);

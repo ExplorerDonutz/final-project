@@ -9,6 +9,7 @@ import com.quickwoo.finalproject.box2d.BodyFactory;
 import com.quickwoo.finalproject.ecs.components.Box2DComponent;
 import com.quickwoo.finalproject.ecs.components.PlayerComponent;
 import com.quickwoo.finalproject.ecs.systems.DebugPhysicsSystem;
+import com.quickwoo.finalproject.ecs.systems.PlayerMovementSystem;
 import com.quickwoo.finalproject.screens.GameScreen;
 
 public class ECSEngine extends PooledEngine {
@@ -19,6 +20,8 @@ public class ECSEngine extends PooledEngine {
 
         if (FinalProject.DEBUG)
             this.addSystem(new DebugPhysicsSystem(world, game.getCamera()));
+
+        this.addSystem(new PlayerMovementSystem(game.getInputManager()));
     }
 
     public void createPlayer(int x, int y, int drawOrder) {

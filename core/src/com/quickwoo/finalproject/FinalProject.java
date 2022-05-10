@@ -1,8 +1,10 @@
 package com.quickwoo.finalproject;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.quickwoo.finalproject.input.InputManager;
 import com.quickwoo.finalproject.screens.GameScreen;
 import com.quickwoo.finalproject.screens.MenuScreen;
 
@@ -17,6 +19,7 @@ public class FinalProject extends Game {
 
 	private SpriteBatch batch;
 	private OrthographicCamera cam;
+	private InputManager inputManager;
 	
 	@Override
 	public void create () {
@@ -25,6 +28,9 @@ public class FinalProject extends Game {
 		// Create camera and set position with scale
 		cam = new OrthographicCamera(WIDTH / PPM, HEIGHT / PPM);
 		cam.position.set(WIDTH / PPM / SCALE, HEIGHT / PPM / SCALE, 0);
+
+		// Create input manager that will be used to handle input through entire game
+		inputManager = new InputManager();
 
 		// Set the first screen
 		this.setScreen(MENU);
@@ -56,5 +62,9 @@ public class FinalProject extends Game {
 				this.setScreen(new GameScreen(this));
 
 		}
+	}
+
+	public InputManager getInputManager() {
+		return inputManager;
 	}
 }
