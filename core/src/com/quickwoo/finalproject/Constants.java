@@ -6,6 +6,8 @@ package com.quickwoo.finalproject;
 
 import com.badlogic.gdx.Gdx;
 
+import java.util.Scanner;
+
 public class Constants {
     // Camera Scale
     public static final float SCALE = 2.0f;
@@ -19,4 +21,7 @@ public class Constants {
 
     // Pixels to meters
     public static final float PIXELS_TO_METERS = 1.0f / PPM;
+
+    // Box2D Timestep
+    public static final float TIME_STEP = 1/45f;
 }

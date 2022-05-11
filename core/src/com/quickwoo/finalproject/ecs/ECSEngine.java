@@ -8,7 +8,9 @@ import com.quickwoo.finalproject.FinalProject;
 import com.quickwoo.finalproject.box2d.BodyFactory;
 import com.quickwoo.finalproject.ecs.components.Box2DComponent;
 import com.quickwoo.finalproject.ecs.components.PlayerComponent;
+import com.quickwoo.finalproject.ecs.components.TransformComponent;
 import com.quickwoo.finalproject.ecs.systems.DebugPhysicsSystem;
+import com.quickwoo.finalproject.ecs.systems.PhysicsSystem;
 import com.quickwoo.finalproject.ecs.systems.PlayerMovementSystem;
 import com.quickwoo.finalproject.screens.GameScreen;
 
@@ -21,6 +23,10 @@ public class ECSEngine extends PooledEngine {
         if (FinalProject.DEBUG)
             this.addSystem(new DebugPhysicsSystem(world, game.getCamera()));
 
+        // Add physics system
+        this.addSystem(new PhysicsSystem(world));
+
+        // Add player movement system
         this.addSystem(new PlayerMovementSystem(game.getInputManager()));
     }
 
@@ -28,12 +34,20 @@ public class ECSEngine extends PooledEngine {
         final Entity player = this.createEntity();
 
         // Player
-        player.add(this.createComponent(PlayerComponent.class));
+        final PlayerComponent playerComponent = this.createComponent(PlayerComponent.class);
+        playerComponent.speed = 5.0f;
+        player.add(playerComponent);
 
         // Box2D
         final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
         box2DComponent.body = bodyFactory.makeBox(x,y, 32, 32, BodyDef.BodyType.DynamicBody, true);
         player.add(box2DComponent);
+
+        // Transform
+        final TransformComponent transformComponent = this.createComponent(TransformComponent.class);
+        transformComponent.position.set(x,y,0);
+        transformComponent.scale.set(1,1);
+        player.add(transformComponent);
 
         this.addEntity(player);
     }
@@ -45,6 +59,12 @@ public class ECSEngine extends PooledEngine {
         final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
         box2DComponent.body = bodyFactory.makeBox(x,y, 32, 32, BodyDef.BodyType.DynamicBody, true);
         test.add(box2DComponent);
+
+        // Transform
+        final TransformComponent transformComponent = this.createComponent(TransformComponent.class);
+        transformComponent.position.set(x,y,1);
+        transformComponent.scale.set(1,1);
+        test.add(transformComponent);
 
         this.addEntity(test);
     }

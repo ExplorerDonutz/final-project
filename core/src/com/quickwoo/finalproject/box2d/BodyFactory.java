@@ -6,7 +6,7 @@ import static com.quickwoo.finalproject.Constants.PPM;
 
 public class BodyFactory {
     private static BodyFactory thisInstance;
-    private World world;
+    private final World world;
 
     private BodyFactory(World world) {
         this.world = world;

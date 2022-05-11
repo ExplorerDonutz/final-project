@@ -18,12 +18,14 @@ import com.quickwoo.finalproject.input.InputManager;
 public class PlayerMovementSystem extends IteratingSystem implements GameKeyInputListener {
 
     private final ComponentMapper<Box2DComponent> box2DMapper;
+    private final ComponentMapper<PlayerComponent> playerMapper;
     private final Vector2 force;
 
     public PlayerMovementSystem(InputManager inputManager) {
         // Iterates through entities that have the player component
         super(Family.all(PlayerComponent.class).get());
         box2DMapper = Mapper.box2DMapper;
+        playerMapper = Mapper.playerMapper;
         inputManager.addInputListener(this);
         force = new Vector2(0, 0);
     }
@@ -31,8 +33,9 @@ public class PlayerMovementSystem extends IteratingSystem implements GameKeyInpu
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         Box2DComponent b2dBody = box2DMapper.get(entity);
+        PlayerComponent player = playerMapper.get(entity);
 
-        b2dBody.body.setLinearVelocity(force.x * 5, force.y * 5);
+        b2dBody.body.setLinearVelocity(force.x * player.speed, force.y * player.speed);
     }
 
     @Override
