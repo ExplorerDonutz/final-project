@@ -28,6 +28,7 @@ public class FinalProject extends Game {
 		// Create camera and set position with scale
 		cam = new OrthographicCamera(WIDTH / PPM, HEIGHT / PPM);
 		cam.position.set(WIDTH / PPM / SCALE, HEIGHT / PPM / SCALE, 0);
+		cam.update();
 
 		// Create input manager that will be used to handle input through entire game
 		inputManager = new InputManager();

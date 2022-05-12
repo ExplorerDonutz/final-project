@@ -40,7 +40,7 @@ public class ECSEngine extends PooledEngine {
 
         // Box2D
         final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
-        box2DComponent.body = bodyFactory.makeBox(x,y, 32, 32, BodyDef.BodyType.DynamicBody, true);
+        box2DComponent.body = bodyFactory.makeBox(x,y, 16, 16, BodyDef.BodyType.DynamicBody, true);
         player.add(box2DComponent);
 
         // Transform
@@ -57,7 +57,7 @@ public class ECSEngine extends PooledEngine {
 
         // Box2D
         final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
-        box2DComponent.body = bodyFactory.makeBox(x,y, 32, 32, BodyDef.BodyType.DynamicBody, true);
+        box2DComponent.body = bodyFactory.makeBox(x,y, 16, 16, BodyDef.BodyType.DynamicBody, true);
         test.add(box2DComponent);
 
         // Transform

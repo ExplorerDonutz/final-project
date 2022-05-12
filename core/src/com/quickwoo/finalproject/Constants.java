@@ -17,7 +17,7 @@ public class Constants {
     public static final int HEIGHT = Gdx.graphics.getHeight();
 
     // Pixel per meter
-    public static final float PPM = 32;
+    public static final float PPM = 16;
 
     // Pixels to meters
     public static final float PIXELS_TO_METERS = 1.0f / PPM;
