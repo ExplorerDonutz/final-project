@@ -7,15 +7,18 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.quickwoo.finalproject.FinalProject;
 import com.quickwoo.finalproject.box2d.BodyFactory;
 import com.quickwoo.finalproject.ecs.components.Box2DComponent;
+import com.quickwoo.finalproject.ecs.components.EnemyComponent;
 import com.quickwoo.finalproject.ecs.components.PlayerComponent;
 import com.quickwoo.finalproject.ecs.components.TransformComponent;
 import com.quickwoo.finalproject.ecs.systems.DebugPhysicsSystem;
+import com.quickwoo.finalproject.ecs.systems.EnemyMovementSystem;
 import com.quickwoo.finalproject.ecs.systems.PhysicsSystem;
 import com.quickwoo.finalproject.ecs.systems.PlayerMovementSystem;
 import com.quickwoo.finalproject.screens.GameScreen;
 
 public class ECSEngine extends PooledEngine {
     private final BodyFactory bodyFactory;
+    private Entity player;
 
     public ECSEngine(World world, FinalProject game, GameScreen screen) {
         bodyFactory = BodyFactory.getInstance(world);
@@ -28,10 +31,13 @@ public class ECSEngine extends PooledEngine {
 
         // Add player movement system
         this.addSystem(new PlayerMovementSystem(game.getInputManager()));
+
+        // Add enemy movement system
+        this.addSystem(new EnemyMovementSystem());
     }
 
     public void createPlayer(int x, int y, int drawOrder) {
-        final Entity player = this.createEntity();
+        player = this.createEntity();
 
         // Player
         final PlayerComponent playerComponent = this.createComponent(PlayerComponent.class);
@@ -54,6 +60,12 @@ public class ECSEngine extends PooledEngine {
 
     public void createTest(int x, int y, int drawOrder) {
         final Entity test = this.createEntity();
+
+        // Enemy Component
+        final EnemyComponent enemyComponent = this.createComponent(EnemyComponent.class);
+        enemyComponent.speed = 4.0f;
+        enemyComponent.player = player;
+        test.add(enemyComponent);
 
         // Box2D
         final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);

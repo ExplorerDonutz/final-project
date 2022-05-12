@@ -6,11 +6,9 @@ package com.quickwoo.finalproject;
 
 import com.badlogic.gdx.Gdx;
 
-import java.util.Scanner;
-
 public class Constants {
     // Camera Scale
-    public static final float SCALE = 2.0f;
+    public static final float SCALE = 8.0f;
 
     // Game width and height
     public static final int WIDTH = Gdx.graphics.getWidth();

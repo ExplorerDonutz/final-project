@@ -9,4 +9,5 @@ public class Mapper {
     public static final ComponentMapper<TransformComponent> transformMapper = ComponentMapper.getFor(TransformComponent.class);
     public static final ComponentMapper<TextureComponent> textureMapper = ComponentMapper.getFor(TextureComponent.class);
     public static final ComponentMapper<StateComponent> stateMapper = ComponentMapper.getFor(StateComponent.class);
+    public static final ComponentMapper<EnemyComponent> enemyMapper = ComponentMapper.getFor(EnemyComponent.class);
 }

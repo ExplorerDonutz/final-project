@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.quickwoo.finalproject.Constants;
 import com.quickwoo.finalproject.FinalProject;
 import com.quickwoo.finalproject.ecs.ECSEngine;
@@ -19,6 +20,7 @@ public class GameScreen implements Screen {
     private final ECSEngine ecsEngine;
     private final TiledMap tiledMap;
     private final OrthogonalTiledMapRenderer mapRenderer;
+    private final ExtendViewport viewport;
     private final OrthographicCamera cam;
     private FinalProject game;
 
@@ -35,6 +37,7 @@ public class GameScreen implements Screen {
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, Constants.PIXELS_TO_METERS, game.getBatch());
 
         cam = game.getCamera();
+        viewport = new ExtendViewport(16, 9, cam);
     }
 
     @Override
@@ -47,6 +50,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.CORAL);
+        viewport.apply(false);
 
         // Render map
         game.getBatch().setProjectionMatrix(cam.combined);
@@ -59,7 +63,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        cam.update();
+        viewport.update(width, height, false);
     }
 
     @Override
