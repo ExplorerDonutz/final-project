@@ -2,18 +2,14 @@ package com.quickwoo.finalproject.ecs;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.quickwoo.finalproject.FinalProject;
 import com.quickwoo.finalproject.box2d.BodyFactory;
-import com.quickwoo.finalproject.ecs.components.Box2DComponent;
-import com.quickwoo.finalproject.ecs.components.EnemyComponent;
-import com.quickwoo.finalproject.ecs.components.PlayerComponent;
-import com.quickwoo.finalproject.ecs.components.TransformComponent;
-import com.quickwoo.finalproject.ecs.systems.DebugPhysicsSystem;
-import com.quickwoo.finalproject.ecs.systems.EnemyMovementSystem;
-import com.quickwoo.finalproject.ecs.systems.PhysicsSystem;
-import com.quickwoo.finalproject.ecs.systems.PlayerMovementSystem;
+import com.quickwoo.finalproject.ecs.components.*;
+import com.quickwoo.finalproject.ecs.systems.*;
 import com.quickwoo.finalproject.screens.GameScreen;
 
 public class ECSEngine extends PooledEngine {
@@ -34,6 +30,9 @@ public class ECSEngine extends PooledEngine {
 
         // Add enemy movement system
         this.addSystem(new EnemyMovementSystem());
+
+        // Add rendering system
+        this.addSystem(new RenderingSystem(game));
     }
 
     public void createPlayer(int x, int y, int drawOrder) {
@@ -46,14 +45,19 @@ public class ECSEngine extends PooledEngine {
 
         // Box2D
         final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
-        box2DComponent.body = bodyFactory.makeBox(x,y, 16, 16, BodyDef.BodyType.DynamicBody, true);
+        box2DComponent.body = bodyFactory.makeBox(x, y, 16, 16, BodyDef.BodyType.DynamicBody, true);
         player.add(box2DComponent);
 
         // Transform
         final TransformComponent transformComponent = this.createComponent(TransformComponent.class);
-        transformComponent.position.set(x,y,0);
-        transformComponent.scale.set(1,1);
+        transformComponent.position.set(x, y, 0);
+        transformComponent.scale.set(1, 1);
         player.add(transformComponent);
+
+        // Texture
+        final TextureComponent textureComponent = this.createComponent(TextureComponent.class);
+        textureComponent.region = new TextureRegion(new Texture("PlayerTest.png"));
+        player.add(textureComponent);
 
         this.addEntity(player);
     }
@@ -69,14 +73,19 @@ public class ECSEngine extends PooledEngine {
 
         // Box2D
         final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
-        box2DComponent.body = bodyFactory.makeBox(x,y, 16, 16, BodyDef.BodyType.DynamicBody, true);
+        box2DComponent.body = bodyFactory.makeBox(x, y, 16, 16, BodyDef.BodyType.DynamicBody, true);
         test.add(box2DComponent);
 
         // Transform
         final TransformComponent transformComponent = this.createComponent(TransformComponent.class);
-        transformComponent.position.set(x,y,1);
-        transformComponent.scale.set(1,1);
+        transformComponent.position.set(x, y, 1);
+        transformComponent.scale.set(1, 1);
         test.add(transformComponent);
+
+        // Texture
+        final TextureComponent textureComponent = this.createComponent(TextureComponent.class);
+        textureComponent.region = new TextureRegion(new Texture("EnemyTest.png"));
+        test.add(textureComponent);
 
         this.addEntity(test);
     }
