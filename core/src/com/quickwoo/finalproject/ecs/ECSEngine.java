@@ -33,6 +33,9 @@ public class ECSEngine extends PooledEngine {
 
         // Add rendering system
         this.addSystem(new RenderingSystem(game));
+
+        // Add camera movement system
+        this.addSystem(new PlayerCameraSystem(game));
     }
 
     public void createPlayer(int x, int y, int drawOrder) {

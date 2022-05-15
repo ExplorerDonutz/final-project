@@ -24,7 +24,13 @@ public class PhysicsSystem extends IntervalIteratingSystem {
 
     @Override
     protected void processEntity(Entity entity) {
-        bodyQueue.add(entity);
+        TransformComponent transComponent = Mapper.transformMapper.get(entity);
+        Box2DComponent bodyComponent = Mapper.box2DMapper.get(entity);
+        Vector2 position = bodyComponent.body.getPosition();
+
+        transComponent.position.x = position.x;
+        transComponent.position.y = position.y;
+        transComponent.rotation = bodyComponent.body.getAngle() * MathUtils.radiansToDegrees;
     }
 
     @Override
@@ -32,16 +38,6 @@ public class PhysicsSystem extends IntervalIteratingSystem {
         world.step(Constants.TIME_STEP, 6, 2);
         super.updateInterval();
 
-        //Entity Queue
-        for (Entity entity : new Array.ArrayIterator<>(bodyQueue)) {
-            TransformComponent transComponent = Mapper.transformMapper.get(entity);
-            Box2DComponent bodyComponent = Mapper.box2DMapper.get(entity);
-            Vector2 position = bodyComponent.body.getPosition();
 
-            transComponent.position.x = position.x;
-            transComponent.position.y = position.y;
-            transComponent.rotation = bodyComponent.body.getAngle() * MathUtils.radiansToDegrees;
-        }
-        bodyQueue.clear();
     }
 }
