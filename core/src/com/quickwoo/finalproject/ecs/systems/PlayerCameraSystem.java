@@ -1,3 +1,7 @@
+/* Michael Quick
+ *  26 May 2022
+ *  System to make the camera follow the player
+ */
 package com.quickwoo.finalproject.ecs.systems;
 
 import com.badlogic.ashley.core.Entity;
