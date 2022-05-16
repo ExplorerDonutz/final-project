@@ -16,10 +16,9 @@ import com.quickwoo.finalproject.FinalProject;
 import com.quickwoo.finalproject.ecs.ECSEngine;
 
 public class GameScreen implements Screen {
+
     private final World world;
     private final ECSEngine ecsEngine;
-    private final TiledMap tiledMap;
-    private final OrthogonalTiledMapRenderer mapRenderer;
     private final ExtendViewport viewport;
     private final OrthographicCamera cam;
     private FinalProject game;
@@ -30,11 +29,13 @@ public class GameScreen implements Screen {
         // Set input manager as the input processor
         Gdx.input.setInputProcessor(game.getInputManager());
 
+        //Create the map
+        new TileMaps(game);
+
         // Create a new physics world with no gravity
         world = new World(Vector2.Zero, false);
         ecsEngine = new ECSEngine(world, game, this);
-        tiledMap = new TmxMapLoader().load("Map/GrassPLains1.tmx");
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, Constants.PIXELS_TO_METERS, game.getBatch());
+
 
         cam = game.getCamera();
         viewport = new ExtendViewport(16, 9, cam);
@@ -52,10 +53,10 @@ public class GameScreen implements Screen {
         ScreenUtils.clear(Color.CORAL);
         viewport.apply(false);
 
+
         // Render map
         game.getBatch().setProjectionMatrix(cam.combined);
-        mapRenderer.setView(cam);
-        mapRenderer.render();
+        TileMaps.renderCam(cam);
 
         // Update entities
         ecsEngine.update(delta);

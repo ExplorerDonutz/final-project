@@ -43,7 +43,7 @@ public class ECSEngine extends PooledEngine {
 
         // Player
         final PlayerComponent playerComponent = this.createComponent(PlayerComponent.class);
-        playerComponent.speed = 5.0f;
+        playerComponent.speed = 10.0f;
         player.add(playerComponent);
 
         // Box2D
