@@ -23,11 +23,11 @@ public class TileMaps{
     //Set up the tiledmap
 
     public TileMaps(FinalProject game) {
-        tiledMap = new TmxMapLoader().load("Map/GrassPLains1.tmx");
+        tiledMap = new TmxMapLoader().load("Map/GrassPlains1.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, Constants.PIXELS_TO_METERS, game.getBatch());
-
+        int objectLayerID = 2;
         //Collision with collision layer of tilemap
-        TiledMapTileLayer collisionObjectLayer = (TiledMapTileLayer)tiledMap.getLayers().get("collision");
+        TiledMapTileLayer collisionObjectLayer = (TiledMapTileLayer)tiledMap.getLayers().get(objectLayerID);
         MapObjects object = collisionObjectLayer.getObjects();
 
 
