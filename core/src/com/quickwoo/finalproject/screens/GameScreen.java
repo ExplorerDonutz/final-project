@@ -2,6 +2,7 @@ package com.quickwoo.finalproject.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.quickwoo.finalproject.Constants;
 import com.quickwoo.finalproject.FinalProject;
 import com.quickwoo.finalproject.ecs.ECSEngine;
+import com.quickwoo.finalproject.loader.AssetLoader;
 
 public class GameScreen implements Screen {
     private final World world;
@@ -23,17 +25,18 @@ public class GameScreen implements Screen {
     private final ExtendViewport viewport;
     private final OrthographicCamera cam;
     private FinalProject game;
+    private final AssetManager assetManager;
 
     public GameScreen(FinalProject game) {
         this.game = game;
-
+        assetManager = game.getAssetManager().manager;
         // Set input manager as the input processor
         Gdx.input.setInputProcessor(game.getInputManager());
 
         // Create a new physics world with no gravity
         world = new World(Vector2.Zero, false);
-        ecsEngine = new ECSEngine(world, game, this);
-        tiledMap = new TmxMapLoader().load("Map/GrassPLains1.tmx");
+        ecsEngine = new ECSEngine(world, game, assetManager, this);
+        tiledMap = assetManager.get(AssetLoader.MAP_1);
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, Constants.PIXELS_TO_METERS, game.getBatch());
 
         cam = game.getCamera();

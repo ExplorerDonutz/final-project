@@ -2,6 +2,7 @@ package com.quickwoo.finalproject.ecs;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -10,15 +11,17 @@ import com.quickwoo.finalproject.FinalProject;
 import com.quickwoo.finalproject.box2d.BodyFactory;
 import com.quickwoo.finalproject.ecs.components.*;
 import com.quickwoo.finalproject.ecs.systems.*;
+import com.quickwoo.finalproject.loader.AssetLoader;
 import com.quickwoo.finalproject.screens.GameScreen;
 
 public class ECSEngine extends PooledEngine {
     private final BodyFactory bodyFactory;
+    private final AssetManager assetManager;
     private Entity player;
 
-    public ECSEngine(World world, FinalProject game, GameScreen screen) {
+    public ECSEngine(World world, FinalProject game, AssetManager assetManager, GameScreen screen) {
         bodyFactory = BodyFactory.getInstance(world);
-
+        this.assetManager = assetManager;
         if (FinalProject.DEBUG)
             this.addSystem(new DebugPhysicsSystem(world, game.getCamera()));
 
@@ -59,7 +62,7 @@ public class ECSEngine extends PooledEngine {
 
         // Texture
         final TextureComponent textureComponent = this.createComponent(TextureComponent.class);
-        textureComponent.region = new TextureRegion(new Texture("PlayerTest.png"));
+        textureComponent.region = new TextureRegion((Texture) assetManager.get(AssetLoader.PLAYER_TEXTURE));
         player.add(textureComponent);
 
         this.addEntity(player);
@@ -87,7 +90,7 @@ public class ECSEngine extends PooledEngine {
 
         // Texture
         final TextureComponent textureComponent = this.createComponent(TextureComponent.class);
-        textureComponent.region = new TextureRegion(new Texture("EnemyTest.png"));
+        textureComponent.region = new TextureRegion((Texture) assetManager.get(AssetLoader.ENEMY_TEXTURE));
         test.add(textureComponent);
 
         this.addEntity(test);

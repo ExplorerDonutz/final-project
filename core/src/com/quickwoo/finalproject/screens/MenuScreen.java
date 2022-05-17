@@ -14,12 +14,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.quickwoo.finalproject.FinalProject;
+import com.quickwoo.finalproject.loader.AssetLoader;
 
 public class MenuScreen implements Screen {
     private final FinalProject game;
     private Stage stage;
     private Skin skin;
-    private TextureAtlas atlas;
 
     public MenuScreen(FinalProject game) {
         this.game = game;
@@ -28,8 +28,7 @@ public class MenuScreen implements Screen {
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport());
-        skin = new Skin(Gdx.files.internal("skin.json"));
-        atlas = new TextureAtlas("skin.atlas");
+        skin = game.getAssetManager().manager.get(AssetLoader.SKIN);
         Gdx.input.setInputProcessor(stage);
 
         Table table = new Table();
@@ -91,7 +90,5 @@ public class MenuScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        skin.dispose();
-        atlas.dispose();
     }
 }
