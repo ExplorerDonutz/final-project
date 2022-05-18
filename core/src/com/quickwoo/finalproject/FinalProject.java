@@ -1,3 +1,8 @@
+/* Michael Quick & Nicholas Woo
+*  17 May 2022
+*  A Zelda-esque fighting game
+ */
+
 package com.quickwoo.finalproject;
 
 import com.badlogic.gdx.Game;
@@ -30,7 +35,7 @@ public class FinalProject extends Game {
 
 		assetManager = new AssetLoader();
 
-		// Create camera and set position with scale
+		// Create camera and set position and scale it to the appropriate size
 		cam = new OrthographicCamera(WIDTH / PPM, HEIGHT / PPM);
 		cam.position.set(WIDTH / PPM / SCALE, HEIGHT / PPM / SCALE, 0);
 		cam.update();
@@ -38,7 +43,7 @@ public class FinalProject extends Game {
 		// Create input manager that will be used to handle input through entire game
 		inputManager = new InputManager();
 
-		// Set the first screen
+		// Set the first screen as the loading screen
 		this.setScreen(LOAD);
 	}
 	@Override
@@ -48,6 +53,7 @@ public class FinalProject extends Game {
 	
 	@Override
 	public void dispose () {
+		// Dispose of disposable objects when the game is closed
 		batch.dispose();
 		assetManager.manager.dispose();
 	}

@@ -1,3 +1,7 @@
+/* Michael Quick & Nicholas Woo
+ * 17 May 2022
+ * The main screen for the game where all gameplay occurs
+ */
 package com.quickwoo.finalproject.screens;
 
 import com.badlogic.gdx.Gdx;
@@ -6,7 +10,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -36,6 +39,8 @@ public class GameScreen implements Screen {
         // Create a new physics world with no gravity
         world = new World(Vector2.Zero, false);
         ecsEngine = new ECSEngine(world, game, assetManager, this);
+
+        // Load tiled map and create a renderer to render the map with the pixel to meter scale
         tiledMap = assetManager.get(AssetLoader.MAP_1);
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, Constants.PIXELS_TO_METERS, game.getBatch());
 
@@ -46,6 +51,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
 
+        // Create entities
         ecsEngine.createPlayer(100, 100, 1);
         ecsEngine.createTest(200, 200, 2);
     }

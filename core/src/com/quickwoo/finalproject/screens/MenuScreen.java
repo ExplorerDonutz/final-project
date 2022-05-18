@@ -1,9 +1,13 @@
+/* Michael Quick & Nicholas Woo
+*  17 May 2022
+*  The menu screen for the game
+ */
+
 package com.quickwoo.finalproject.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -27,10 +31,15 @@ public class MenuScreen implements Screen {
 
     @Override
     public void show() {
+
+        // Create a stage to act on
         stage = new Stage(new ScreenViewport());
         skin = game.getAssetManager().manager.get(AssetLoader.SKIN);
+
+        // Let the stage control the game's input
         Gdx.input.setInputProcessor(stage);
 
+        // Create a table to organize actors on
         Table table = new Table();
         table.setFillParent(true);
 
@@ -38,24 +47,26 @@ public class MenuScreen implements Screen {
         table.add(image);
 
         table.row();
-        TextButton textButton = new TextButton("Play", skin);
-        textButton.addListener((new ClickListener(){
+        TextButton playButton = new TextButton("Play", skin);
+        // Have the play button detect mouse clicks on itself
+        playButton.addListener((new ClickListener(){
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 game.setScreen(FinalProject.GAME);
             }
         }));
-        table.add(textButton).padBottom(10.0f).fillX();
+        table.add(playButton).padBottom(10.0f).fillX();
 
         table.row();
-        textButton = new TextButton("Quit", skin);
-        textButton.addListener((new ClickListener(){
+        TextButton quitButton = new TextButton("Quit", skin);
+        // Have the quit button detect mouse clicks on itself
+        quitButton.addListener((new ClickListener(){
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 Gdx.app.exit();
             }
         }));
-        table.add(textButton).fillX();
+        table.add(quitButton).fillX();
         stage.addActor(table);
 
     }
