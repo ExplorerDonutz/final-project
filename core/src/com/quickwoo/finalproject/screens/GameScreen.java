@@ -19,6 +19,7 @@ import com.quickwoo.finalproject.Constants;
 import com.quickwoo.finalproject.FinalProject;
 import com.quickwoo.finalproject.ecs.ECSEngine;
 import com.quickwoo.finalproject.loader.AssetLoader;
+import com.quickwoo.finalproject.map.Map;
 
 public class GameScreen implements Screen {
     private final World world;
@@ -27,8 +28,9 @@ public class GameScreen implements Screen {
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final ExtendViewport viewport;
     private final OrthographicCamera cam;
-    private FinalProject game;
     private final AssetManager assetManager;
+    private final Map map;
+    private FinalProject game;
 
     public GameScreen(FinalProject game) {
         this.game = game;
@@ -38,22 +40,26 @@ public class GameScreen implements Screen {
 
         // Create a new physics world with no gravity
         world = new World(Vector2.Zero, false);
-        ecsEngine = new ECSEngine(world, game, assetManager, this);
 
-        // Load tiled map and create a renderer to render the map with the pixel to meter scale
+        // Load tiled map, parse the collision layer, and create a renderer to render the map with the pixel to meter scale
         tiledMap = assetManager.get(AssetLoader.MAP_1);
+        map = new Map(tiledMap, world);
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, Constants.PIXELS_TO_METERS, game.getBatch());
+
 
         cam = game.getCamera();
         viewport = new ExtendViewport(16, 9, cam);
+
+        ecsEngine = new ECSEngine(world, game, assetManager, this);
+        ecsEngine.getCameraSystem().setMap(map);
     }
 
     @Override
     public void show() {
 
         // Create entities
-        ecsEngine.createPlayer(100, 100, 1);
-        ecsEngine.createTest(200, 200, 2);
+        ecsEngine.createPlayer(400, 400, 1);
+        ecsEngine.createTest(400, 250, 2);
     }
 
     @Override
@@ -68,6 +74,7 @@ public class GameScreen implements Screen {
 
         // Update entities
         ecsEngine.update(delta);
+
     }
 
     @Override

@@ -17,10 +17,12 @@ import com.quickwoo.finalproject.screens.GameScreen;
 public class ECSEngine extends PooledEngine {
     private final BodyFactory bodyFactory;
     private final AssetManager assetManager;
+    private final PlayerCameraSystem playerCameraSystem;
     private Entity player;
 
     public ECSEngine(World world, FinalProject game, AssetManager assetManager, GameScreen screen) {
         bodyFactory = BodyFactory.getInstance(world);
+        playerCameraSystem = new PlayerCameraSystem(game);
         this.assetManager = assetManager;
         if (FinalProject.DEBUG)
             this.addSystem(new DebugPhysicsSystem(world, game.getCamera()));
@@ -38,7 +40,7 @@ public class ECSEngine extends PooledEngine {
         this.addSystem(new RenderingSystem(game));
 
         // Add camera movement system
-        this.addSystem(new PlayerCameraSystem(game));
+        this.addSystem(playerCameraSystem);
     }
 
     public void createPlayer(int x, int y, int drawOrder) {
@@ -94,5 +96,9 @@ public class ECSEngine extends PooledEngine {
         test.add(textureComponent);
 
         this.addEntity(test);
+    }
+
+    public PlayerCameraSystem getCameraSystem() {
+        return playerCameraSystem;
     }
 }
