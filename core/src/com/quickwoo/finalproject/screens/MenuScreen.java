@@ -80,7 +80,8 @@ public class MenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(Color.SKY);
+        // 256 RGB: 131 35 153 -> 100 RGB 51.2 13.7 59.8
+        ScreenUtils.clear(0.512f, 0.137f, 0.598f, 0);
         viewport.apply(true);
         stage.act(delta);
         stage.draw();
@@ -89,7 +90,6 @@ public class MenuScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-        table.invalidateHierarchy();
     }
 
     @Override
