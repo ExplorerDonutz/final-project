@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.quickwoo.finalproject.FinalProject;
@@ -44,8 +45,7 @@ public class MenuScreen implements Screen {
         table.setFillParent(true);
 
         Image image = new Image(skin, "Untitled");
-        table.add(image);
-
+        table.add(image).padBottom(10.0f).fill();
         table.row();
         TextButton playButton = new TextButton("Play", skin);
         // Have the play button detect mouse clicks on itself
