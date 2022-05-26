@@ -51,7 +51,7 @@ public class MenuScreen implements Screen {
         table.setFillParent(true);
 
         Image image = new Image(skin, "Untitled");
-        table.add(image).width(Value.percentWidth(0.60f, table)).height(Value.percentHeight(0.125f, table)).padBottom(Value.percentHeight(0.04f, table));
+        table.add(image).width(Value.percentWidth(0.50f, table)).height(Value.percentHeight(0.101f, table)).padBottom(Value.percentHeight(0.04f, table));
         table.row().padBottom(10.0f);
         table.row();
         TextButton playButton = new TextButton("Play", skin);
