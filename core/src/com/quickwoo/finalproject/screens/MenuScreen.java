@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.quickwoo.finalproject.FinalProject;
 import com.quickwoo.finalproject.loader.AssetLoader;
@@ -27,7 +28,7 @@ public class MenuScreen implements Screen {
     private Stage stage;
     private Skin skin;
     private OrthographicCamera cam;
-    private ScreenViewport viewport;
+    private FillViewport viewport;
     private Table table;
 
     public MenuScreen(FinalProject game) {
@@ -37,7 +38,7 @@ public class MenuScreen implements Screen {
     @Override
     public void show() {
         cam = game.getCamera();
-        viewport = new ScreenViewport( cam);
+        viewport = new FillViewport(WIDTH, HEIGHT, cam);
 
         // Create a stage to act on
         stage = new Stage(viewport);
@@ -51,8 +52,7 @@ public class MenuScreen implements Screen {
         table.setFillParent(true);
 
         Image image = new Image(skin, "Untitled");
-        table.add(image).width(Value.percentWidth(0.50f, table)).height(Value.percentHeight(0.101f, table)).padBottom(Value.percentHeight(0.04f, table));
-        table.row().padBottom(10.0f);
+        table.add(image).size(300, 65.45f).fill().padBottom(10.0f);
         table.row();
         TextButton playButton = new TextButton("Play", skin);
         // Have the play button detect mouse clicks on itself
@@ -81,6 +81,7 @@ public class MenuScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.SKY);
+        viewport.apply(true);
         stage.act(delta);
         stage.draw();
     }
@@ -88,6 +89,7 @@ public class MenuScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
+        table.invalidateHierarchy();
     }
 
     @Override
