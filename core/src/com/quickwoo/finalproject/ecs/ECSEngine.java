@@ -7,6 +7,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.quickwoo.finalproject.Constants;
 import com.quickwoo.finalproject.FinalProject;
 import com.quickwoo.finalproject.box2d.BodyFactory;
 import com.quickwoo.finalproject.ecs.components.*;
@@ -18,9 +22,13 @@ public class ECSEngine extends PooledEngine {
     private final BodyFactory bodyFactory;
     private final AssetManager assetManager;
     private final PlayerCameraSystem playerCameraSystem;
+    private final Stage stage;
+    private final Skin skin;
     private Entity player;
 
-    public ECSEngine(World world, FinalProject game, AssetManager assetManager, GameScreen screen) {
+    public ECSEngine(World world, FinalProject game, AssetManager assetManager, GameScreen screen, Stage stage, Skin skin) {
+        this.skin = skin;
+        this.stage = stage;
         bodyFactory = BodyFactory.getInstance(world);
         playerCameraSystem = new PlayerCameraSystem(game);
         this.assetManager = assetManager;
@@ -37,7 +45,7 @@ public class ECSEngine extends PooledEngine {
         this.addSystem(new EnemyMovementSystem());
 
         // Add rendering system
-        this.addSystem(new RenderingSystem(game));
+        this.addSystem(new RenderingSystem(game, stage));
 
         // Add camera movement system
         this.addSystem(playerCameraSystem);
@@ -67,6 +75,15 @@ public class ECSEngine extends PooledEngine {
         textureComponent.region = new TextureRegion((Texture) assetManager.get(AssetLoader.PLAYER_TEXTURE));
         player.add(textureComponent);
 
+        // Health
+        final HealthComponent healthComponent = this.createComponent(HealthComponent.class);
+        healthComponent.healthBar = new ProgressBar(0, 100, 1,false, skin);
+        healthComponent.healthBar.setSize(256, 64);
+        healthComponent.healthBar.setValue(healthComponent.health);
+        healthComponent.healthBar.setPosition(50,Constants.HEIGHT - 100);
+        stage.addActor(healthComponent.healthBar);
+        player.add(healthComponent);
+
         this.addEntity(player);
     }
 
@@ -94,6 +111,11 @@ public class ECSEngine extends PooledEngine {
         final TextureComponent textureComponent = this.createComponent(TextureComponent.class);
         textureComponent.region = new TextureRegion((Texture) assetManager.get(AssetLoader.ENEMY_TEXTURE));
         test.add(textureComponent);
+
+        // Health
+        final HealthComponent healthComponent = this.createComponent(HealthComponent.class);
+        healthComponent.healthBar = new ProgressBar(0, 100, 1,false, skin);
+        test.add(healthComponent);
 
         this.addEntity(test);
     }

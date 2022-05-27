@@ -32,10 +32,11 @@ import com.quickwoo.finalproject.input.GameKeys;
 import com.quickwoo.finalproject.input.InputManager;
 import com.quickwoo.finalproject.loader.AssetLoader;
 import com.quickwoo.finalproject.map.Map;
+import com.quickwoo.finalproject.map.MapManager;
 
 import static com.quickwoo.finalproject.input.GameKeys.BACK;
 
-public class GameScreen implements Screen, GameKeyInputListener {
+public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapListener {
     private final World world;
     private final ECSEngine ecsEngine;
     private final Skin skin;
@@ -47,6 +48,7 @@ public class GameScreen implements Screen, GameKeyInputListener {
     private final Map map;
     private final Stage stage;
     private final Window pause;
+    private final MapManager mapManager;
     private FinalProject game;
     private boolean isPaused;
 
@@ -65,8 +67,11 @@ public class GameScreen implements Screen, GameKeyInputListener {
 
         // Load tiled map, parse the collision layer, and create a renderer to render the map with the pixel to meter scale
         tiledMap = assetManager.get(AssetLoader.MAP_1);
+        mapManager = new MapManager(world);
+        mapManager.addMapListener(this);
         map = new Map(tiledMap, world);
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, Constants.PIXELS_TO_METERS, game.getBatch());
+        mapRenderer = new OrthogonalTiledMapRenderer(null, Constants.PIXELS_TO_METERS, game.getBatch());
+        mapManager.setMap(map);
 
 
         // Set both the input manager and stage as the input processor using an input multiplexer
@@ -79,7 +84,7 @@ public class GameScreen implements Screen, GameKeyInputListener {
         cam = game.getCamera();
         viewport = new ExtendViewport(16, 9, cam);
 
-        ecsEngine = new ECSEngine(world, game, assetManager, this);
+        ecsEngine = new ECSEngine(world, game, assetManager, this, stage, skin);
         ecsEngine.getCameraSystem().setMap(map);
     }
 
@@ -119,6 +124,7 @@ public class GameScreen implements Screen, GameKeyInputListener {
 
         pause.setBounds((Constants.WIDTH - 400) / 2f, (Constants.HEIGHT - 400) / 2f, 400, 400);
         stage.addActor(pause);
+        pause.setVisible(false);
     }
 
     @Override
@@ -126,7 +132,7 @@ public class GameScreen implements Screen, GameKeyInputListener {
         ScreenUtils.clear(Color.CORAL);
         viewport.apply(false);
 
-        if (!isPaused) {
+        if (!isPaused && mapRenderer.getMap() != null) {
             // Render map
             game.getBatch().setProjectionMatrix(cam.combined);
             mapRenderer.setView(cam);
@@ -136,13 +142,10 @@ public class GameScreen implements Screen, GameKeyInputListener {
             ecsEngine.update(delta);
         }
 
-        if (isPaused) {
             // Render stage
             stage.act(delta);
             stage.draw();
 
-
-        }
     }
 
     @Override
@@ -184,5 +187,10 @@ public class GameScreen implements Screen, GameKeyInputListener {
     @Override
     public void keyUp(InputManager manager, GameKeys key) {
 
+    }
+
+    @Override
+    public void mapChanged(Map map) {
+        mapRenderer.setMap(map.getMap());
     }
 }

@@ -8,10 +8,12 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import com.quickwoo.finalproject.Constants;
 
 public class TiledObjectCollision {
-    public static void parseTiledObjectLayer(World world, MapObjects objects) {
+    public static Array<Body> parseTiledObjectLayer(World world, MapObjects objects) {
+        Array<Body> bodies = new Array<>();
         BodyDef bodyDef = new BodyDef();
         for (MapObject object : objects) {
             Shape shape;
@@ -30,7 +32,10 @@ public class TiledObjectCollision {
             fixtureDef.shape = shape;
             body.createFixture(fixtureDef);
             shape.dispose();
+            bodies.add(body);
         }
+
+        return bodies;
     }
 
     private static ChainShape createPolyLine(PolylineMapObject polyline) {
