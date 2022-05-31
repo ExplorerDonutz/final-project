@@ -4,6 +4,8 @@
  */
 package com.quickwoo.finalproject.screens;
 
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -27,6 +29,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.quickwoo.finalproject.Constants;
 import com.quickwoo.finalproject.FinalProject;
 import com.quickwoo.finalproject.ecs.ECSEngine;
+import com.quickwoo.finalproject.ecs.Mapper;
+import com.quickwoo.finalproject.ecs.components.HealthComponent;
+import com.quickwoo.finalproject.ecs.components.PlayerComponent;
 import com.quickwoo.finalproject.input.GameKeyInputListener;
 import com.quickwoo.finalproject.input.GameKeys;
 import com.quickwoo.finalproject.input.InputManager;
@@ -125,6 +130,11 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         multiplexer.addProcessor(game.getInputManager());
         Gdx.input.setInputProcessor(multiplexer);
         game.getInputManager().addInputListener(this);
+
+        // Ensure player's health-bar is visible
+        Entity player = ecsEngine.getEntitiesFor(Family.all(PlayerComponent.class).get()).first();
+        HealthComponent health = Mapper.healthMapper.get(player);
+        health.healthBar.setVisible(true);
     }
 
     @Override
@@ -179,9 +189,15 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         if (key == BACK && !isPaused) {
             isPaused = true;
             pause.setVisible(true);
+            Entity player = ecsEngine.getEntitiesFor(Family.all(PlayerComponent.class).get()).first();
+            HealthComponent health = Mapper.healthMapper.get(player);
+            health.healthBar.setVisible(false);
         } else if (key == BACK) {
             isPaused = false;
             pause.setVisible(false);
+            Entity player = ecsEngine.getEntitiesFor(Family.all(PlayerComponent.class).get()).first();
+            HealthComponent health = Mapper.healthMapper.get(player);
+            health.healthBar.setVisible(true);
         }
     }
 

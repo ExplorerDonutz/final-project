@@ -13,12 +13,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
-import com.quickwoo.finalproject.ecs.components.StateComponent;
 import com.quickwoo.finalproject.input.InputManager;
 import com.quickwoo.finalproject.loader.AssetLoader;
-import com.quickwoo.finalproject.screens.GameScreen;
-import com.quickwoo.finalproject.screens.LoadingScreen;
-import com.quickwoo.finalproject.screens.MenuScreen;
 import com.quickwoo.finalproject.screens.ScreenType;
 
 import java.util.EnumMap;
