@@ -17,6 +17,7 @@ import com.quickwoo.finalproject.ecs.components.*;
 import com.quickwoo.finalproject.ecs.systems.*;
 import com.quickwoo.finalproject.loader.AssetLoader;
 import com.quickwoo.finalproject.screens.GameScreen;
+import com.quickwoo.finalproject.screens.HeartBar;
 
 public class ECSEngine extends PooledEngine {
     private final BodyFactory bodyFactory;
@@ -77,9 +78,8 @@ public class ECSEngine extends PooledEngine {
 
         // Health
         final HealthComponent healthComponent = this.createComponent(HealthComponent.class);
-        healthComponent.healthBar = new ProgressBar(0, 100, 1,false, skin);
+        healthComponent.healthBar = new HeartBar(3, 32, 32, 0, Constants.HEIGHT - 32, skin);
         healthComponent.healthBar.setSize(256, 64);
-        healthComponent.healthBar.setValue(healthComponent.health);
         healthComponent.healthBar.setPosition(50,Constants.HEIGHT - 100);
         stage.addActor(healthComponent.healthBar);
         player.add(healthComponent);
@@ -114,7 +114,6 @@ public class ECSEngine extends PooledEngine {
 
         // Health
         final HealthComponent healthComponent = this.createComponent(HealthComponent.class);
-        healthComponent.healthBar = new ProgressBar(0, 100, 1,false, skin);
         test.add(healthComponent);
 
         this.addEntity(test);
