@@ -59,7 +59,7 @@ public class MenuScreen implements Screen {
         playButton.addListener((new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                game.setScreen(FinalProject.GAME);
+                game.setScreen(ScreenType.GAME);
             }
         }));
         table.add(playButton).padBottom(10.0f).fillX();

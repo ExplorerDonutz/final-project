@@ -74,22 +74,12 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         mapManager.setMap(map);
 
 
-        // Set both the input manager and stage as the input processor using an input multiplexer
-        InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(stage);
-        multiplexer.addProcessor(game.getInputManager());
-        Gdx.input.setInputProcessor(multiplexer);
-        game.getInputManager().addInputListener(this);
 
         cam = game.getCamera();
         viewport = new ExtendViewport(16, 9, cam);
 
         ecsEngine = new ECSEngine(world, game, assetManager, this, stage, skin);
         ecsEngine.getCameraSystem().setMap(map);
-    }
-
-    @Override
-    public void show() {
 
         // Create entities
         ecsEngine.createPlayer(400, 400, 1);
@@ -114,7 +104,7 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
             public void clicked(InputEvent e, float x, float y) {
                 pause.setVisible(false);
                 isPaused = false;
-                game.setScreen(FinalProject.MENU);
+                game.setScreen(ScreenType.MENU);
             }
         });
 
@@ -125,6 +115,16 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         pause.setBounds((Constants.WIDTH - 400) / 2f, (Constants.HEIGHT - 400) / 2f, 400, 400);
         stage.addActor(pause);
         pause.setVisible(false);
+    }
+
+    @Override
+    public void show() {
+        // Set both the input manager and stage as the input processor using an input multiplexer
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(game.getInputManager());
+        Gdx.input.setInputProcessor(multiplexer);
+        game.getInputManager().addInputListener(this);
     }
 
     @Override
@@ -164,13 +164,14 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
 
     @Override
     public void hide() {
-        pause();
+        game.getInputManager().removeInputListener(this);
     }
 
     @Override
     public void dispose() {
         world.dispose();
         stage.dispose();
+        mapRenderer.dispose();
     }
 
     @Override
