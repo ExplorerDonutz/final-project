@@ -29,6 +29,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.quickwoo.finalproject.Constants;
 import com.quickwoo.finalproject.FinalProject;
 import com.quickwoo.finalproject.ecs.ECSEngine;
+
 import com.quickwoo.finalproject.ecs.Mapper;
 import com.quickwoo.finalproject.ecs.components.HealthComponent;
 import com.quickwoo.finalproject.ecs.components.PlayerComponent;
@@ -47,6 +48,7 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
     private final Skin skin;
     private final TiledMap tiledMap;
     private final OrthogonalTiledMapRenderer mapRenderer;
+
     private final ExtendViewport viewport;
     private final OrthographicCamera cam;
     private final AssetManager assetManager;
@@ -66,6 +68,9 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         skin = assetManager.get(AssetLoader.SKIN);
         stage = new Stage(new FillViewport(Constants.WIDTH, Constants.HEIGHT), game.getBatch());
         pause = new Window("", skin);
+
+        //Create the map
+        new TileMaps(game);
 
         // Create a new physics world with no gravity
         world = new World(Vector2.Zero, false);
@@ -155,7 +160,6 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
             // Render stage
             stage.act(delta);
             stage.draw();
-
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
@@ -31,7 +32,7 @@ public class FinalProject extends Game {
 	public static final boolean DEBUG = true;
 
 	private SpriteBatch batch;
-	private OrthographicCamera cam;
+
 	private InputManager inputManager;
 	private AssetLoader assetManager;
 	private EnumMap<ScreenType, Screen> screenCache;
@@ -55,13 +56,15 @@ public class FinalProject extends Game {
 		// Set the first screen as the loading screen
 		screenCache = new EnumMap<>(ScreenType.class);
 		setScreen(ScreenType.LOADING);
+
 	}
 	@Override
 	public void render () {
 		// Render everything
 		super.render();
 	}
-	
+
+
 	@Override
 	public void dispose () {
 		// Dispose of disposable objects when the game is closed
@@ -96,7 +99,7 @@ public class FinalProject extends Game {
 	}
 
 	public OrthographicCamera getCamera() {
-		return cam;
+		return TileMaps.cam;
 	}
 
 	public AssetLoader getAssetManager() {
