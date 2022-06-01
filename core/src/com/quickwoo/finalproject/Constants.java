@@ -21,5 +21,5 @@ public class Constants {
     public static final float PIXELS_TO_METERS = 1.0f / PPM;
 
     // Box2D Timestep
-    public static final float TIME_STEP = 1/60f;
+    public static final float TIME_STEP = 1/45f;
 }
