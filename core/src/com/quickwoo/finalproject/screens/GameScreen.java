@@ -22,11 +22,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.quickwoo.finalproject.Constants;
 import com.quickwoo.finalproject.FinalProject;
 import com.quickwoo.finalproject.audio.AudioType;
@@ -54,7 +51,7 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
     private final ExtendViewport viewport;
     private final OrthographicCamera cam;
     private final AssetManager assetManager;
-    private final Map map;
+    private final com.quickwoo.finalproject.map.Map map;
     private final Stage stage;
     private final Window pause;
     private final MapManager mapManager;
@@ -70,9 +67,6 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         skin = assetManager.get(AssetLoader.SKIN);
         stage = new Stage(new ExtendViewport(Constants.WIDTH, Constants.HEIGHT), game.getBatch());
         pause = new Window("", skin);
-
-        //Create the map
-        new TileMaps(game);
 
         // Create a new physics world with no gravity
         world = new World(Vector2.Zero, false);
@@ -216,7 +210,7 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
     }
 
     @Override
-    public void mapChanged(Map map) {
+    public void mapChanged(com.quickwoo.finalproject.map.Map map) {
         mapRenderer.setMap(map.getMap());
     }
 }
