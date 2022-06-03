@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FillViewport;
@@ -66,7 +67,7 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
 
         // Create skin, stage, and its menu window
         skin = assetManager.get(AssetLoader.SKIN);
-        stage = new Stage(new FillViewport(Constants.WIDTH, Constants.HEIGHT), game.getBatch());
+        stage = new Stage(new ExtendViewport(Constants.WIDTH, Constants.HEIGHT), game.getBatch());
         pause = new Window("", skin);
 
         //Create the map
@@ -76,7 +77,7 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         world = new World(Vector2.Zero, false);
 
         // Load tiled map, parse the collision layer, and create a renderer to render the map with the pixel to meter scale
-        tiledMap = assetManager.get(AssetLoader.MAP_1);
+        tiledMap = assetManager.get(AssetLoader.MAP_START);
         mapManager = new MapManager(world);
         mapManager.addMapListener(this);
         map = new Map(tiledMap, world);

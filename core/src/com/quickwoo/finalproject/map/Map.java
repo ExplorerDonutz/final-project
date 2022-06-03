@@ -11,7 +11,7 @@ public class Map {
     public Map(TiledMap map, World world) {
         this.map = map;
 
-        bodies = TiledObjectCollision.parseTiledObjectLayer(world, map.getLayers().get("collision").getObjects());
+        bodies = TiledObjectCollision.parseTiledObjectLayer(world, map.getLayers().get("Collision").getObjects());
     }
 
     public Array<Body> getBodies() {

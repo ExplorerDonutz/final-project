@@ -15,7 +15,11 @@ public class AssetLoader {
     public static final String ENEMY_TEXTURE = "EnemyTest.png";
 
     // Map
-    public static final String MAP_1 = "map/GrassPLains1.tmx";
+    public static final String MAP_START = "map/tileStart.tmx";
+    public static final String MAP_1 = "map/tilePlains1.tmx";
+    public static final String MAP_2 = "map/tilePlains2.tmx";
+    public static final String MAP_UP = "map/tilePlains2down.tmx";
+    public static final String MAP_DOWN = "map/tilePlains2Up.tmx";
 
     // Skin
     public static final String SKIN = "skin.json";
@@ -34,6 +38,10 @@ public class AssetLoader {
         // Load maps
         TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
         manager.setLoader(TiledMap.class, new TmxMapLoader());
+        manager.load(MAP_START, TiledMap.class, params);
         manager.load(MAP_1, TiledMap.class, params);
+        manager.load(MAP_2, TiledMap.class, params);
+        manager.load(MAP_UP, TiledMap.class, params);
+        manager.load(MAP_DOWN, TiledMap.class, params);
     }
 }
