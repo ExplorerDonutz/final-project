@@ -2,6 +2,7 @@ package com.quickwoo.finalproject.loader;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -13,6 +14,10 @@ public class AssetLoader {
     // Textures
     public static final String PLAYER_TEXTURE = "PlayerTest.png";
     public static final String ENEMY_TEXTURE = "EnemyTest.png";
+
+    // Audio
+    // Background music used from https://www.FesliyanStudios.com
+    public static final String BACKGROUND_MUSIC = "audio/background.ogg";
 
     // Map
     public static final String MAP_START = "map/tileStart.tmx";
@@ -34,6 +39,9 @@ public class AssetLoader {
         // Load textures
         manager.load(PLAYER_TEXTURE, Texture.class);
         manager.load(ENEMY_TEXTURE, Texture.class);
+
+        // Load audio
+        manager.load(BACKGROUND_MUSIC, Music.class);
 
         // Load maps
         TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();

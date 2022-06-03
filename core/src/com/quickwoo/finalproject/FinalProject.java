@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.quickwoo.finalproject.audio.AudioManager;
 import com.quickwoo.finalproject.input.InputManager;
 import com.quickwoo.finalproject.loader.AssetLoader;
 import com.quickwoo.finalproject.screens.ScreenType;
@@ -29,6 +30,7 @@ public class FinalProject extends Game {
     private OrthographicCamera cam;
     private InputManager inputManager;
     private AssetLoader assetManager;
+    private AudioManager audioManager;
     private EnumMap<ScreenType, Screen> screenCache;
 
     @Override
@@ -46,6 +48,9 @@ public class FinalProject extends Game {
 
         // Create input manager that will be used to handle input through entire game
         inputManager = new InputManager();
+
+        // Create audio manager that will handle all sounds
+        audioManager = new AudioManager(this);
 
         // Set the first screen as the loading screen
         screenCache = new EnumMap<>(ScreenType.class);
@@ -103,5 +108,9 @@ public class FinalProject extends Game {
 
     public InputManager getInputManager() {
         return inputManager;
+    }
+
+    public AudioManager getAudioManager() {
+        return audioManager;
     }
 }

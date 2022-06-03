@@ -29,6 +29,7 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.quickwoo.finalproject.Constants;
 import com.quickwoo.finalproject.FinalProject;
+import com.quickwoo.finalproject.audio.AudioType;
 import com.quickwoo.finalproject.ecs.ECSEngine;
 
 import com.quickwoo.finalproject.ecs.Mapper;
@@ -141,6 +142,9 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         Entity player = ecsEngine.getEntitiesFor(Family.all(PlayerComponent.class).get()).first();
         HealthComponent health = Mapper.healthMapper.get(player);
         health.healthBar.setVisible(true);
+
+        // Play background music
+        game.getAudioManager().playAudio(AudioType.BACKGROUND);
     }
 
     @Override

@@ -64,7 +64,7 @@ public class LoadingScreen implements Screen {
             game.setScreen(ScreenType.MENU);
         }
 
-        progressBar.setValue(assetManager.manager.getProgress());
+        progressBar.setValue(assetManager.manager.getProgress() * 100);
         stage.act();
         stage.draw();
     }
