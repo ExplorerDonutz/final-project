@@ -10,6 +10,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -59,7 +60,8 @@ public class MenuScreen implements Screen {
         playButton.addListener((new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                game.setScreen(ScreenType.GAME);
+                // Fade out then switch screens
+                stage.addAction(Actions.sequence(Actions.fadeOut(0.75f), Actions.run(() -> game.setScreen(ScreenType.GAME))));
             }
         }));
         table.add(playButton).padBottom(10.0f).fillX();
@@ -76,6 +78,8 @@ public class MenuScreen implements Screen {
         table.add(quitButton).fillX();
         stage.addActor(table);
 
+        // Fade in screen
+        stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.75f)));
     }
 
     @Override

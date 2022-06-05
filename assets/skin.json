@@ -212,10 +212,6 @@
 		"name": "minus",
 		"color": "color"
 	},
-	"window-c": {
-		"name": "window",
-		"color": "color"
-	},
 	"checkbox-pressed-over-c": {
 		"name": "checkbox-pressed-over",
 		"color": "color"
@@ -429,7 +425,7 @@
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
 	"default": {
-		"background": "window-c",
+		"background": "window",
 		"titleFont": "font"
 	}
 }

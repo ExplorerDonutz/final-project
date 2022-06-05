@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -61,7 +62,10 @@ public class LoadingScreen implements Screen {
         ScreenUtils.clear(0, 0, 0, 1);
         if (assetManager.manager.update()) {
             assetManager.manager.finishLoading();
-            game.setScreen(ScreenType.MENU);
+            stage.addAction(Actions.sequence(Actions.fadeOut(1), Actions.run(() -> {
+                game.setScreen(ScreenType.MENU);
+                dispose();
+            })));
         }
 
         progressBar.setValue(assetManager.manager.getProgress() * 100);

@@ -18,16 +18,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.quickwoo.finalproject.Constants;
 import com.quickwoo.finalproject.FinalProject;
 import com.quickwoo.finalproject.audio.AudioType;
 import com.quickwoo.finalproject.ecs.ECSEngine;
-
 import com.quickwoo.finalproject.ecs.Mapper;
 import com.quickwoo.finalproject.ecs.components.HealthComponent;
 import com.quickwoo.finalproject.ecs.components.PlayerComponent;
@@ -37,7 +38,6 @@ import com.quickwoo.finalproject.input.InputManager;
 import com.quickwoo.finalproject.loader.AssetLoader;
 import com.quickwoo.finalproject.map.Map;
 import com.quickwoo.finalproject.map.MapManager;
-import sun.tools.jconsole.Tab;
 
 import static com.quickwoo.finalproject.input.GameKeys.BACK;
 
@@ -66,8 +66,6 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         // Create skin, stage, and its menu window
         skin = assetManager.get(AssetLoader.SKIN);
         stage = new Stage(new ExtendViewport(Constants.WIDTH, Constants.HEIGHT), game.getBatch());
-        Table table = new Table();
-        table.setFillParent(true);
         pause = new Window("", skin);
 
         pause.setFillParent(true);
@@ -91,8 +89,9 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 pause.setVisible(false);
-                isPaused = false;
-                game.setScreen(ScreenType.MENU);
+                isPaused = true;
+                game.getAudioManager().pauseMusic();
+                    game.setScreen(ScreenType.MENU);
             }
         });
 
@@ -113,7 +112,6 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         mapManager.setMap(map);
 
 
-
         cam = game.getCamera();
         viewport = new ExtendViewport(16, 9, cam);
 
@@ -123,8 +121,6 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         // Create entities
         ecsEngine.createPlayer(400, 400, 1);
         ecsEngine.createTest(400, 250, 2);
-
-
 
 
     }
@@ -144,7 +140,11 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         health.healthBar.setVisible(true);
 
         // Play background music
-        game.getAudioManager().playAudio(AudioType.BACKGROUND);
+        if (game.getAudioManager().isPaused)
+            game.getAudioManager().resumeMusic();
+        else
+            game.getAudioManager().playAudio(AudioType.BACKGROUND);
+
     }
 
     @Override
@@ -162,9 +162,9 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
             ecsEngine.update(delta);
         }
 
-            // Render stage
-            stage.act(delta);
-            stage.draw();
+        // Render stage
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override

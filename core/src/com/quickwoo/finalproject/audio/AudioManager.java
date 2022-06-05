@@ -7,6 +7,7 @@ import com.quickwoo.finalproject.FinalProject;
 public class AudioManager {
     private final FinalProject game;
     private final AssetManager assetManager;
+    public boolean isPaused;
     private AudioType currentMusicType;
     private Music currentMusic;
 
@@ -33,5 +34,17 @@ public class AudioManager {
             //Play sound
             assetManager.get(type.getFilePath(), Music.class).play();
         }
+
+        isPaused = false;
+    }
+
+    public void pauseMusic() {
+        currentMusic.pause();
+        isPaused = true;
+    }
+
+    public void resumeMusic() {
+        currentMusic.play();
+        isPaused = false;
     }
 }
