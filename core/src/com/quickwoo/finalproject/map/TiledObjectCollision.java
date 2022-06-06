@@ -17,8 +17,8 @@ public class TiledObjectCollision {
         BodyDef bodyDef = new BodyDef();
         for (MapObject object : objects) {
             Shape shape;
-            if (object instanceof PolylineMapObject) {
-                shape = createPolyLine((PolylineMapObject) object);
+            if (object instanceof PolygonMapObject) {
+                shape = createPolygon((PolygonMapObject) object);
             } else if (object instanceof RectangleMapObject) {
                 shape = createRectangle((RectangleMapObject) object, bodyDef);
             } else {
@@ -38,8 +38,8 @@ public class TiledObjectCollision {
         return bodies;
     }
 
-    private static ChainShape createPolyLine(PolylineMapObject polyline) {
-        float[] vertices = polyline.getPolyline().getTransformedVertices();
+    private static ChainShape createPolygon(PolygonMapObject polygon) {
+        float[] vertices = polygon.getPolygon().getTransformedVertices();
         Vector2[] worldVertices = new Vector2[vertices.length / 2];
 
         for (int i = 0; i < worldVertices.length; i++) {
