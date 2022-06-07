@@ -2,6 +2,7 @@ package com.quickwoo.finalproject.ecs;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -21,12 +22,20 @@ import com.quickwoo.finalproject.loader.AssetLoader;
 import com.quickwoo.finalproject.screens.GameScreen;
 import com.quickwoo.finalproject.screens.HeartBar;
 
+import javax.swing.plaf.nimbus.State;
+
 public class ECSEngine extends PooledEngine {
     private final BodyFactory bodyFactory;
     private final AssetManager assetManager;
     private final PlayerCameraSystem playerCameraSystem;
     private final Stage stage;
     private final Skin skin;
+    private final static int FRAME_COlS = 2, FRAME_ROWS = 1;
+    Animation<TextureRegion> slimeAnimation;
+    Texture walkSheet;
+    TextureRegion reg;
+    float stateTime;
+
     private Entity player;
 
     public ECSEngine(World world, FinalProject game, AssetManager assetManager, GameScreen screen, Stage stage, Skin skin) {
@@ -120,6 +129,22 @@ public class ECSEngine extends PooledEngine {
     public void createTest(int x, int y, int drawOrder) {
         final Entity test = this.createEntity();
 
+        //Set up the animation for the slime
+        walkSheet = new Texture(Gdx.files.internal("RPG Sprites/spr_slime.png"));
+
+        TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/FRAME_COlS,walkSheet.getHeight()/FRAME_ROWS);
+
+        TextureRegion[] walkFrames = new TextureRegion[FRAME_COlS * FRAME_ROWS];
+        int index = 0;
+        for (int i = 0; i < FRAME_ROWS; i++) {
+            for (int j = 0; j < FRAME_COlS; j++) {
+                walkFrames[index++] = tmp[i][j];
+            }
+        }
+
+        slimeAnimation = new Animation<TextureRegion>(0.15f, walkFrames);
+        reg = slimeAnimation.getKeyFrame(0);
+
         // Enemy Component
         final EnemyComponent enemyComponent = this.createComponent(EnemyComponent.class);
         enemyComponent.speed = 4.0f;
@@ -141,6 +166,17 @@ public class ECSEngine extends PooledEngine {
         final TextureComponent textureComponent = this.createComponent(TextureComponent.class);
         textureComponent.region = new TextureRegion((Texture) assetManager.get(AssetLoader.ENEMY_TEXTURE));
         test.add(textureComponent);
+
+        //Animation
+        final AnimationComponent animationComponent = this.createComponent(AnimationComponent.class);
+        animationComponent.animations.put(StateComponent.STATE_SLIME, slimeAnimation);
+        test.add(animationComponent);
+
+        //State
+        final StateComponent stateComponent = this.createComponent(StateComponent.class);
+        stateComponent.setState(StateComponent.STATE_SLIME);
+        stateComponent.isLooping = true;
+        test.add(stateComponent);
 
         // Health
         final HealthComponent healthComponent = this.createComponent(HealthComponent.class);
