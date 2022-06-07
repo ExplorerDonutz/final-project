@@ -10,21 +10,28 @@ import com.quickwoo.finalproject.ecs.Mapper;
 import com.quickwoo.finalproject.ecs.components.Box2DComponent;
 import com.quickwoo.finalproject.ecs.components.EnemyComponent;
 import com.quickwoo.finalproject.ecs.components.PlayerComponent;
+import com.quickwoo.finalproject.ecs.components.StateComponent;
+
+import static com.quickwoo.finalproject.ecs.Mapper.stateMapper;
 
 public class EnemyMovementSystem extends IteratingSystem {
     private final Vector2 direction = new Vector2();
     private final ComponentMapper<Box2DComponent> box2DMapper;
     private final ComponentMapper<EnemyComponent> enemyMapper;
 
+    private final ComponentMapper<StateComponent> stateMapper;
+
     public EnemyMovementSystem() {
         super(Family.all(EnemyComponent.class).get());
         box2DMapper = Mapper.box2DMapper;
         enemyMapper = Mapper.enemyMapper;
+        stateMapper = Mapper.stateMapper;
     }
 
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
+        StateComponent stateComponent = stateMapper.get(entity);
         EnemyComponent enemyComponent = enemyMapper.get(entity);
         Body enemyBody = box2DMapper.get(entity).body;
         Body playerBody = box2DMapper.get(enemyComponent.player).body;
@@ -32,6 +39,11 @@ public class EnemyMovementSystem extends IteratingSystem {
         direction.x = (playerBody.getPosition().x + 40) - (enemyBody.getPosition().x + 40);
         direction.y = (playerBody.getPosition().y + 40) - (enemyBody.getPosition().y + 40);
 
+        if (enemyBody.getPosition().x > playerBody.getPosition().x) {
+            stateComponent.setState(StateComponent.STATE_SLIME_LEFT);
+        } else {
+            stateComponent.setState(StateComponent.STATE_SLIME_RIGHT);
+        }
         direction.nor();
 
         enemyBody.setLinearVelocity(direction.scl(enemyComponent.speed));

@@ -31,9 +31,12 @@ public class ECSEngine extends PooledEngine {
     private final Stage stage;
     private final Skin skin;
     private final static int FRAME_COlS = 2, FRAME_ROWS = 1;
-    Animation<TextureRegion> slimeAnimation;
-    Texture walkSheet;
-    TextureRegion reg;
+    Animation<TextureRegion> slimeAnimationRight;
+    Animation<TextureRegion> slimeAnimationLeft;
+    Texture walkSheetRight;
+    Texture walkSheetLeft;
+    TextureRegion regRight;
+    TextureRegion regLeft;
     float stateTime;
 
     private Entity player;
@@ -129,21 +132,34 @@ public class ECSEngine extends PooledEngine {
     public void createTest(int x, int y, int drawOrder) {
         final Entity test = this.createEntity();
 
-        //Set up the animation for the slime
-        walkSheet = new Texture(Gdx.files.internal("RPG Sprites/spr_slime.png"));
+        //Set up the animation for the slime moving right
+        walkSheetRight = new Texture(Gdx.files.internal("RPG Sprites/sprSlimeRight.png"));
 
-        TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/FRAME_COlS,walkSheet.getHeight()/FRAME_ROWS);
+        TextureRegion[][] tmpRight = TextureRegion.split(walkSheetRight, walkSheetRight.getWidth()/FRAME_COlS,walkSheetRight.getHeight()/FRAME_ROWS);
 
         TextureRegion[] walkFrames = new TextureRegion[FRAME_COlS * FRAME_ROWS];
-        int index = 0;
+        int indexRight = 0;
         for (int i = 0; i < FRAME_ROWS; i++) {
             for (int j = 0; j < FRAME_COlS; j++) {
-                walkFrames[index++] = tmp[i][j];
+                walkFrames[indexRight++] = tmpRight[i][j];
             }
         }
+        slimeAnimationRight = new Animation<TextureRegion>(0.15f, walkFrames);
+        regRight = slimeAnimationRight.getKeyFrame(0);
 
-        slimeAnimation = new Animation<TextureRegion>(0.15f, walkFrames);
-        reg = slimeAnimation.getKeyFrame(0);
+        //Set up animation for the slime moving left
+        walkSheetLeft = new Texture(Gdx.files.internal("RPG Sprites/sprSlimeLeft.png"));
+
+        TextureRegion[][] tmpLeft = TextureRegion.split(walkSheetLeft, walkSheetLeft.getWidth()/FRAME_COlS, walkSheetLeft.getHeight()/FRAME_ROWS);
+
+        TextureRegion[] walkFramesLeft = new TextureRegion[FRAME_COlS * FRAME_ROWS];
+        int indexLeft = 0;
+        for (int i = 0; i < FRAME_ROWS; i++) {
+            for (int j = 0; j < FRAME_COlS; j++) {
+                walkFramesLeft[indexLeft++] = tmpLeft[i][j];
+            }
+        }
+        slimeAnimationLeft = new Animation<TextureRegion>(0.15f, walkFramesLeft);
 
         // Enemy Component
         final EnemyComponent enemyComponent = this.createComponent(EnemyComponent.class);
@@ -166,17 +182,19 @@ public class ECSEngine extends PooledEngine {
         final TextureComponent textureComponent = this.createComponent(TextureComponent.class);
         textureComponent.region = new TextureRegion((Texture) assetManager.get(AssetLoader.ENEMY_TEXTURE));
         test.add(textureComponent);
+        //State
+        final StateComponent stateComponent = this.createComponent(StateComponent.class);
+
+        // First state
+        stateComponent.state = StateComponent.STATE_SLIME_LEFT;
+        stateComponent.isLooping = true;
+        test.add(stateComponent);
 
         //Animation
         final AnimationComponent animationComponent = this.createComponent(AnimationComponent.class);
-        animationComponent.animations.put(StateComponent.STATE_SLIME, slimeAnimation);
+        animationComponent.animations.put(StateComponent.STATE_SLIME_RIGHT, slimeAnimationRight);
+        animationComponent.animations.put(StateComponent.STATE_SLIME_LEFT, slimeAnimationLeft);
         test.add(animationComponent);
-
-        //State
-        final StateComponent stateComponent = this.createComponent(StateComponent.class);
-        stateComponent.setState(StateComponent.STATE_SLIME);
-        stateComponent.isLooping = true;
-        test.add(stateComponent);
 
         // Health
         final HealthComponent healthComponent = this.createComponent(HealthComponent.class);
