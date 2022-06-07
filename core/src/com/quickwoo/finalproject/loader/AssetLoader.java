@@ -4,6 +4,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -14,6 +16,7 @@ public class AssetLoader {
     // Textures
     public static final String PLAYER_TEXTURE = "PlayerTest.png";
     public static final String ENEMY_TEXTURE = "EnemyTest.png";
+    public static final String PLAYER_ATLAS = "sprites/player.atlas";
 
     // Audio
     // Background music used from https://www.FesliyanStudios.com
@@ -39,6 +42,7 @@ public class AssetLoader {
         // Load textures
         manager.load(PLAYER_TEXTURE, Texture.class);
         manager.load(ENEMY_TEXTURE, Texture.class);
+        manager.load(PLAYER_ATLAS, TextureAtlas.class);
 
         // Load audio
         manager.load(BACKGROUND_MUSIC, Music.class);

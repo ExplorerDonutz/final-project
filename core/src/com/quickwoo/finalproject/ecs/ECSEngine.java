@@ -4,12 +4,14 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Array;
 import com.quickwoo.finalproject.Constants;
 import com.quickwoo.finalproject.FinalProject;
 import com.quickwoo.finalproject.box2d.BodyFactory;
@@ -50,10 +52,14 @@ public class ECSEngine extends PooledEngine {
 
         // Add camera movement system
         this.addSystem(playerCameraSystem);
+
+        // Add animation system
+        this.addSystem(new AnimationSystem());
     }
 
     public void createPlayer(int x, int y, int drawOrder) {
         player = this.createEntity();
+        final TextureAtlas playerAtlas = assetManager.get(AssetLoader.PLAYER_ATLAS);
 
         // Player
         final PlayerComponent playerComponent = this.createComponent(PlayerComponent.class);
@@ -62,7 +68,7 @@ public class ECSEngine extends PooledEngine {
 
         // Box2D
         final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
-        box2DComponent.body = bodyFactory.makeBox(x, y, 16, 16, BodyDef.BodyType.DynamicBody, true);
+        box2DComponent.body = bodyFactory.makeBox(x, y, 14, 21, BodyDef.BodyType.DynamicBody, true);
         player.add(box2DComponent);
 
         // Transform
@@ -73,8 +79,32 @@ public class ECSEngine extends PooledEngine {
 
         // Texture
         final TextureComponent textureComponent = this.createComponent(TextureComponent.class);
-        textureComponent.region = new TextureRegion((Texture) assetManager.get(AssetLoader.PLAYER_TEXTURE));
+        // Create initial texture
+        textureComponent.region = playerAtlas.findRegion("down", 1);
         player.add(textureComponent);
+
+        // State
+        final StateComponent stateComponent = this.createComponent(StateComponent.class);
+        // First state
+        stateComponent.state = StateComponent.STATE_DOWN;
+        stateComponent.isLooping = true;
+        player.add(stateComponent);
+
+        // Animation
+        final AnimationComponent animationComponent = this.createComponent(AnimationComponent.class);
+
+        // Create animations
+        Animation<TextureRegion> downAnim = new Animation<>(0.1f, playerAtlas.findRegions("down"));
+        Animation<TextureRegion> upAnim = new Animation<>(0.1f, playerAtlas.findRegions("up"));
+        Animation<TextureRegion> leftAnim = new Animation<>(0.1f, playerAtlas.findRegions("left"));
+        Animation<TextureRegion> rightAnim = new Animation<>(0.1f, playerAtlas.findRegions("right"));
+
+        // Add animations to intmap
+        animationComponent.animations.put(StateComponent.STATE_DOWN, downAnim);
+        animationComponent.animations.put(StateComponent.STATE_UP, upAnim);
+        animationComponent.animations.put(StateComponent.STATE_LEFT, leftAnim);
+        animationComponent.animations.put(StateComponent.STATE_RIGHT, rightAnim);
+        player.add(animationComponent);
 
         // Health
         final HealthComponent healthComponent = this.createComponent(HealthComponent.class);

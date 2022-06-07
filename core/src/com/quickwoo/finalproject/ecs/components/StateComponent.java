@@ -13,13 +13,12 @@ public class StateComponent implements Component, Pool.Poolable {
     public boolean isLooping = false;
     public int state = 0;
 
-    public int get() {
+    public int getState() {
         return state;
     }
 
-    public void set(int newState){
+    public void setState(int newState){
         state = newState;
-        time = 0.0f;
     }
 
     @Override

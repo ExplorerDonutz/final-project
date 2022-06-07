@@ -1,0 +1,75 @@
+player.png
+	size: 512, 32
+	repeat: none
+down
+	index: 1
+	bounds: 2, 4, 14, 21
+down
+	index: 2
+	bounds: 18, 4, 14, 21
+down
+	index: 3
+	bounds: 34, 4, 14, 21
+down
+	index: 4
+	bounds: 50, 4, 14, 21
+down
+	index: 5
+	bounds: 66, 4, 14, 21
+down
+	index: 6
+	bounds: 82, 4, 14, 21
+left
+	index: 1
+	bounds: 98, 4, 14, 21
+left
+	index: 2
+	bounds: 114, 4, 14, 21
+left
+	index: 3
+	bounds: 130, 4, 14, 21
+left
+	index: 4
+	bounds: 146, 4, 14, 21
+left
+	index: 5
+	bounds: 162, 4, 14, 21
+left
+	index: 6
+	bounds: 178, 4, 14, 21
+right
+	index: 1
+	bounds: 194, 4, 14, 21
+right
+	index: 2
+	bounds: 210, 4, 14, 21
+right
+	index: 3
+	bounds: 226, 4, 14, 21
+right
+	index: 4
+	bounds: 242, 4, 14, 21
+right
+	index: 5
+	bounds: 258, 4, 14, 21
+right
+	index: 6
+	bounds: 274, 4, 14, 21
+up
+	index: 1
+	bounds: 290, 4, 14, 21
+up
+	index: 2
+	bounds: 306, 4, 14, 21
+up
+	index: 3
+	bounds: 322, 4, 14, 21
+up
+	index: 4
+	bounds: 338, 4, 14, 21
+up
+	index: 5
+	bounds: 354, 4, 14, 21
+up
+	index: 6
+	bounds: 370, 4, 14, 21

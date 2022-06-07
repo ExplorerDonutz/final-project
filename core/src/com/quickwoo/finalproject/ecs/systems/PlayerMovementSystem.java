@@ -9,8 +9,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.quickwoo.finalproject.ecs.Mapper;
+import com.quickwoo.finalproject.ecs.components.AnimationComponent;
 import com.quickwoo.finalproject.ecs.components.Box2DComponent;
 import com.quickwoo.finalproject.ecs.components.PlayerComponent;
+import com.quickwoo.finalproject.ecs.components.StateComponent;
 import com.quickwoo.finalproject.input.GameKeyInputListener;
 import com.quickwoo.finalproject.input.GameKeys;
 import com.quickwoo.finalproject.input.InputManager;
@@ -19,6 +21,8 @@ public class PlayerMovementSystem extends IteratingSystem implements GameKeyInpu
 
     private final ComponentMapper<Box2DComponent> box2DMapper;
     private final ComponentMapper<PlayerComponent> playerMapper;
+    private final ComponentMapper<AnimationComponent> animationMapper;
+    private final ComponentMapper<StateComponent> stateMapper;
     private final Vector2 force;
 
     public PlayerMovementSystem(InputManager inputManager) {
@@ -26,16 +30,42 @@ public class PlayerMovementSystem extends IteratingSystem implements GameKeyInpu
         super(Family.all(PlayerComponent.class).get());
         box2DMapper = Mapper.box2DMapper;
         playerMapper = Mapper.playerMapper;
+        stateMapper = Mapper.stateMapper;
+        animationMapper = Mapper.animationMapper;
         inputManager.addInputListener(this);
         force = new Vector2(0, 0);
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        Box2DComponent b2dBody = box2DMapper.get(entity);
-        PlayerComponent player = playerMapper.get(entity);
+        final Box2DComponent b2dBody = box2DMapper.get(entity);
+        final PlayerComponent player = playerMapper.get(entity);
+        final StateComponent stateComponent = stateMapper.get(entity);
 
         b2dBody.body.setLinearVelocity(force.x * player.speed, force.y * player.speed);
+
+        // Use abs to get non negative values to compare x and y
+
+        if (force.isZero()) {
+            stateComponent.time = 0;
+        }
+        if (Math.abs(force.x) > Math.abs(force.y)) {
+            if (force.x < 0) {
+                stateComponent.setState(StateComponent.STATE_LEFT);
+            }
+
+            if (force.x > 0) {
+                stateComponent.setState(StateComponent.STATE_RIGHT);
+            }
+        } else {
+            if (force.y < 0) {
+                stateComponent.setState(StateComponent.STATE_DOWN);
+            }
+
+            if (force.y > 0) {
+                stateComponent.setState(StateComponent.STATE_UP);
+            }
+        }
     }
 
     @Override
