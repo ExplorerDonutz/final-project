@@ -3,6 +3,7 @@ package com.quickwoo.finalproject.ecs.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.World;
 import com.quickwoo.finalproject.ecs.Mapper;
 import com.quickwoo.finalproject.ecs.components.CollisionComponent;
@@ -14,17 +15,19 @@ import com.quickwoo.finalproject.map.MapManager;
 import com.quickwoo.finalproject.screens.GameScreen;
 
 public class CollisionSystem extends IteratingSystem {
-private final MapManager mapManager;
-private final World world;
-    public CollisionSystem(MapManager mapManager, World world) {
+    private final String TAG = this.getClass().getSimpleName();
+    private MapManager mapManager;
+    private final World world;
+
+    public CollisionSystem(World world) {
         super(Family.one(PlayerComponent.class).get());
-        this.mapManager = mapManager;
         this.world = world;
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         final CollisionComponent collision = Mapper.collisionMapper.get(entity);
+
         final Entity collidedEntity = collision.collisionEntity;
 
         if (collidedEntity != null) {
@@ -32,9 +35,15 @@ private final World world;
             if (gameObjectComponent != null) {
                 switch (gameObjectComponent.getType()) {
                     case GameObjectComponent.TYPE_TELEPORT:
+                        Gdx.app.log(TAG, " Player hit " + gameObjectComponent.type);
                         mapManager.setMap(new Map(gameObjectComponent.map, world));
                 }
             }
         }
+        collision.reset();
+    }
+
+    public void setMapManager(MapManager mapManager) {
+        this.mapManager = mapManager;
     }
 }

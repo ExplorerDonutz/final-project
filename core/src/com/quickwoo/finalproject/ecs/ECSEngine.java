@@ -20,6 +20,7 @@ import com.quickwoo.finalproject.ecs.components.*;
 import com.quickwoo.finalproject.ecs.systems.*;
 import com.quickwoo.finalproject.loader.AssetLoader;
 import com.quickwoo.finalproject.map.GameObject;
+import com.quickwoo.finalproject.map.MapManager;
 import com.quickwoo.finalproject.screens.GameScreen;
 import com.quickwoo.finalproject.screens.HeartBar;
 
@@ -29,6 +30,7 @@ public class ECSEngine extends PooledEngine {
     private final BodyFactory bodyFactory;
     private final AssetManager assetManager;
     private final PlayerCameraSystem playerCameraSystem;
+    private final CollisionSystem collisionSystem;
     private final Stage stage;
     private final Skin skin;
     private final static int FRAME_COlS = 2, FRAME_ROWS = 1;
@@ -47,6 +49,7 @@ public class ECSEngine extends PooledEngine {
         this.stage = stage;
         bodyFactory = BodyFactory.getInstance(world);
         playerCameraSystem = new PlayerCameraSystem(game);
+        collisionSystem = new CollisionSystem(world);
         this.assetManager = assetManager;
         if (FinalProject.DEBUG)
             this.addSystem(new DebugPhysicsSystem(world, game.getCamera()));
@@ -68,6 +71,9 @@ public class ECSEngine extends PooledEngine {
 
         // Add animation system
         this.addSystem(new AnimationSystem());
+
+        // Add collision system
+        this.addSystem(collisionSystem);
     }
 
     public void createPlayer(int x, int y, int drawOrder) {
@@ -82,6 +88,7 @@ public class ECSEngine extends PooledEngine {
         // Box2D
         final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
         box2DComponent.body = bodyFactory.makeBox(x, y, 14, 21, BodyDef.BodyType.DynamicBody, true);
+        box2DComponent.body.setUserData(player);
         player.add(box2DComponent);
 
         // Transform
@@ -128,6 +135,10 @@ public class ECSEngine extends PooledEngine {
         stage.addActor(healthComponent.healthBar);
         player.add(healthComponent);
 
+        // Collision
+        final CollisionComponent collisionComponent = this.createComponent(CollisionComponent.class);
+        player.add(collisionComponent);
+
         this.addEntity(player);
     }
 
@@ -172,6 +183,7 @@ public class ECSEngine extends PooledEngine {
         // Box2D
         final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
         box2DComponent.body = bodyFactory.makeBox(x, y, 16, 16, BodyDef.BodyType.DynamicBody, true);
+        box2DComponent.body.setUserData(test);
         test.add(box2DComponent);
 
         // Transform
@@ -224,6 +236,7 @@ public class ECSEngine extends PooledEngine {
                 box2DComponent.body = bodyFactory.makeBox((gameObject.getX() + (gameObject.getRegion().getRegionWidth() / 2f)) * 2, (gameObject.getY() + (gameObject.getRegion().getRegionHeight() / 2f)) * 2, gameObject.getWidth(), gameObject.getHeight(), BodyDef.BodyType.StaticBody, true);
                 break;
         }
+        box2DComponent.body.setUserData(entity);
         entity.add(box2DComponent);
 
         // Transform
@@ -251,5 +264,9 @@ public class ECSEngine extends PooledEngine {
 
     public PlayerCameraSystem getCameraSystem() {
         return playerCameraSystem;
+    }
+
+    public CollisionSystem getCollisionSystem() {
+        return collisionSystem;
     }
 }

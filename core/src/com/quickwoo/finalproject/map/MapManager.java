@@ -28,7 +28,7 @@ public class MapManager {
 
         // Destroy boundaries & game objects on old map
         if (currentMap != null) {
-            for (Body b : new Array.ArrayIterator<>(map.getBodies())) {
+            for (Body b : new Array.ArrayIterator<>(currentMap.getBodies())) {
                 world.destroyBody(b);
             }
 

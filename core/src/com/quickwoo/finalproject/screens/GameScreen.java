@@ -18,7 +18,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
@@ -28,6 +27,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.quickwoo.finalproject.Constants;
 import com.quickwoo.finalproject.FinalProject;
 import com.quickwoo.finalproject.audio.AudioType;
+import com.quickwoo.finalproject.box2d.WorldContactListener;
 import com.quickwoo.finalproject.ecs.ECSEngine;
 import com.quickwoo.finalproject.ecs.Mapper;
 import com.quickwoo.finalproject.ecs.components.HealthComponent;
@@ -47,6 +47,7 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
     private final Skin skin;
     private final TiledMap tiledMap;
     private final OrthogonalTiledMapRenderer mapRenderer;
+    private final WorldContactListener worldContactListener;
 
     private final ExtendViewport viewport;
     private final OrthographicCamera cam;
@@ -54,8 +55,8 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
     private final com.quickwoo.finalproject.map.Map map;
     private final Stage stage;
     private final Window pause;
-    private final MapManager mapManager;
-    private FinalProject game;
+    private MapManager mapManager = null;
+    private final FinalProject game;
     private boolean isPaused;
 
     public GameScreen(FinalProject game) {
@@ -102,7 +103,8 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
 
         // Create a new physics world with no gravity
         world = new World(Vector2.Zero, false);
-
+        worldContactListener = new WorldContactListener();
+        world.setContactListener(worldContactListener);
         ecsEngine = new ECSEngine(world, game, assetManager, this, stage, skin);
 
         // Load tiled map, parse the collision layer, and create a renderer to render the map with the pixel to meter scale
@@ -113,6 +115,7 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         mapRenderer = new OrthogonalTiledMapRenderer(null, Constants.PIXELS_TO_METERS, game.getBatch());
         mapManager.setMap(map);
         ecsEngine.getCameraSystem().setMap(map);
+        ecsEngine.getCollisionSystem().setMapManager(mapManager);
 
         cam = game.getCamera();
         viewport = new ExtendViewport(16, 9, cam);
@@ -128,6 +131,7 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
 
     @Override
     public void show() {
+        isPaused = false;
         // Set both the input manager and stage as the input processor using an input multiplexer
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(stage);
