@@ -1,75 +1,174 @@
+
 player.png
-	size: 512, 32
-	repeat: none
+size: 512, 64
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
 down
-	index: 1
-	bounds: 2, 4, 14, 21
+  rotate: false
+  xy: 4, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 1
 down
-	index: 2
-	bounds: 18, 4, 14, 21
+  rotate: false
+  xy: 22, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 2
 down
-	index: 3
-	bounds: 34, 4, 14, 21
+  rotate: false
+  xy: 40, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 3
 down
-	index: 4
-	bounds: 50, 4, 14, 21
+  rotate: false
+  xy: 58, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 4
 down
-	index: 5
-	bounds: 66, 4, 14, 21
+  rotate: false
+  xy: 76, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 5
 down
-	index: 6
-	bounds: 82, 4, 14, 21
+  rotate: false
+  xy: 94, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 6
 left
-	index: 1
-	bounds: 98, 4, 14, 21
+  rotate: false
+  xy: 112, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 1
 left
-	index: 2
-	bounds: 114, 4, 14, 21
+  rotate: false
+  xy: 130, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 2
 left
-	index: 3
-	bounds: 130, 4, 14, 21
+  rotate: false
+  xy: 148, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 3
 left
-	index: 4
-	bounds: 146, 4, 14, 21
+  rotate: false
+  xy: 166, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 4
 left
-	index: 5
-	bounds: 162, 4, 14, 21
+  rotate: false
+  xy: 184, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 5
 left
-	index: 6
-	bounds: 178, 4, 14, 21
+  rotate: false
+  xy: 202, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 6
 right
-	index: 1
-	bounds: 194, 4, 14, 21
+  rotate: false
+  xy: 220, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 1
 right
-	index: 2
-	bounds: 210, 4, 14, 21
+  rotate: false
+  xy: 238, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 2
 right
-	index: 3
-	bounds: 226, 4, 14, 21
+  rotate: false
+  xy: 256, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 3
 right
-	index: 4
-	bounds: 242, 4, 14, 21
+  rotate: false
+  xy: 274, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 4
 right
-	index: 5
-	bounds: 258, 4, 14, 21
+  rotate: false
+  xy: 292, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 5
 right
-	index: 6
-	bounds: 274, 4, 14, 21
+  rotate: false
+  xy: 310, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 6
 up
-	index: 1
-	bounds: 290, 4, 14, 21
+  rotate: false
+  xy: 328, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 1
 up
-	index: 2
-	bounds: 306, 4, 14, 21
+  rotate: false
+  xy: 346, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 2
 up
-	index: 3
-	bounds: 322, 4, 14, 21
+  rotate: false
+  xy: 364, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 3
 up
-	index: 4
-	bounds: 338, 4, 14, 21
+  rotate: false
+  xy: 382, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 4
 up
-	index: 5
-	bounds: 354, 4, 14, 21
+  rotate: false
+  xy: 400, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 5
 up
-	index: 6
-	bounds: 370, 4, 14, 21
+  rotate: false
+  xy: 418, 8
+  size: 14, 21
+  orig: 14, 21
+  offset: 0, 0
+  index: 6

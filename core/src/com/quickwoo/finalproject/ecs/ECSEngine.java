@@ -19,6 +19,7 @@ import com.quickwoo.finalproject.box2d.BodyFactory;
 import com.quickwoo.finalproject.ecs.components.*;
 import com.quickwoo.finalproject.ecs.systems.*;
 import com.quickwoo.finalproject.loader.AssetLoader;
+import com.quickwoo.finalproject.map.GameObject;
 import com.quickwoo.finalproject.screens.GameScreen;
 import com.quickwoo.finalproject.screens.HeartBar;
 
@@ -93,6 +94,7 @@ public class ECSEngine extends PooledEngine {
         final TextureComponent textureComponent = this.createComponent(TextureComponent.class);
         // Create initial texture
         textureComponent.region = playerAtlas.findRegion("down", 1);
+        textureComponent.isDrawn = true;
         player.add(textureComponent);
 
         // State
@@ -181,6 +183,7 @@ public class ECSEngine extends PooledEngine {
         // Texture
         final TextureComponent textureComponent = this.createComponent(TextureComponent.class);
         textureComponent.region = new TextureRegion((Texture) assetManager.get(AssetLoader.ENEMY_TEXTURE));
+        textureComponent.isDrawn = true;
         test.add(textureComponent);
         //State
         final StateComponent stateComponent = this.createComponent(StateComponent.class);
@@ -201,6 +204,42 @@ public class ECSEngine extends PooledEngine {
         test.add(healthComponent);
 
         this.addEntity(test);
+    }
+
+    public void createGameObject(GameObject gameObject) {
+        final Entity entity = this.createEntity();
+
+        // Game Object
+        final GameObjectComponent gameObjectComponent = this.createComponent(GameObjectComponent.class);
+        gameObjectComponent.type = gameObject.getType();
+        entity.add(gameObjectComponent);
+
+        // Box2D
+        final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
+        switch (gameObjectComponent.type) {
+            case GameObjectComponent.TYPE_TELEPORT:
+                box2DComponent.body = bodyFactory.makeBox((gameObject.getX() + (gameObject.getRegion().getRegionWidth() / 2f)) * 2, (gameObject.getY() + (gameObject.getRegion().getRegionHeight() / 2f)) * 2, gameObject.getWidth(), gameObject.getHeight(), BodyDef.BodyType.StaticBody, true);
+                break;
+        }
+
+        // Transform
+        final TransformComponent transformComponent = this.createComponent(TransformComponent.class);
+        transformComponent.scale.set(1,1);
+        transformComponent.position.set(gameObject.getX(), gameObject.getY(), 1);
+        entity.add(transformComponent);
+
+        //Texture
+        final TextureComponent textureComponent = this.createComponent(TextureComponent.class);
+        textureComponent.region = gameObject.getRegion();
+        switch (gameObjectComponent.type) {
+            case GameObjectComponent.TYPE_TELEPORT:
+                textureComponent.isDrawn = false;
+                break;
+        }
+        entity.add(textureComponent);
+
+        entity.add(box2DComponent);
+        this.addEntity(entity);
     }
 
     public PlayerCameraSystem getCameraSystem() {

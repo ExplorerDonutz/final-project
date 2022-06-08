@@ -103,20 +103,21 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         // Create a new physics world with no gravity
         world = new World(Vector2.Zero, false);
 
+        ecsEngine = new ECSEngine(world, game, assetManager, this, stage, skin);
+
         // Load tiled map, parse the collision layer, and create a renderer to render the map with the pixel to meter scale
         tiledMap = assetManager.get(AssetLoader.MAP_START);
-        mapManager = new MapManager(world);
+        mapManager = new MapManager(world, ecsEngine);
         mapManager.addMapListener(this);
         map = new Map(tiledMap, world);
         mapRenderer = new OrthogonalTiledMapRenderer(null, Constants.PIXELS_TO_METERS, game.getBatch());
         mapManager.setMap(map);
-
+        ecsEngine.getCameraSystem().setMap(map);
 
         cam = game.getCamera();
         viewport = new ExtendViewport(16, 9, cam);
 
-        ecsEngine = new ECSEngine(world, game, assetManager, this, stage, skin);
-        ecsEngine.getCameraSystem().setMap(map);
+
 
         // Create entities
         ecsEngine.createPlayer(400, 400, 1);

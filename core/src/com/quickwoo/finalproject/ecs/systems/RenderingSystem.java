@@ -58,20 +58,22 @@ public class RenderingSystem extends SortedIteratingSystem {
         //Loop through each entity
         for (Entity entity : new Array.ArrayIterator<>(renderQueue)) {
             TextureComponent tex = texComponent.get(entity);
-            TransformComponent transform = transformComponent.get(entity);
-            if (tex.region == null) {
-                Gdx.app.log(TAG, "Texture region for entity " + entity + " was null!");
-                continue;
+            if (tex.isDrawn) {
+                TransformComponent transform = transformComponent.get(entity);
+                if (tex.region == null) {
+                    Gdx.app.log(TAG, "Texture region for entity " + entity + " was null!");
+                    continue;
+                }
+
+                float texWidth = tex.region.getRegionWidth();
+                float texHeight = tex.region.getRegionHeight();
+
+                float originX = texWidth / 2f;
+                float originY = texHeight / 2f;
+
+                batch.draw(tex.region, transform.position.x - originX, transform.position.y - originY, originX, originY, texWidth, texHeight, PixelsToMeters(transform.scale.x), PixelsToMeters(transform.scale.y), transform.rotation);
+
             }
-
-            float texWidth = tex.region.getRegionWidth();
-            float texHeight = tex.region.getRegionHeight();
-
-            float originX = texWidth / 2f;
-            float originY = texHeight / 2f;
-
-            batch.draw(tex.region, transform.position.x - originX, transform.position.y - originY, originX, originY, texWidth, texHeight, PixelsToMeters(transform.scale.x), PixelsToMeters(transform.scale.y), transform.rotation);
-
         }
         batch.end();
         renderQueue.clear();

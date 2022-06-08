@@ -6,9 +6,11 @@ import com.badlogic.gdx.utils.Pool;
 
 public class TextureComponent implements Component, Pool.Poolable {
     public TextureRegion region = null;
+    public boolean isDrawn = false;
 
     @Override
     public void reset() {
         region = null;
+        isDrawn = false;
     }
 }
