@@ -212,6 +212,9 @@ public class ECSEngine extends PooledEngine {
         // Game Object
         final GameObjectComponent gameObjectComponent = this.createComponent(GameObjectComponent.class);
         gameObjectComponent.type = gameObject.getType();
+        if (gameObject.getType() == GameObjectComponent.TYPE_TELEPORT) {
+            gameObjectComponent.map = assetManager.get(gameObject.getNextMap());
+        }
         entity.add(gameObjectComponent);
 
         // Box2D
@@ -221,6 +224,7 @@ public class ECSEngine extends PooledEngine {
                 box2DComponent.body = bodyFactory.makeBox((gameObject.getX() + (gameObject.getRegion().getRegionWidth() / 2f)) * 2, (gameObject.getY() + (gameObject.getRegion().getRegionHeight() / 2f)) * 2, gameObject.getWidth(), gameObject.getHeight(), BodyDef.BodyType.StaticBody, true);
                 break;
         }
+        entity.add(box2DComponent);
 
         // Transform
         final TransformComponent transformComponent = this.createComponent(TransformComponent.class);
@@ -238,7 +242,10 @@ public class ECSEngine extends PooledEngine {
         }
         entity.add(textureComponent);
 
-        entity.add(box2DComponent);
+        // Collision
+        final CollisionComponent collisionComponent = this.createComponent(CollisionComponent.class);
+        entity.add(collisionComponent);
+
         this.addEntity(entity);
     }
 

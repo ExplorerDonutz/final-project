@@ -14,6 +14,7 @@ public class Map {
     private final TiledMap map;
     private final Array<GameObject> gameObjects;
     private final Array<Body> bodies;
+
     public Map(TiledMap map, World world) {
         this.map = map;
         gameObjects = new Array<>();
@@ -26,7 +27,13 @@ public class Map {
             final float width = tiledMapObjProperties.get("width", Float.class);
             final float height = tiledMapObjProperties.get("height", Float.class);
             final int type = tiledMapObjProperties.get("type", Integer.class);
-            gameObjects.add(new GameObject(type, tiledMapObj.getX(), tiledMapObj.getY(), width, height, tiledMapObj.getRotation(), tiledMapObj.getTextureRegion()));
+
+            if (tiledMapObjProperties.get("nextMap", String.class) != null) {
+                final String nextMap = tiledMapObjProperties.get("nextMap", String.class);
+                gameObjects.add(new GameObject(type, tiledMapObj.getX(), tiledMapObj.getY(), width, height, tiledMapObj.getRotation(), nextMap, tiledMapObj.getTextureRegion()));
+            } else {
+                gameObjects.add(new GameObject(type, tiledMapObj.getX(), tiledMapObj.getY(), width, height, tiledMapObj.getRotation(), tiledMapObj.getTextureRegion()));
+            }
         }
 
         bodies = TiledObjectCollision.parseTiledObjectLayer(world, map.getLayers().get("Collision").getObjects());

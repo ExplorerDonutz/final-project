@@ -10,6 +10,7 @@ public class GameObject {
     private final float height;
     private final float rotation;
     private final TextureRegion region;
+    private final String nextMap;
 
     public GameObject(int type, float x, float y, float width, float height, float rotation, TextureRegion region) {
         this.type = type;
@@ -19,6 +20,18 @@ public class GameObject {
         this.height = height;
         this.rotation = rotation;
         this.region = region;
+        nextMap = null;
+    }
+
+    public GameObject(int type, float x, float y, float width, float height, float rotation, String nextMap, TextureRegion region) {
+        this.type = type;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.rotation = rotation;
+        this.region = region;
+        this.nextMap = nextMap;
     }
 
     public int getType() {
@@ -47,5 +60,9 @@ public class GameObject {
 
     public TextureRegion getRegion() {
         return region;
+    }
+
+    public String getNextMap() {
+        return nextMap;
     }
 }
