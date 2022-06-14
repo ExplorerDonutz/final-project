@@ -20,6 +20,7 @@ public class CollisionSystem extends IteratingSystem {
     private final World world;
 
     public CollisionSystem(World world) {
+        // Only iterate over entities with a player component
         super(Family.one(PlayerComponent.class).get());
         this.world = world;
     }
@@ -28,18 +29,21 @@ public class CollisionSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         final CollisionComponent collision = Mapper.collisionMapper.get(entity);
 
+        // Get the entity that the player collided into
         final Entity collidedEntity = collision.collisionEntity;
 
+        // If the collided entity exists, determine what type it is
         if (collidedEntity != null) {
             final GameObjectComponent gameObjectComponent = Mapper.gameObjectMapper.get(collidedEntity);
             if (gameObjectComponent != null) {
                 switch (gameObjectComponent.getType()) {
                     case GameObjectComponent.TYPE_TELEPORT:
-                        Gdx.app.log(TAG, " Player hit " + gameObjectComponent.type);
+                        Gdx.app.log(TAG, " Player hit teleport");
                         mapManager.setMap(new Map(gameObjectComponent.map, world));
                 }
             }
         }
+        // Reset the collision component of the player entity
         collision.reset();
     }
 

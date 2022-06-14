@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.quickwoo.finalproject.ecs.ECSEngine;
+import com.quickwoo.finalproject.ecs.components.EnemyComponent;
 import com.quickwoo.finalproject.ecs.components.GameObjectComponent;
 
 public class MapManager {
@@ -32,11 +33,15 @@ public class MapManager {
                 world.destroyBody(b);
             }
 
-            ecsEngine.removeAllEntities(Family.all(GameObjectComponent.class).get());
+            ecsEngine.removeAllEntities(Family.one(GameObjectComponent.class, EnemyComponent.class).get());
         }
 
+        // Replace old map with the new map
         currentMap = map;
-        for (GameObject gameObject : map.getGameObjects()) {
+
+
+        // Create game objects from new map in the entity system
+        for (GameObject gameObject : new Array.ArrayIterator<>(map.getGameObjects())) {
             ecsEngine.createGameObject(gameObject);
         }
 
@@ -45,6 +50,7 @@ public class MapManager {
             mapListener.mapChanged(currentMap);
         }
     }
+
 
     public Map getCurrentMap() {
         return currentMap;

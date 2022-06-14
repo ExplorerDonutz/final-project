@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="25">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="27">
  <tileset firstgid="1" source="plains.tsx"/>
  <tileset firstgid="73" source="grass.tsx"/>
  <tileset firstgid="74" source="objects.tsx"/>
  <tileset firstgid="186" source="decor_16x16.tsx"/>
  <tileset firstgid="206" source="fences.tsx"/>
+ <objectgroup id="6" name="gameObjects"/>
  <layer id="1" name="Ground" width="30" height="20">
   <data encoding="csv">
 0,0,0,0,0,0,73,73,73,73,73,73,8,9,9,9,9,10,73,73,0,0,0,0,0,0,0,0,0,0,
@@ -77,6 +78,11 @@
 0,218,0,182,183,0,0,0,0,0,0,0,0,0,0,0,0,0,0,26,36,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="7" name="playerStart">
+  <object id="25" x="32" y="160">
+   <point/>
+  </object>
+ </objectgroup>
  <objectgroup id="4" name="Collision">
   <object id="1" x="144" y="96" width="16" height="16"/>
   <object id="2" x="176" y="112" width="16" height="16"/>
@@ -102,9 +108,6 @@
   </object>
   <object id="19" x="304" y="0">
    <polygon points="0,0 0,32 112,32 160,80 176,80 176,64 160,64 112,16 16,16 16,0"/>
-  </object>
-  <object id="20" x="2" y="166.667">
-   <point/>
   </object>
   <object id="21" x="240" y="2.66667">
    <point/>

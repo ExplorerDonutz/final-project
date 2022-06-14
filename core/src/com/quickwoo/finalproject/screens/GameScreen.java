@@ -30,6 +30,7 @@ import com.quickwoo.finalproject.audio.AudioType;
 import com.quickwoo.finalproject.box2d.WorldContactListener;
 import com.quickwoo.finalproject.ecs.ECSEngine;
 import com.quickwoo.finalproject.ecs.Mapper;
+import com.quickwoo.finalproject.ecs.components.Box2DComponent;
 import com.quickwoo.finalproject.ecs.components.HealthComponent;
 import com.quickwoo.finalproject.ecs.components.PlayerComponent;
 import com.quickwoo.finalproject.input.GameKeyInputListener;
@@ -106,6 +107,9 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         worldContactListener = new WorldContactListener();
         world.setContactListener(worldContactListener);
         ecsEngine = new ECSEngine(world, game, assetManager, this, stage, skin);
+        // Create entities
+        ecsEngine.createPlayer(400, 400, 1);
+        ecsEngine.createTest(400, 250, 2);
 
         // Load tiled map, parse the collision layer, and create a renderer to render the map with the pixel to meter scale
         tiledMap = assetManager.get(AssetLoader.MAP_START);
@@ -121,10 +125,6 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         viewport = new ExtendViewport(16, 9, cam);
 
 
-
-        // Create entities
-        ecsEngine.createPlayer(400, 400, 1);
-        ecsEngine.createTest(400, 250, 2);
 
 
     }
@@ -223,5 +223,7 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
     @Override
     public void mapChanged(com.quickwoo.finalproject.map.Map map) {
         mapRenderer.setMap(map.getMap());
+        Box2DComponent box2DComponent = Mapper.box2DMapper.get(ecsEngine.getPlayer());
+        box2DComponent.body.setTransform(map.getPlayerStartLocation(), box2DComponent.body.getAngle());
     }
 }

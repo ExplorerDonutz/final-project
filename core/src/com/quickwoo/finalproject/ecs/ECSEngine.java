@@ -269,4 +269,8 @@ public class ECSEngine extends PooledEngine {
     public CollisionSystem getCollisionSystem() {
         return collisionSystem;
     }
+
+    public Entity getPlayer() {
+        return player;
+    }
 }
