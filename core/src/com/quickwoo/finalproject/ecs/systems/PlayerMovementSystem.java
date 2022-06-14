@@ -41,29 +41,43 @@ public class PlayerMovementSystem extends IteratingSystem implements GameKeyInpu
         final Box2DComponent b2dBody = box2DMapper.get(entity);
         final PlayerComponent player = playerMapper.get(entity);
         final StateComponent stateComponent = stateMapper.get(entity);
+        final AnimationComponent animationComponent = animationMapper.get(entity);
 
         b2dBody.body.setLinearVelocity(force.x * player.speed, force.y * player.speed);
 
         // Use abs to get non negative values to compare x and y
 
+
         if (force.isZero()) {
-            stateComponent.time = 0;
+            //Check if the player is attacking
+           if (stateComponent.getState() <= StateComponent.STATE_RIGHT) {
+               stateComponent.time = 0;
+           }
+
         }
         if (Math.abs(force.x) > Math.abs(force.y)) {
             if (force.x < 0) {
+                stateComponent.isLooping = true;
                 stateComponent.setState(StateComponent.STATE_LEFT);
+                animationComponent.currentAnimation = animationComponent.animations.get(StateComponent.STATE_LEFT);
             }
 
             if (force.x > 0) {
+                stateComponent.isLooping = true;
                 stateComponent.setState(StateComponent.STATE_RIGHT);
+                animationComponent.currentAnimation = animationComponent.animations.get(StateComponent.STATE_RIGHT);
             }
         } else {
             if (force.y < 0) {
+                stateComponent.isLooping = true;
                 stateComponent.setState(StateComponent.STATE_DOWN);
+                animationComponent.currentAnimation = animationComponent.animations.get(StateComponent.STATE_DOWN);
             }
 
             if (force.y > 0) {
+                stateComponent.isLooping = true;
                 stateComponent.setState(StateComponent.STATE_UP);
+                animationComponent.currentAnimation = animationComponent.animations.get(StateComponent.STATE_UP);
             }
         }
     }

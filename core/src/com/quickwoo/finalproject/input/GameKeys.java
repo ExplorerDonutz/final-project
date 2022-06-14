@@ -9,7 +9,8 @@ public enum GameKeys {
     RIGHT(Input.Keys.D, Input.Keys.RIGHT),
     SELECT(Input.Keys.F),
     BACK(Input.Keys.ESCAPE),
-    GRAPHIC(Input.Keys.F11);
+    GRAPHIC(Input.Keys.F11),
+    SPACE(Input.Keys.SPACE);
 
     final int[] keyCode;
 

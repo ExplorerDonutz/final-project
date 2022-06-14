@@ -74,6 +74,9 @@ public class ECSEngine extends PooledEngine {
 
         // Add collision system
         this.addSystem(collisionSystem);
+
+        // Add combat system
+        this.addSystem(new PlayerCombatSystem(game.getInputManager()));
     }
 
     public void createPlayer(int x, int y, int drawOrder) {
@@ -120,11 +123,75 @@ public class ECSEngine extends PooledEngine {
         Animation<TextureRegion> leftAnim = new Animation<>(0.1f, playerAtlas.findRegions("left"));
         Animation<TextureRegion> rightAnim = new Animation<>(0.1f, playerAtlas.findRegions("right"));
 
+        //Animation Variables
+        final int FRAME_COlS = 7, FRAME_ROWS = 1;
+        float frameSpeed = 0.05f;
+        Animation<TextureRegion> attackUp;
+        Animation<TextureRegion> attackDown;
+        Animation<TextureRegion> attackLeft;
+        Animation<TextureRegion> attackRight;
+        Texture walkSheetUp;
+        Texture walkSheetDown;
+        Texture walkSheetLeft;
+        Texture walkSheetRight;
+
+        //Attack animation Down
+        walkSheetDown = assetManager.get(AssetLoader.PLAYER_ATTACK_DOWN);
+        TextureRegion[][] tmpDown = TextureRegion.split(walkSheetDown, walkSheetDown.getWidth()/FRAME_COlS,walkSheetDown.getHeight()/FRAME_ROWS);
+        TextureRegion[] walkFramesDown = new TextureRegion[FRAME_COlS * FRAME_ROWS];
+        int indexDown = 0;
+        for (int i = 0; i < FRAME_ROWS; i++) {
+            for (int j = 0; j < FRAME_COlS; j++) {
+                walkFramesDown[indexDown++] = tmpDown[i][j];
+            }
+        }
+        attackDown = new Animation<>(frameSpeed, walkFramesDown);
+
+        //Attack animation up
+        walkSheetUp = assetManager.get(AssetLoader.PLAYER_ATTACK_UP);
+        TextureRegion[][] tmpUp = TextureRegion.split(walkSheetUp, walkSheetUp.getWidth()/FRAME_COlS,walkSheetUp.getHeight()/FRAME_ROWS);
+        TextureRegion[] walkFramesUp = new TextureRegion[FRAME_COlS * FRAME_ROWS];
+        int indexUp = 0;
+        for (int i = 0; i < FRAME_ROWS; i++) {
+            for (int j = 0; j < FRAME_COlS; j++) {
+                walkFramesUp[indexUp++] = tmpUp[i][j];
+            }
+        }
+        attackUp = new Animation<>(frameSpeed, walkFramesUp);
+
+        //Attack animation left
+        walkSheetLeft = assetManager.get(AssetLoader.PLAYER_ATTACK_LEFT);
+        TextureRegion[][] tmpLeft = TextureRegion.split(walkSheetLeft, walkSheetLeft.getWidth()/FRAME_COlS,walkSheetLeft.getHeight()/FRAME_ROWS);
+        TextureRegion[] walkFramesLeft = new TextureRegion[FRAME_COlS * FRAME_ROWS];
+        int indexLeft = 0;
+        for (int i = 0; i < FRAME_ROWS; i++) {
+            for (int j = 0; j < FRAME_COlS; j++) {
+                walkFramesLeft[indexLeft++] = tmpLeft[i][j];
+            }
+        }
+        attackLeft = new Animation<>(frameSpeed, walkFramesLeft);
+
+        //Attack animation right
+        walkSheetRight = assetManager.get(AssetLoader.PLAYER_ATTACK_RIGHT);
+        TextureRegion[][] tmpRight = TextureRegion.split(walkSheetRight, walkSheetRight.getWidth()/FRAME_COlS,walkSheetRight.getHeight()/FRAME_ROWS);
+        TextureRegion[] walkFramesRight = new TextureRegion[FRAME_COlS * FRAME_ROWS];
+        int indexRight = 0;
+        for (int i = 0; i < FRAME_ROWS; i++) {
+            for (int j = 0; j < FRAME_COlS; j++) {
+                walkFramesRight[indexRight++] = tmpRight[i][j];
+            }
+        }
+        attackRight = new Animation<TextureRegion>(frameSpeed, walkFramesRight);
+
         // Add animations to intmap
         animationComponent.animations.put(StateComponent.STATE_DOWN, downAnim);
         animationComponent.animations.put(StateComponent.STATE_UP, upAnim);
         animationComponent.animations.put(StateComponent.STATE_LEFT, leftAnim);
         animationComponent.animations.put(StateComponent.STATE_RIGHT, rightAnim);
+        animationComponent.animations.put(StateComponent.STATE_ATTACK_UP, attackUp);
+        animationComponent.animations.put(StateComponent.STATE_ATTACK_DOWN, attackDown);
+        animationComponent.animations.put(StateComponent.STATE_ATTACK_LEFT, attackLeft);
+        animationComponent.animations.put(StateComponent.STATE_ATTACK_RIGHT, attackRight);
         player.add(animationComponent);
 
         // Health

@@ -15,6 +15,10 @@ public class AssetLoader {
 
     // Textures
     public static final String PLAYER_TEXTURE = "PlayerTest.png";
+    public static final String PLAYER_ATTACK_UP = "RPG Sprites/sprAttackUp.png";
+    public static final String PLAYER_ATTACK_DOWN = "RPG Sprites/sprAttackDown.png";
+    public static final String PLAYER_ATTACK_LEFT = "RPG Sprites/sprAttackLeft.png";
+    public static final String PLAYER_ATTACK_RIGHT = "RPG Sprites/sprAttackRight.png";
     public static final String ENEMY_TEXTURE = "EnemyTest.png";
     public static final String PLAYER_ATLAS = "sprites/player.atlas";
 
@@ -43,6 +47,10 @@ public class AssetLoader {
         manager.load(PLAYER_TEXTURE, Texture.class);
         manager.load(ENEMY_TEXTURE, Texture.class);
         manager.load(PLAYER_ATLAS, TextureAtlas.class);
+        manager.load(PLAYER_ATTACK_UP, Texture.class);
+        manager.load(PLAYER_ATTACK_DOWN, Texture.class);
+        manager.load(PLAYER_ATTACK_LEFT, Texture.class);
+        manager.load(PLAYER_ATTACK_RIGHT, Texture.class);
 
         // Load audio
         manager.load(BACKGROUND_MUSIC, Music.class);
