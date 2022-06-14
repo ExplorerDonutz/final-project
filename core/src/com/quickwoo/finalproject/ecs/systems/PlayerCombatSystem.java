@@ -38,34 +38,26 @@ public class PlayerCombatSystem  extends IteratingSystem implements GameKeyInput
         final AnimationComponent animationComponent = animationMapper.get(entity);
         stateComponent.isLooping = false;
 
-        if (spacePressed == true) {
+        if (spacePressed) {
             if (stateComponent.getState() == StateComponent.STATE_DOWN) {
                 stateComponent.setState(StateComponent.STATE_ATTACK_DOWN);
-                animationComponent.currentAnimation = animationComponent.animations.get(StateComponent.STATE_ATTACK_DOWN);
             } else if (stateComponent.getState() == StateComponent.STATE_UP) {
                 stateComponent.setState(StateComponent.STATE_ATTACK_UP);
-                animationComponent.currentAnimation = animationComponent.animations.get(StateComponent.STATE_ATTACK_UP);
             } else if (stateComponent.getState() == StateComponent.STATE_LEFT) {
                 stateComponent.setState(StateComponent.STATE_ATTACK_LEFT);
-                animationComponent.currentAnimation = animationComponent.animations.get(StateComponent.STATE_ATTACK_LEFT);
             } else if (stateComponent.getState() == StateComponent.STATE_RIGHT) {
                 stateComponent.setState(StateComponent.STATE_ATTACK_RIGHT);
-                animationComponent.currentAnimation = animationComponent.animations.get(StateComponent.STATE_ATTACK_RIGHT);
             }
 
-            if (animationComponent.currentAnimation.isAnimationFinished(stateComponent.time)) {
+            if (animationComponent.animations.get(stateComponent.getState()).isAnimationFinished(stateComponent.time)) {
                 if (stateComponent.getState() == StateComponent.STATE_ATTACK_DOWN) {
                     stateComponent.setState(StateComponent.STATE_DOWN);
-                    animationComponent.currentAnimation = animationComponent.animations.get(StateComponent.STATE_DOWN);
                 } else if (stateComponent.getState() == StateComponent.STATE_ATTACK_UP) {
                     stateComponent.setState(StateComponent.STATE_UP);
-                    animationComponent.currentAnimation = animationComponent.animations.get(StateComponent.STATE_UP);
                 } else if (stateComponent.getState() == StateComponent.STATE_ATTACK_LEFT) {
                     stateComponent.setState(StateComponent.STATE_LEFT);
-                    animationComponent.currentAnimation = animationComponent.animations.get(StateComponent.STATE_LEFT);
                 } else if (stateComponent.getState() == StateComponent.STATE_ATTACK_RIGHT) {
                     stateComponent.setState(StateComponent.STATE_RIGHT);
-                    animationComponent.currentAnimation = animationComponent.animations.get(StateComponent.STATE_RIGHT);
                 }
                 spacePressed = false;
             }

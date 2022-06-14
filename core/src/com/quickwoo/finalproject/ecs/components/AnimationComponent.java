@@ -8,11 +8,9 @@ import com.badlogic.gdx.utils.Pool;
 
 public class AnimationComponent implements Component, Pool.Poolable {
     public IntMap<Animation<TextureRegion>> animations = new IntMap<>();
-    public Animation<TextureRegion> currentAnimation;
 
     @Override
     public void reset() {
         animations = new IntMap<>();
-        currentAnimation = null;
     }
 }

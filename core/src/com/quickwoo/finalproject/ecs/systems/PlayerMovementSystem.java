@@ -59,25 +59,21 @@ public class PlayerMovementSystem extends IteratingSystem implements GameKeyInpu
             if (force.x < 0) {
                 stateComponent.isLooping = true;
                 stateComponent.setState(StateComponent.STATE_LEFT);
-                animationComponent.currentAnimation = animationComponent.animations.get(StateComponent.STATE_LEFT);
             }
 
             if (force.x > 0) {
                 stateComponent.isLooping = true;
                 stateComponent.setState(StateComponent.STATE_RIGHT);
-                animationComponent.currentAnimation = animationComponent.animations.get(StateComponent.STATE_RIGHT);
             }
         } else {
             if (force.y < 0) {
                 stateComponent.isLooping = true;
                 stateComponent.setState(StateComponent.STATE_DOWN);
-                animationComponent.currentAnimation = animationComponent.animations.get(StateComponent.STATE_DOWN);
             }
 
             if (force.y > 0) {
                 stateComponent.isLooping = true;
                 stateComponent.setState(StateComponent.STATE_UP);
-                animationComponent.currentAnimation = animationComponent.animations.get(StateComponent.STATE_UP);
             }
         }
     }
