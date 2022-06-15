@@ -1,9 +1,6 @@
 package com.quickwoo.finalproject.screens;
 
-
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
@@ -14,8 +11,11 @@ public class HeartBar extends Widget implements Disableable {
 
     private boolean isDisabled = false;
     private int heartCount;
-    private int x, y, width, height;
-    private Array<Drawable> hearts;
+    private final int x;
+    private final int y;
+    private final int width;
+    private final int height;
+    private final Array<Drawable> hearts;
 
     public HeartBar(int heartCount, int width, int height, int x, int y, Skin skin) {
         this.x = x;

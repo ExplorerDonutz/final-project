@@ -5,14 +5,12 @@ import com.badlogic.gdx.audio.Music;
 import com.quickwoo.finalproject.FinalProject;
 
 public class AudioManager {
-    private final FinalProject game;
     private final AssetManager assetManager;
     public boolean isPaused;
     private AudioType currentMusicType;
     private Music currentMusic;
 
     public AudioManager(FinalProject game) {
-        this.game = game;
         assetManager = game.getAssetManager().manager;
     }
 

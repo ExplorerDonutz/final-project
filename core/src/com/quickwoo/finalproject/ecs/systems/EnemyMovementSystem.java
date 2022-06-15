@@ -9,10 +9,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.quickwoo.finalproject.ecs.Mapper;
 import com.quickwoo.finalproject.ecs.components.Box2DComponent;
 import com.quickwoo.finalproject.ecs.components.EnemyComponent;
-import com.quickwoo.finalproject.ecs.components.PlayerComponent;
 import com.quickwoo.finalproject.ecs.components.StateComponent;
-
-import static com.quickwoo.finalproject.ecs.Mapper.stateMapper;
 
 public class EnemyMovementSystem extends IteratingSystem {
     private final Vector2 direction = new Vector2();

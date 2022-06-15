@@ -1,5 +1,5 @@
-/* Michael Quick
-*  May 7, 2022
+/* Michael Quick & Nicholas Woo
+*  7 May 2022
 *  Static class for storing constant variables
  */
 package com.quickwoo.finalproject;

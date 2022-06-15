@@ -1,3 +1,7 @@
+/* Michael Quick & Nicholas Woo
+ * 14 June 2022
+ * System for showing debug information for box2d physics
+ */
 package com.quickwoo.finalproject.ecs.systems;
 
 import com.badlogic.ashley.core.Entity;

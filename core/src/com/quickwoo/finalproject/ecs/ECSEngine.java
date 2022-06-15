@@ -12,7 +12,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Array;
 import com.quickwoo.finalproject.Constants;
 import com.quickwoo.finalproject.FinalProject;
 import com.quickwoo.finalproject.box2d.BodyFactory;
@@ -20,11 +19,8 @@ import com.quickwoo.finalproject.ecs.components.*;
 import com.quickwoo.finalproject.ecs.systems.*;
 import com.quickwoo.finalproject.loader.AssetLoader;
 import com.quickwoo.finalproject.map.GameObject;
-import com.quickwoo.finalproject.map.MapManager;
 import com.quickwoo.finalproject.screens.GameScreen;
 import com.quickwoo.finalproject.screens.HeartBar;
-
-import javax.swing.plaf.nimbus.State;
 
 public class ECSEngine extends PooledEngine {
     private final BodyFactory bodyFactory;
@@ -64,7 +60,7 @@ public class ECSEngine extends PooledEngine {
         this.addSystem(new EnemyMovementSystem());
 
         // Add rendering system
-        this.addSystem(new RenderingSystem(game, stage));
+        this.addSystem(new RenderingSystem(game));
 
         // Add camera movement system
         this.addSystem(playerCameraSystem);

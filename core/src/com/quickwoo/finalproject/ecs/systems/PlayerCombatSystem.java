@@ -10,8 +10,6 @@ import com.quickwoo.finalproject.input.GameKeyInputListener;
 import com.quickwoo.finalproject.input.GameKeys;
 import com.quickwoo.finalproject.input.InputManager;
 
-import javax.swing.plaf.nimbus.State;
-
 public class PlayerCombatSystem  extends IteratingSystem implements GameKeyInputListener {
 
     private final ComponentMapper<StateComponent> stateMapper;

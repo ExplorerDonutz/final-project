@@ -4,7 +4,6 @@
  */
 package com.quickwoo.finalproject.map;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;

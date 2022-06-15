@@ -47,7 +47,6 @@ public class Map {
         // Get the players starting location on the map
         for (MapObject object : map.getLayers().get("playerStart").getObjects()) {
             playerStartLocation = new Vector2(object.getProperties().get("x", Float.class) / Constants.PPM, object.getProperties().get("y", Float.class) / Constants.PPM);
-            Gdx.app.log("TEST", playerStartLocation.toString());
         }
         bodies = TiledObjectCollision.parseTiledObjectLayer(world, map.getLayers().get("Collision").getObjects());
     }
