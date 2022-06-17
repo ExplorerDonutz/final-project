@@ -45,7 +45,7 @@ public class ECSEngine extends PooledEngine {
         this.stage = stage;
         bodyFactory = BodyFactory.getInstance(world);
         playerCameraSystem = new PlayerCameraSystem(game);
-        collisionSystem = new CollisionSystem(world);
+        collisionSystem = new CollisionSystem(world, this);
         this.assetManager = assetManager;
         if (FinalProject.DEBUG)
             this.addSystem(new DebugPhysicsSystem(world, game.getCamera()));

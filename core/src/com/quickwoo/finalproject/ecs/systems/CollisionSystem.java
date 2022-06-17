@@ -9,6 +9,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.World;
+import com.quickwoo.finalproject.ecs.ECSEngine;
 import com.quickwoo.finalproject.ecs.Mapper;
 import com.quickwoo.finalproject.ecs.components.CollisionComponent;
 import com.quickwoo.finalproject.ecs.components.GameObjectComponent;
@@ -20,11 +21,13 @@ public class CollisionSystem extends IteratingSystem {
     private final String TAG = this.getClass().getSimpleName();
     private MapManager mapManager;
     private final World world;
+    private final ECSEngine ecsEngine;
 
-    public CollisionSystem(World world) {
+    public CollisionSystem(World world, ECSEngine ecsEngine) {
         // Only iterate over entities with a player component
         super(Family.one(PlayerComponent.class).get());
         this.world = world;
+        this.ecsEngine = ecsEngine;
     }
 
     @Override
@@ -41,7 +44,7 @@ public class CollisionSystem extends IteratingSystem {
                 switch (gameObjectComponent.getType()) {
                     case GameObjectComponent.TYPE_TELEPORT:
                         Gdx.app.log(TAG, " Player hit teleport");
-                        mapManager.setMap(new Map(gameObjectComponent.map, world));
+                        mapManager.setMap(new Map(gameObjectComponent.map, world, ecsEngine));
                 }
             }
         }

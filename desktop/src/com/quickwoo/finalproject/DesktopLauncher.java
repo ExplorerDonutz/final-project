@@ -8,7 +8,8 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
-		config.setTitle("Final Project");
+		config.setTitle("Untitled - Michael & Nick");
+		config.setWindowIcon("icon.png");
 		new Lwjgl3Application(new FinalProject(), config);
 	}
 }

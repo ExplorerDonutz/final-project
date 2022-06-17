@@ -1,5 +1,6 @@
 package com.quickwoo.finalproject.map;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -12,15 +13,18 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.quickwoo.finalproject.Constants;
+import com.quickwoo.finalproject.ecs.ECSEngine;
 
 public class Map {
     private final TiledMap map;
     private final Array<GameObject> gameObjects;
+    private final ECSEngine ecsEngine;
     private final Array<Body> bodies;
     private Vector2 playerStartLocation;
 
-    public Map(TiledMap map, World world) {
+    public Map(TiledMap map, World world, ECSEngine ecsEngine) {
         this.map = map;
+        this.ecsEngine = ecsEngine;
         gameObjects = new Array<>();
         final MapLayer gameObjectsLayer = map.getLayers().get("gameObjects");
 
@@ -48,6 +52,12 @@ public class Map {
         for (MapObject object : map.getLayers().get("playerStart").getObjects()) {
             playerStartLocation = new Vector2(object.getProperties().get("x", Float.class) / Constants.PPM, object.getProperties().get("y", Float.class) / Constants.PPM);
         }
+
+        // Get the number of enemies and their starting positions on the map
+        for (MapObject object : map.getLayers().get("enemyStart").getObjects()) {
+            ecsEngine.createTest((int) object.getProperties().get("x", Float.class).floatValue() * 2, (int) object.getProperties().get("y", Float.class).floatValue() * 2, 1);
+        }
+
         bodies = TiledObjectCollision.parseTiledObjectLayer(world, map.getLayers().get("Collision").getObjects());
     }
 

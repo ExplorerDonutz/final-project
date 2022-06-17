@@ -18,10 +18,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.quickwoo.finalproject.Constants;
@@ -68,10 +70,9 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         // Create skin, stage, and its menu window
         skin = assetManager.get(AssetLoader.SKIN);
         stage = new Stage(new ExtendViewport(Constants.WIDTH, Constants.HEIGHT), game.getBatch());
+
         pause = new Window("", skin);
-
         pause.setFillParent(true);
-
         pause.pack();
         pause.setMovable(false);
         TextButton resume = new TextButton("Resume", skin);
@@ -107,15 +108,14 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         worldContactListener = new WorldContactListener();
         world.setContactListener(worldContactListener);
         ecsEngine = new ECSEngine(world, game, assetManager, this, stage, skin);
-        // Create entities
-        ecsEngine.createPlayer(400, 400, 1);
-        ecsEngine.createTest(400, 250, 2);
+        // Create player entity
+        ecsEngine.createPlayer(0, 0, 1);
 
         // Load tiled map, parse the collision layer, and create a renderer to render the map with the pixel to meter scale
         tiledMap = assetManager.get(AssetLoader.MAP_START);
         mapManager = new MapManager(world, ecsEngine);
         mapManager.addMapListener(this);
-        map = new Map(tiledMap, world);
+        map = new Map(tiledMap, world, ecsEngine);
         mapRenderer = new OrthogonalTiledMapRenderer(null, Constants.PIXELS_TO_METERS, game.getBatch());
         mapManager.setMap(map);
         ecsEngine.getCameraSystem().setMap(map);
