@@ -53,11 +53,6 @@ public class Map {
             playerStartLocation = new Vector2(object.getProperties().get("x", Float.class) / Constants.PPM, object.getProperties().get("y", Float.class) / Constants.PPM);
         }
 
-        // Get the number of enemies and their starting positions on the map
-        for (MapObject object : map.getLayers().get("enemyStart").getObjects()) {
-            ecsEngine.createTest((int) object.getProperties().get("x", Float.class).floatValue() * 2, (int) object.getProperties().get("y", Float.class).floatValue() * 2, 1);
-        }
-
         bodies = TiledObjectCollision.parseTiledObjectLayer(world, map.getLayers().get("Collision").getObjects());
     }
 

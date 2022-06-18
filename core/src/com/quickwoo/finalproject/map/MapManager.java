@@ -5,9 +5,12 @@
 package com.quickwoo.finalproject.map;
 
 import com.badlogic.ashley.core.Family;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.quickwoo.finalproject.Constants;
 import com.quickwoo.finalproject.ecs.ECSEngine;
 import com.quickwoo.finalproject.ecs.components.EnemyComponent;
 import com.quickwoo.finalproject.ecs.components.GameObjectComponent;
@@ -42,6 +45,11 @@ public class MapManager {
         // Create game objects from new map in the entity system
         for (GameObject gameObject : new Array.ArrayIterator<>(map.getGameObjects())) {
             ecsEngine.createGameObject(gameObject);
+        }
+
+        // Get the number of enemies and their starting positions on the map
+        for (MapObject object : map.getMap().getLayers().get("enemyStart").getObjects()) {
+            ecsEngine.createTest((int) object.getProperties().get("x", Float.class).floatValue() * 2, (int) object.getProperties().get("y", Float.class).floatValue() * 2, 1);
         }
 
         // Inform listeners of map change

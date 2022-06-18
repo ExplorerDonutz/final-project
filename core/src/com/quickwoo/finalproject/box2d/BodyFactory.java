@@ -19,7 +19,7 @@ public class BodyFactory {
         return thisInstance;
     }
 
-    public Body makeBox(float posx, float posy, float width, float height, BodyDef.BodyType bodyType, boolean fixedRotation) {
+    public Body makeBox(float posx, float posy, float width, float height, float density, BodyDef.BodyType bodyType, boolean fixedRotation) {
         // Create a body definition
         BodyDef boxBodyDef = new BodyDef();
         boxBodyDef.type = bodyType;
@@ -32,7 +32,7 @@ public class BodyFactory {
         PolygonShape poly = new PolygonShape();
         poly.setAsBox(width / 2 / PPM, height / 2 / PPM);
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.density = 1.0f;
+        fixtureDef.density = density;
         fixtureDef.shape = poly;
         boxBody.createFixture(fixtureDef);
         // Dispose of shape now that it has been used

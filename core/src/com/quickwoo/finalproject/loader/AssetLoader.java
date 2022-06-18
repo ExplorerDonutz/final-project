@@ -31,6 +31,8 @@ public class AssetLoader {
     public static final String MAP_2 = "map/tilePlains2.tmx";
     public static final String MAP_UP = "map/tilePlains2down.tmx";
     public static final String MAP_DOWN = "map/tilePlains2Up.tmx";
+    public static final String MAP_3 = "map/tilePlains3.tmx";
+    public static final String MAP_BOSS = "map/tilePlainsBoss.tmx";
 
     // Skin
     public static final String SKIN = "skin.json";
@@ -62,5 +64,7 @@ public class AssetLoader {
         manager.load(MAP_2, TiledMap.class, params);
         manager.load(MAP_UP, TiledMap.class, params);
         manager.load(MAP_DOWN, TiledMap.class, params);
+        manager.load(MAP_3, TiledMap.class, params);
+        manager.load(MAP_BOSS, TiledMap.class, params);
     }
 }
