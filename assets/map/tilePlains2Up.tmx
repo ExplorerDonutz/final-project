@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="27">
+ <properties>
+  <property name="isBoss" type="bool" value="false"/>
+ </properties>
  <tileset firstgid="1" source="grass.tsx"/>
  <tileset firstgid="2" source="plains.tsx"/>
  <tileset firstgid="74" source="walls.tsx"/>
@@ -186,78 +189,93 @@
   <object id="15" gid="180" x="288" y="320" width="16" height="16">
    <properties>
     <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="playerLoc" type="int" value="3"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="16" gid="180" x="272" y="320" width="16" height="16">
    <properties>
     <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="playerLoc" type="int" value="3"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="17" gid="180" x="256" y="320" width="16" height="16">
    <properties>
     <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="playerLoc" type="int" value="3"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="18" gid="180" x="240" y="320" width="16" height="16">
    <properties>
     <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="playerLoc" type="int" value="3"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="19" gid="180" x="224" y="320" width="16" height="16">
    <properties>
     <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="playerLoc" type="int" value="3"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="20" gid="180" x="208" y="320" width="16" height="16">
    <properties>
     <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="playerLoc" type="int" value="3"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="21" gid="180" x="192" y="320" width="16" height="16">
    <properties>
     <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="playerLoc" type="int" value="3"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="22" gid="180" x="160" y="320" width="16" height="16">
    <properties>
     <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="playerLoc" type="int" value="3"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="23" gid="180" x="176" y="320" width="16" height="16">
    <properties>
     <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="playerLoc" type="int" value="3"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="24" gid="180" x="128" y="320" width="16" height="16">
    <properties>
     <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="playerLoc" type="int" value="3"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="25" gid="180" x="144" y="320" width="16" height="16">
    <properties>
     <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="playerLoc" type="int" value="3"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="26" gid="180" x="112" y="320" width="16" height="16">
    <properties>
     <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="playerLoc" type="int" value="3"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup id="8" name="playerStart">
   <object id="11" x="224" y="288">
+   <properties>
+    <property name="playerLoc" type="int" value="1"/>
+   </properties>
    <point/>
   </object>
  </objectgroup>

@@ -1,7 +1,5 @@
 package com.quickwoo.finalproject.map;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -12,7 +10,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.quickwoo.finalproject.Constants;
 import com.quickwoo.finalproject.ecs.ECSEngine;
 
 public class Map {
@@ -21,6 +18,7 @@ public class Map {
     private final ECSEngine ecsEngine;
     private final Array<Body> bodies;
     private Vector2 playerStartLocation;
+    private boolean isBossMap;
 
     public Map(TiledMap map, World world, ECSEngine ecsEngine) {
         this.map = map;
@@ -41,23 +39,26 @@ public class Map {
             if (tiledMapObjProperties.get("nextMap", String.class) != null) {
                 // This is a teleport gameobject
                 final String nextMap = tiledMapObjProperties.get("nextMap", String.class);
-                gameObjects.add(new GameObject(type, tiledMapObj.getX(), tiledMapObj.getY(), width, height, tiledMapObj.getRotation(), nextMap, tiledMapObj.getTextureRegion()));
+                final int playerLoc = tiledMapObjProperties.get("playerLoc", Integer.class);
+                gameObjects.add(new GameObject(type, tiledMapObj.getX(), tiledMapObj.getY(), width, height, tiledMapObj.getRotation(), nextMap, playerLoc, tiledMapObj.getTextureRegion()));
             } else {
                 // This is a gameobject without teleporting
                 gameObjects.add(new GameObject(type, tiledMapObj.getX(), tiledMapObj.getY(), width, height, tiledMapObj.getRotation(), tiledMapObj.getTextureRegion()));
             }
         }
 
-        // Get the players starting location on the map
-        for (MapObject object : map.getLayers().get("playerStart").getObjects()) {
-            playerStartLocation = new Vector2(object.getProperties().get("x", Float.class) / Constants.PPM, object.getProperties().get("y", Float.class) / Constants.PPM);
-        }
+        // Check if the map is the boss map
+        isBossMap = map.getProperties().get("isBoss", boolean.class);
 
         bodies = TiledObjectCollision.parseTiledObjectLayer(world, map.getLayers().get("Collision").getObjects());
     }
 
     public Vector2 getPlayerStartLocation() {
         return playerStartLocation;
+    }
+
+    public void setPlayerStartLocation(Vector2 playerStartLocation) {
+        this.playerStartLocation = playerStartLocation;
     }
 
     public Array<Body> getBodies() {
@@ -70,5 +71,9 @@ public class Map {
 
     public Array<GameObject> getGameObjects() {
         return gameObjects;
+    }
+
+    public boolean isBossMap() {
+        return isBossMap;
     }
 }

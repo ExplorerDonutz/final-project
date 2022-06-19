@@ -27,7 +27,7 @@ public class MapManager {
         mapListeners = new Array<>();
     }
 
-    public void setMap(Map map) {
+    public void setMap(Map map, int playerLoc) {
 
         // Destroy boundaries & game objects on old map
         if (currentMap != null) {
@@ -49,12 +49,20 @@ public class MapManager {
 
         // Get the number of enemies and their starting positions on the map
         for (MapObject object : map.getMap().getLayers().get("enemyStart").getObjects()) {
-            ecsEngine.createTest((int) object.getProperties().get("x", Float.class).floatValue() * 2, (int) object.getProperties().get("y", Float.class).floatValue() * 2, 1);
+            ecsEngine.createSlime((int) object.getProperties().get("x", Float.class).floatValue() * 2, (int) object.getProperties().get("y", Float.class).floatValue() * 2, 1);
+        }
+
+        // Get the players starting location on the map
+        for (MapObject object : map.getMap().getLayers().get("playerStart").getObjects()) {
+            if (object.getProperties().get("playerLoc", Integer.class) == playerLoc) {
+                map.setPlayerStartLocation(new Vector2(object.getProperties().get("x", Float.class) / Constants.PPM, object.getProperties().get("y", Float.class) / Constants.PPM));
+                break;
+            }
         }
 
         // Inform listeners of map change
         for (final MapListener mapListener : new Array.ArrayIterator<>(mapListeners)) {
-            mapListener.mapChanged(currentMap);
+            mapListener.mapChanged(currentMap, currentMap.isBossMap());
         }
     }
 
@@ -68,6 +76,6 @@ public class MapManager {
     }
 
     public interface MapListener {
-        void mapChanged(final Map map);
+        void mapChanged(final Map map, boolean isBossMap);
     }
 }

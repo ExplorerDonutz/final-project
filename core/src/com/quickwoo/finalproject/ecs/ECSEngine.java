@@ -72,7 +72,7 @@ public class ECSEngine extends PooledEngine {
         this.addSystem(collisionSystem);
 
         // Add combat system
-        this.addSystem(new PlayerCombatSystem(game.getInputManager()));
+        this.addSystem(new PlayerCombatSystem(game.getInputManager(), game, this));
     }
 
     public void createPlayer(int x, int y, int drawOrder) {
@@ -86,13 +86,15 @@ public class ECSEngine extends PooledEngine {
 
         // Box2D
         final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
+        box2DComponent.reset();
         box2DComponent.body = bodyFactory.makeBox(x, y, 14, 21, 1.0f, BodyDef.BodyType.DynamicBody, true);
         box2DComponent.body.setUserData(player);
         player.add(box2DComponent);
 
         // Transform
         final TransformComponent transformComponent = this.createComponent(TransformComponent.class);
-        transformComponent.position.set(x, y, 0);
+        transformComponent.reset();
+        transformComponent.position.set(x, y, drawOrder);
         transformComponent.scale.set(1, 1);
         player.add(transformComponent);
 
@@ -177,7 +179,7 @@ public class ECSEngine extends PooledEngine {
                 walkFramesRight[indexRight++] = tmpRight[i][j];
             }
         }
-        attackRight = new Animation<TextureRegion>(frameSpeed, walkFramesRight);
+        attackRight = new Animation<>(frameSpeed, walkFramesRight);
 
         // Add animations to intmap
         animationComponent.animations.put(StateComponent.STATE_DOWN, downAnim);
@@ -205,8 +207,8 @@ public class ECSEngine extends PooledEngine {
         this.addEntity(player);
     }
 
-    public void createTest(int x, int y, int drawOrder) {
-        final Entity test = this.createEntity();
+    public void createSlime(int x, int y, int drawOrder) {
+        final Entity slime = this.createEntity();
 
         //Set up the animation for the slime moving right
         walkSheetRight = new Texture(Gdx.files.internal("RPG Sprites/sprSlimeRight.png"));
@@ -220,7 +222,7 @@ public class ECSEngine extends PooledEngine {
                 walkFrames[indexRight++] = tmpRight[i][j];
             }
         }
-        slimeAnimationRight = new Animation<TextureRegion>(0.15f, walkFrames);
+        slimeAnimationRight = new Animation<>(0.15f, walkFrames);
         regRight = slimeAnimationRight.getKeyFrame(0);
 
         //Set up animation for the slime moving left
@@ -235,50 +237,50 @@ public class ECSEngine extends PooledEngine {
                 walkFramesLeft[indexLeft++] = tmpLeft[i][j];
             }
         }
-        slimeAnimationLeft = new Animation<TextureRegion>(0.15f, walkFramesLeft);
+        slimeAnimationLeft = new Animation<>(0.15f, walkFramesLeft);
 
         // Enemy Component
         final EnemyComponent enemyComponent = this.createComponent(EnemyComponent.class);
-        enemyComponent.speed = 4.0f;
+        enemyComponent.speed = 2.0f;
         enemyComponent.player = player;
-        test.add(enemyComponent);
+        slime.add(enemyComponent);
 
         // Box2D
         final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
         box2DComponent.body = bodyFactory.makeBox(x, y, 16, 16, 0.1f, BodyDef.BodyType.DynamicBody, true);
-        box2DComponent.body.setUserData(test);
-        test.add(box2DComponent);
+        box2DComponent.body.setUserData(slime);
+        slime.add(box2DComponent);
 
         // Transform
         final TransformComponent transformComponent = this.createComponent(TransformComponent.class);
-        transformComponent.position.set(x, y, 1);
+        transformComponent.position.set(x, y, drawOrder);
         transformComponent.scale.set(1, 1);
-        test.add(transformComponent);
+        slime.add(transformComponent);
 
         // Texture
         final TextureComponent textureComponent = this.createComponent(TextureComponent.class);
         textureComponent.region = new TextureRegion((Texture) assetManager.get(AssetLoader.ENEMY_TEXTURE));
         textureComponent.isDrawn = true;
-        test.add(textureComponent);
+        slime.add(textureComponent);
         //State
         final StateComponent stateComponent = this.createComponent(StateComponent.class);
 
         // First state
         stateComponent.state = StateComponent.STATE_SLIME_LEFT;
         stateComponent.isLooping = true;
-        test.add(stateComponent);
+        slime.add(stateComponent);
 
         //Animation
         final AnimationComponent animationComponent = this.createComponent(AnimationComponent.class);
         animationComponent.animations.put(StateComponent.STATE_SLIME_RIGHT, slimeAnimationRight);
         animationComponent.animations.put(StateComponent.STATE_SLIME_LEFT, slimeAnimationLeft);
-        test.add(animationComponent);
+        slime.add(animationComponent);
 
         // Health
         final HealthComponent healthComponent = this.createComponent(HealthComponent.class);
-        test.add(healthComponent);
+        slime.add(healthComponent);
 
-        this.addEntity(test);
+        this.addEntity(slime);
     }
 
     public void createGameObject(GameObject gameObject) {
@@ -288,6 +290,7 @@ public class ECSEngine extends PooledEngine {
         final GameObjectComponent gameObjectComponent = this.createComponent(GameObjectComponent.class);
         gameObjectComponent.type = gameObject.getType();
         if (gameObject.getType() == GameObjectComponent.TYPE_TELEPORT) {
+            gameObjectComponent.playerLoc = gameObject.getPlayerLoc();
             gameObjectComponent.map = assetManager.get(gameObject.getNextMap());
         }
         entity.add(gameObjectComponent);

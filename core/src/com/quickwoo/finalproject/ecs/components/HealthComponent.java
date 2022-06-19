@@ -6,11 +6,11 @@ import com.quickwoo.finalproject.screens.HeartBar;
 
 public class HealthComponent implements Component, Pool.Poolable {
 
-    public int health = 100;
+    public int health = 3;
     public HeartBar healthBar;
     @Override
     public void reset() {
-        health = 100;
+        health = 3;
         healthBar = null;
     }
 }

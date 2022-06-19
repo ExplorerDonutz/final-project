@@ -113,4 +113,8 @@ public class FinalProject extends Game {
     public AudioManager getAudioManager() {
         return audioManager;
     }
+
+    public EnumMap<ScreenType, Screen> getScreenCache() {
+        return screenCache;
+    }
 }

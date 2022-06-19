@@ -15,6 +15,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -58,11 +60,12 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
     private final com.quickwoo.finalproject.map.Map map;
     private final Stage stage;
     private final Window pause;
-    private MapManager mapManager = null;
+    private MapManager mapManager;
     private final FinalProject game;
     private boolean isPaused;
 
     public GameScreen(FinalProject game) {
+        Box2D.init();
         isPaused = false;
         this.game = game;
         assetManager = game.getAssetManager().manager;
@@ -117,16 +120,12 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         mapManager.addMapListener(this);
         map = new Map(tiledMap, world, ecsEngine);
         mapRenderer = new OrthogonalTiledMapRenderer(null, Constants.PIXELS_TO_METERS, game.getBatch());
-        mapManager.setMap(map);
+        mapManager.setMap(map, 1);
         ecsEngine.getCameraSystem().setMap(map);
         ecsEngine.getCollisionSystem().setMapManager(mapManager);
 
         cam = game.getCamera();
         viewport = new ExtendViewport(16, 9, cam);
-
-
-
-
     }
 
     @Override
@@ -196,6 +195,7 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         world.dispose();
         stage.dispose();
         mapRenderer.dispose();
+        tiledMap.dispose();
     }
 
     @Override
@@ -221,9 +221,13 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
     }
 
     @Override
-    public void mapChanged(com.quickwoo.finalproject.map.Map map) {
+    public void mapChanged(Map map, boolean isBossMap) {
         mapRenderer.setMap(map.getMap());
         Box2DComponent box2DComponent = Mapper.box2DMapper.get(ecsEngine.getPlayer());
         box2DComponent.body.setTransform(map.getPlayerStartLocation(), box2DComponent.body.getAngle());
+    }
+
+    public World getWorld() {
+        return world;
     }
 }

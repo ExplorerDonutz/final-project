@@ -44,7 +44,7 @@ public class CollisionSystem extends IteratingSystem {
                 switch (gameObjectComponent.getType()) {
                     case GameObjectComponent.TYPE_TELEPORT:
                         Gdx.app.log(TAG, " Player hit teleport");
-                        mapManager.setMap(new Map(gameObjectComponent.map, world, ecsEngine));
+                        mapManager.setMap(new Map(gameObjectComponent.map, world, ecsEngine), gameObjectComponent.playerLoc);
                 }
             }
         }
