@@ -82,13 +82,15 @@ public class ECSEngine extends PooledEngine {
         // Player
         final PlayerComponent playerComponent = this.createComponent(PlayerComponent.class);
         playerComponent.speed = 5.0f;
-        player.add(playerComponent);
+player.add(playerComponent);
 
         // Box2D
         final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
         box2DComponent.reset();
-        box2DComponent.body = bodyFactory.makeBox(x, y, 14, 21, 1.0f, BodyDef.BodyType.DynamicBody, true);
+        box2DComponent.body = bodyFactory.makeBox(x, y, 6, 14, 1.0f, BodyDef.BodyType.DynamicBody, true, false);
         box2DComponent.body.setUserData(player);
+        box2DComponent.attackBody = bodyFactory.makeBox(x, y, 24, 24, 1.0f, BodyDef.BodyType.DynamicBody, true, true);
+        box2DComponent.attackBody.setUserData(player);
         player.add(box2DComponent);
 
         // Transform
@@ -251,7 +253,7 @@ public class ECSEngine extends PooledEngine {
 
         // Box2D
         final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
-        box2DComponent.body = bodyFactory.makeBox(x, y, 16, 16, 0.1f, BodyDef.BodyType.DynamicBody, true);
+        box2DComponent.body = bodyFactory.makeBox(x, y, 16, 16, 0.1f, BodyDef.BodyType.DynamicBody, true, false);
         box2DComponent.body.setUserData(slime);
         slime.add(box2DComponent);
 
@@ -303,7 +305,7 @@ public class ECSEngine extends PooledEngine {
         final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
         switch (gameObjectComponent.type) {
             case GameObjectComponent.TYPE_TELEPORT:
-                box2DComponent.body = bodyFactory.makeBox((gameObject.getX() + (gameObject.getRegion().getRegionWidth() / 2f)) * 2, (gameObject.getY() + (gameObject.getRegion().getRegionHeight() / 2f)) * 2, gameObject.getWidth(), gameObject.getHeight(), 1.0f, BodyDef.BodyType.StaticBody, true);
+                box2DComponent.body = bodyFactory.makeBox((gameObject.getX() + (gameObject.getRegion().getRegionWidth() / 2f)) * 2, (gameObject.getY() + (gameObject.getRegion().getRegionHeight() / 2f)) * 2, gameObject.getWidth(), gameObject.getHeight(), 1.0f, BodyDef.BodyType.StaticBody, true, false);
                 break;
         }
         box2DComponent.body.setUserData(entity);

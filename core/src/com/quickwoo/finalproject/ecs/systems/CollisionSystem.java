@@ -60,15 +60,15 @@ public class CollisionSystem extends IteratingSystem {
                     enemyHealth.health --;
                     bounceOff(playerBody.body, enemyBody.body);
                     collision.reset();
-                    Gdx.app.log(TAG, "PLAYER HIT ENEMY");
                 } else if (enemyComponent.coolDown == 0) {
+                    // Lower player health by 1 and set new value to the counter
                     playerHealth.health --;
                     playerHealth.healthBar.setHeartCount(playerHealth.health);
-                    enemyComponent.coolDown = 100;
+                    // Give player a chance to knock enemies off before they attack again
+                    enemyComponent.coolDown = 25;
                 }
 
                 if (enemyHealth.health == 0) {
-                    Gdx.app.log(TAG, "ENEMY IS DEAD!!!!!");
                     ecsEngine.removeEntity(collidedEntity);
                     mapManager.getCurrentMap().setEnemyCount(mapManager.getCurrentMap().getEnemyCount() - 1);
                 }

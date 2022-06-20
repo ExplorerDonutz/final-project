@@ -41,6 +41,7 @@ public class PlayerMovementSystem extends IteratingSystem implements GameKeyInpu
         final StateComponent stateComponent = stateMapper.get(entity);
 
         b2dBody.body.setLinearVelocity(force.x * player.speed, force.y * player.speed);
+        b2dBody.attackBody.setTransform(b2dBody.body.getPosition().x, b2dBody.body.getPosition().y, b2dBody.body.getAngle());
 
         if (force.isZero()) {
             // Check if the player is attacking

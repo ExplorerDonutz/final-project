@@ -5,6 +5,8 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import com.quickwoo.finalproject.ecs.Mapper;
+import com.quickwoo.finalproject.ecs.components.BattleComponent;
+import com.quickwoo.finalproject.ecs.components.Box2DComponent;
 import com.quickwoo.finalproject.ecs.components.CollisionComponent;
 
 public class WorldContactListener implements ContactListener {
@@ -25,31 +27,65 @@ public class WorldContactListener implements ContactListener {
         Gdx.app.log(TAG, fa.getBody().getType() + " has hit " + fb.getBody().getType());
 
         if (fa.getBody().getUserData() instanceof Entity) {
+            Box2DComponent box2DComponent;
             entity = (Entity) fa.getBody().getUserData();
             entity2 = (Entity) fb.getBody().getUserData();
 
             if (fa.getBody().getType().equals(BodyDef.BodyType.StaticBody)) {
-                entityCollision(entity2, fa);
+                box2DComponent = Mapper.box2DMapper.get(entity2);
+                if (fb.getBody().equals(box2DComponent.attackBody)) {
+                    entityCollision(entity2, fa, true);
+                } else {
+                    entityCollision(entity2, fa, false);
+                }
+
             } else {
-                entityCollision(entity, fb);
+                box2DComponent = Mapper.box2DMapper.get(entity);
+                if (fa.getBody().equals(box2DComponent.attackBody)) {
+                    entityCollision(entity, fb, true);
+                } else {
+                    entityCollision(entity, fb, false);
+                }
             }
         } else if (fb.getBody().getUserData() instanceof Entity) {
             entity = (Entity) fb.getBody().getUserData();
-            entityCollision(entity, fa);
+            Box2DComponent box2DComponent = Mapper.box2DMapper.get(entity);
+            if (fb.getBody().equals(box2DComponent.attackBody)) {
+                entityCollision(entity, fa, true);
+            } else {
+                entityCollision(entity, fa, false);
+            }
         }
     }
 
-    private void entityCollision(Entity entity, Fixture fb) {
+    private void entityCollision(Entity entity, Fixture fb, boolean isAttackBody) {
         if (fb.getBody().getUserData() instanceof Entity) {
             collisionEntity = (Entity) fb.getBody().getUserData();
 
             CollisionComponent collisionA = collisionMapper.get(entity);
             CollisionComponent collisionB = collisionMapper.get(collisionEntity);
+            BattleComponent battleComponent = Mapper.battleMapper.get(entity);
 
-            if (collisionA != null) {
-                collisionA.collisionEntity = collisionEntity;
-            } else if (collisionB != null) {
-                collisionB.collisionEntity = entity;
+            if (battleComponent != null) {
+                if (battleComponent.attack) {
+                    if (collisionA != null) {
+                        collisionA.collisionEntity = collisionEntity;
+                    } else if (collisionB != null) {
+                        collisionB.collisionEntity = entity;
+                    }
+                } else if (!isAttackBody) {
+                    if (collisionA != null) {
+                        collisionA.collisionEntity = collisionEntity;
+                    } else if (collisionB != null) {
+                        collisionB.collisionEntity = entity;
+                    }
+                }
+            } else {
+                if (collisionA != null) {
+                    collisionA.collisionEntity = collisionEntity;
+                } else if (collisionB != null) {
+                    collisionB.collisionEntity = entity;
+                }
             }
         }
     }
