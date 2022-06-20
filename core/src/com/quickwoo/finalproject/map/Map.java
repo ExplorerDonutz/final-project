@@ -20,6 +20,10 @@ public class Map {
     private Vector2 playerStartLocation;
     private boolean isBossMap;
 
+    private boolean isCleared = false;
+
+    private int enemyCount = 0;
+
     public Map(TiledMap map, World world, ECSEngine ecsEngine) {
         this.map = map;
         this.ecsEngine = ecsEngine;
@@ -75,5 +79,17 @@ public class Map {
 
     public boolean isBossMap() {
         return isBossMap;
+    }
+
+    public int getEnemyCount() {
+        return enemyCount;
+    }
+
+    public void setEnemyCount(int count) {
+        enemyCount = count;
+    }
+
+    public void isCleared(boolean isCleared) {
+        this.isCleared = isCleared;
     }
 }

@@ -23,7 +23,7 @@ public class PlayerCombatSystem  extends IteratingSystem implements GameKeyInput
     private final ComponentMapper<HealthComponent> healthMapper;
     private final ComponentMapper<AnimationComponent> animationMapper;
     private final FinalProject game;
-    private boolean spacePressed = false;
+    private boolean attacking = false;
     private ECSEngine ecsEngine;
 
 
@@ -44,11 +44,10 @@ public class PlayerCombatSystem  extends IteratingSystem implements GameKeyInput
         final StateComponent stateComponent = stateMapper.get(entity);
         final AnimationComponent animationComponent = animationMapper.get(entity);
         final HealthComponent healthComponent = healthMapper.get(entity);
+        final BattleComponent battleComponent = battleMapper.get(entity);
         stateComponent.isLooping = false;
-
-        if (spacePressed) {
-            healthComponent.health --;
-            healthComponent.healthBar.setHeartCount(healthComponent.health);
+        battleComponent.attack = attacking;
+        if (battleComponent.attack) {
             if (stateComponent.getState() == StateComponent.STATE_DOWN) {
                 stateComponent.setState(StateComponent.STATE_ATTACK_DOWN);
             } else if (stateComponent.getState() == StateComponent.STATE_UP) {
@@ -69,7 +68,8 @@ public class PlayerCombatSystem  extends IteratingSystem implements GameKeyInput
                 } else if (stateComponent.getState() == StateComponent.STATE_ATTACK_RIGHT) {
                     stateComponent.setState(StateComponent.STATE_RIGHT);
                 }
-                spacePressed = false;
+                battleComponent.attack = false;
+                attacking = false;
             }
         }
 
@@ -81,12 +81,12 @@ public class PlayerCombatSystem  extends IteratingSystem implements GameKeyInput
     @Override
     public void keyPressed(InputManager manager, GameKeys key) {
         if (key == GameKeys.SPACE) {
-            spacePressed = true;
-
+            attacking = true;
         }
     }
 
     @Override
     public void keyUp(InputManager manager, GameKeys key) {
+
     }
 }

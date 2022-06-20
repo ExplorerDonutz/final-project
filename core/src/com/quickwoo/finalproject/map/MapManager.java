@@ -50,6 +50,7 @@ public class MapManager {
         // Get the number of enemies and their starting positions on the map
         for (MapObject object : map.getMap().getLayers().get("enemyStart").getObjects()) {
             ecsEngine.createSlime((int) object.getProperties().get("x", Float.class).floatValue() * 2, (int) object.getProperties().get("y", Float.class).floatValue() * 2, 1);
+            currentMap.setEnemyCount(currentMap.getEnemyCount() + 1);
         }
 
         // Get the players starting location on the map

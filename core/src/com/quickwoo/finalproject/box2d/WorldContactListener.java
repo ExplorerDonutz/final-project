@@ -56,6 +56,11 @@ public class WorldContactListener implements ContactListener {
 
     @Override
     public void endContact(Contact contact) {
+        CollisionComponent collisionComponent = Mapper.collisionMapper.get(entity);
+
+        if (collisionComponent != null)
+            collisionComponent.reset();
+
         Gdx.app.log(TAG, "Collision ended");
     }
 

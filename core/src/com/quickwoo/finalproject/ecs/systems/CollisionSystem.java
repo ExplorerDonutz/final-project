@@ -8,12 +8,11 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.quickwoo.finalproject.ecs.ECSEngine;
 import com.quickwoo.finalproject.ecs.Mapper;
-import com.quickwoo.finalproject.ecs.components.CollisionComponent;
-import com.quickwoo.finalproject.ecs.components.GameObjectComponent;
-import com.quickwoo.finalproject.ecs.components.PlayerComponent;
+import com.quickwoo.finalproject.ecs.components.*;
 import com.quickwoo.finalproject.map.Map;
 import com.quickwoo.finalproject.map.MapManager;
 
@@ -40,19 +39,65 @@ public class CollisionSystem extends IteratingSystem {
         // If the collided entity exists, determine what type it is
         if (collidedEntity != null) {
             final GameObjectComponent gameObjectComponent = Mapper.gameObjectMapper.get(collidedEntity);
+            final EnemyComponent enemyComponent = Mapper.enemyMapper.get(collidedEntity);
             if (gameObjectComponent != null) {
                 switch (gameObjectComponent.getType()) {
                     case GameObjectComponent.TYPE_TELEPORT:
-                        Gdx.app.log(TAG, " Player hit teleport");
-                        mapManager.setMap(new Map(gameObjectComponent.map, world, ecsEngine), gameObjectComponent.playerLoc);
+                        if (mapManager.getCurrentMap().getEnemyCount() == 0) {
+                            Gdx.app.log(TAG, " Player hit teleport");
+                            mapManager.setMap(new Map(gameObjectComponent.map, world, ecsEngine), gameObjectComponent.playerLoc);
+                            mapManager.getCurrentMap().isCleared(true);
+                        }
+                }
+            } else if (enemyComponent != null){
+                Gdx.app.log(TAG, "Player hit enemy");
+                BattleComponent battleComponent = Mapper.battleMapper.get(entity);
+                HealthComponent enemyHealth = Mapper.healthMapper.get(collidedEntity);
+                HealthComponent playerHealth = Mapper.healthMapper.get(entity);
+                Box2DComponent playerBody = Mapper.box2DMapper.get(entity);
+                Box2DComponent enemyBody = Mapper.box2DMapper.get(collidedEntity);
+                if (battleComponent.attack) {
+                    enemyHealth.health --;
+                    bounceOff(playerBody.body, enemyBody.body);
+                    collision.reset();
+                    Gdx.app.log(TAG, "PLAYER HIT ENEMY");
+                } else if (enemyComponent.coolDown == 0) {
+                    playerHealth.health --;
+                    playerHealth.healthBar.setHeartCount(playerHealth.health);
+                    enemyComponent.coolDown = 100;
+                }
+
+                if (enemyHealth.health == 0) {
+                    Gdx.app.log(TAG, "ENEMY IS DEAD!!!!!");
+                    ecsEngine.removeEntity(collidedEntity);
+                    mapManager.getCurrentMap().setEnemyCount(mapManager.getCurrentMap().getEnemyCount() - 1);
                 }
             }
         }
         // Reset the collision component of the player entity
-        collision.reset();
+        //collision.reset();
     }
 
     public void setMapManager(MapManager mapManager) {
         this.mapManager = mapManager;
+    }
+
+    public void bounceOff(Body attacker, Body defender) {
+        float xForce = 0;
+        float yForce = 0;
+
+        if (attacker.getPosition().x > defender.getPosition().x) {
+            xForce = -20.0f;
+        } else if (attacker.getPosition().x < defender.getPosition().x) {
+            xForce = 20.0f;
+        }
+
+        if (attacker.getPosition().y > defender.getPosition().y) {
+            yForce = -20.0f;
+        } else if (attacker.getPosition().y < defender.getPosition().y) {
+            yForce = 20.0f;
+        }
+
+        defender.applyLinearImpulse(xForce, yForce, defender.getPosition().x, defender.getPosition().y, false);
     }
 }

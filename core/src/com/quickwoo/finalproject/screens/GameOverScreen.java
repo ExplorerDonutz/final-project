@@ -21,10 +21,7 @@ import static com.quickwoo.finalproject.Constants.WIDTH;
 public class GameOverScreen implements Screen {
     private final FinalProject game;
     private Stage stage;
-    private Skin skin;
-    private OrthographicCamera cam;
     private FillViewport viewport;
-    private Table table;
 
     public GameOverScreen(FinalProject game) {
         this.game = game;
@@ -32,33 +29,19 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void show() {
-        cam = game.getCamera();
+        OrthographicCamera cam = game.getCamera();
         viewport = new FillViewport(WIDTH, HEIGHT, cam);
 
         // Create a stage to act on
         stage = new Stage(viewport);
-        skin = game.getAssetManager().manager.get(AssetLoader.SKIN);
+        Skin skin = game.getAssetManager().manager.get(AssetLoader.SKIN);
 
         // Let the stage control the game's input
         Gdx.input.setInputProcessor(stage);
 
         // Create a table to organize actors on
-        table = new Table();
+        Table table = new Table();
         table.setFillParent(true);
-
-        TextButton playButton = new TextButton("Restart", skin);
-        // Have the play button detect mouse clicks on itself
-        playButton.addListener((new ClickListener() {
-            @Override
-            public void clicked(InputEvent e, float x, float y) {
-                // Fade out then switch screens
-                stage.addAction(Actions.sequence(Actions.fadeOut(0.75f), Actions.run(() -> {
-                    game.getScreenCache().clear();
-                    game.setScreen(ScreenType.MENU);
-                })));
-            }
-        }));
-        table.add(playButton).padBottom(10.0f).fillX();
 
         table.row();
         TextButton quitButton = new TextButton("Quit", skin);
@@ -107,6 +90,6 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }

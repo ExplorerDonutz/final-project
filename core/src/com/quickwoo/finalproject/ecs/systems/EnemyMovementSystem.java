@@ -44,5 +44,9 @@ public class EnemyMovementSystem extends IteratingSystem {
         direction.nor();
 
         enemyBody.setLinearVelocity(direction.scl(enemyComponent.speed));
+
+        if (enemyComponent.coolDown > 0) {
+            enemyComponent.coolDown --;
+        }
     }
 }

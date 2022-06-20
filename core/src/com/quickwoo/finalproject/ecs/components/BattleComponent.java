@@ -4,13 +4,13 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Pool;
 
 public class BattleComponent implements Component, Pool.Poolable {
-    int attack = 0;
-    int defend = 0;
-    int boost = 0;
+    public boolean attack = false;
+    public int defend = 0;
+    public int boost = 0;
 
     @Override
     public void reset() {
-        attack = 0;
+        attack = false;
         defend = 0;
         boost = 0;
     }

@@ -200,6 +200,10 @@ public class ECSEngine extends PooledEngine {
         stage.addActor(healthComponent.healthBar);
         player.add(healthComponent);
 
+        // Battle
+        final BattleComponent battleComponent = this.createComponent(BattleComponent.class);
+        player.add(battleComponent);
+
         // Collision
         final CollisionComponent collisionComponent = this.createComponent(CollisionComponent.class);
         player.add(collisionComponent);
