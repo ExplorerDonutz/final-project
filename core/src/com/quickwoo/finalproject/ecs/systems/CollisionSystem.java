@@ -65,7 +65,7 @@ public class CollisionSystem extends IteratingSystem {
                     playerHealth.health --;
                     playerHealth.healthBar.setHeartCount(playerHealth.health);
                     // Give player a chance to knock enemies off before they attack again
-                    enemyComponent.coolDown = 25;
+                    enemyComponent.coolDown = 75;
                 }
 
                 if (enemyHealth.health == 0) {

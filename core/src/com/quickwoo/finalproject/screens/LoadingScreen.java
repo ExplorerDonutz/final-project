@@ -1,3 +1,7 @@
+/* Michael Quick & Nicholas Woo
+ * 21 June 2022
+ * Screen used to visualize the loading for the user
+ */
 package com.quickwoo.finalproject.screens;
 
 import com.badlogic.gdx.Gdx;
@@ -47,6 +51,7 @@ public class LoadingScreen implements Screen {
         Table table = new Table();
         table.setFillParent(true);
 
+        // Add text
         Label label = new Label("Loading...", skin);
         table.add(label);
 
@@ -60,6 +65,8 @@ public class LoadingScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
+
+        // If the assetmanager finished loading, change screens
         if (assetManager.manager.update()) {
             assetManager.manager.finishLoading();
             stage.addAction(Actions.sequence(Actions.fadeOut(1), Actions.run(() -> {
@@ -68,6 +75,7 @@ public class LoadingScreen implements Screen {
             })));
         }
 
+        // Set the value of the progress bar to the progress of the assets being loaded
         progressBar.setValue(assetManager.manager.getProgress() * 100);
         stage.act();
         stage.draw();
@@ -75,7 +83,7 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        viewport.update(width, height);
     }
 
     @Override

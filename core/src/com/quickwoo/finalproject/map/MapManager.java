@@ -5,6 +5,7 @@
 package com.quickwoo.finalproject.map;
 
 import com.badlogic.ashley.core.Family;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -57,6 +58,14 @@ public class MapManager {
         for (MapObject object : map.getMap().getLayers().get("playerStart").getObjects()) {
             if (object.getProperties().get("playerLoc", Integer.class) == playerLoc) {
                 map.setPlayerStartLocation(new Vector2(object.getProperties().get("x", Float.class) / Constants.PPM, object.getProperties().get("y", Float.class) / Constants.PPM));
+                break;
+            }
+        }
+
+        if (map.isBossMap()) {
+            for (MapObject object : map.getMap().getLayers().get("bossStart").getObjects()) {
+                Gdx.app.log("YEET", "Boss fight!!");
+                ecsEngine.createBoss((int) object.getProperties().get("x", Float.class).floatValue() * 2, (int) object.getProperties().get("y", Float.class).floatValue() * 2, 1);
                 break;
             }
         }

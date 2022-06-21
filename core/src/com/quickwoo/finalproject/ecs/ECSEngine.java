@@ -196,7 +196,13 @@ player.add(playerComponent);
 
         // Health
         final HealthComponent healthComponent = this.createComponent(HealthComponent.class);
-        healthComponent.healthBar = new HeartBar(3, 32, 32, 0, Constants.HEIGHT - 32, skin);
+
+        if (FinalProject.DEBUG) {
+            healthComponent.healthBar = new HeartBar(69420, 32, 32, 0, Constants.HEIGHT - 32, skin);
+            healthComponent.health = 69420;
+        } else
+            healthComponent.healthBar = new HeartBar(3, 32, 32, 0, Constants.HEIGHT - 32, skin);
+
         healthComponent.healthBar.setSize(256, 64);
         healthComponent.healthBar.setPosition(50,Constants.HEIGHT - 100);
         stage.addActor(healthComponent.healthBar);
@@ -334,6 +340,82 @@ player.add(playerComponent);
         this.addEntity(entity);
     }
 
+    public void createBoss(int x, int y, int drawOrder) {
+        final Entity slime = this.createEntity();
+
+        //Set up the animation for the slime moving right
+        walkSheetRight = new Texture(Gdx.files.internal("RPG Sprites/sprSlimeRight.png"));
+
+        TextureRegion[][] tmpRight = TextureRegion.split(walkSheetRight, walkSheetRight.getWidth()/FRAME_COlS,walkSheetRight.getHeight()/FRAME_ROWS);
+
+        TextureRegion[] walkFrames = new TextureRegion[FRAME_COlS * FRAME_ROWS];
+        int indexRight = 0;
+        for (int i = 0; i < FRAME_ROWS; i++) {
+            for (int j = 0; j < FRAME_COlS; j++) {
+                walkFrames[indexRight++] = tmpRight[i][j];
+            }
+        }
+        slimeAnimationRight = new Animation<>(0.15f, walkFrames);
+        regRight = slimeAnimationRight.getKeyFrame(0);
+
+        //Set up animation for the slime moving left
+        walkSheetLeft = new Texture(Gdx.files.internal("RPG Sprites/sprSlimeLeft.png"));
+
+        TextureRegion[][] tmpLeft = TextureRegion.split(walkSheetLeft, walkSheetLeft.getWidth()/FRAME_COlS, walkSheetLeft.getHeight()/FRAME_ROWS);
+
+        TextureRegion[] walkFramesLeft = new TextureRegion[FRAME_COlS * FRAME_ROWS];
+        int indexLeft = 0;
+        for (int i = 0; i < FRAME_ROWS; i++) {
+            for (int j = 0; j < FRAME_COlS; j++) {
+                walkFramesLeft[indexLeft++] = tmpLeft[i][j];
+            }
+        }
+        slimeAnimationLeft = new Animation<>(0.15f, walkFramesLeft);
+
+        // Enemy Component
+        final EnemyComponent enemyComponent = this.createComponent(EnemyComponent.class);
+        enemyComponent.speed = 2.0f;
+        enemyComponent.player = player;
+        slime.add(enemyComponent);
+
+        // Box2D
+        final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
+        box2DComponent.body = bodyFactory.makeBox(x, y, 32, 32, 0.1f, BodyDef.BodyType.DynamicBody, true, false);
+        box2DComponent.body.setUserData(slime);
+        slime.add(box2DComponent);
+
+        // Transform
+        final TransformComponent transformComponent = this.createComponent(TransformComponent.class);
+        transformComponent.position.set(x, y, drawOrder);
+        transformComponent.scale.set(2, 2);
+        slime.add(transformComponent);
+
+        // Texture
+        final TextureComponent textureComponent = this.createComponent(TextureComponent.class);
+        textureComponent.region = new TextureRegion((Texture) assetManager.get(AssetLoader.ENEMY_TEXTURE));
+        textureComponent.isDrawn = true;
+        slime.add(textureComponent);
+        //State
+        final StateComponent stateComponent = this.createComponent(StateComponent.class);
+
+        // First state
+        stateComponent.state = StateComponent.STATE_SLIME_LEFT;
+        stateComponent.isLooping = true;
+        slime.add(stateComponent);
+
+        //Animation
+        final AnimationComponent animationComponent = this.createComponent(AnimationComponent.class);
+        animationComponent.animations.put(StateComponent.STATE_SLIME_RIGHT, slimeAnimationRight);
+        animationComponent.animations.put(StateComponent.STATE_SLIME_LEFT, slimeAnimationLeft);
+        slime.add(animationComponent);
+
+        // Health
+        final HealthComponent healthComponent = this.createComponent(HealthComponent.class);
+        healthComponent.health = 10;
+        slime.add(healthComponent);
+
+        this.addEntity(slime);
+    }
     public PlayerCameraSystem getCameraSystem() {
         return playerCameraSystem;
     }
@@ -345,4 +427,6 @@ player.add(playerComponent);
     public Entity getPlayer() {
         return player;
     }
+
+
 }

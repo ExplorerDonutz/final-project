@@ -1,3 +1,7 @@
+/* Michael Quick & Nicholas Woo
+ * 21 June 2022
+ * Custom actor for display lives (hearts)
+ */
 package com.quickwoo.finalproject.screens;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -32,9 +36,7 @@ public class HeartBar extends Widget implements Disableable {
 
     public void draw(Batch batch, float parentAlpha) {
         if (!isDisabled) {
-
             for (int i = 0; i < heartCount; i++) {
-
                 hearts.get(i).draw(batch, x + (i * width), y, width, height);
             }
         }
@@ -42,7 +44,7 @@ public class HeartBar extends Widget implements Disableable {
 
     @Override
     public void setDisabled(boolean isDisabled) {
-        isDisabled = true;
+        this.isDisabled = isDisabled;
     }
 
     @Override

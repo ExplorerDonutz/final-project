@@ -31,6 +31,8 @@ public class FinalProject extends Game {
     private InputManager inputManager;
     private AssetLoader assetManager;
     private AudioManager audioManager;
+
+    // Create an enum-map to store the screens as they are created
     private EnumMap<ScreenType, Screen> screenCache;
 
     @Override

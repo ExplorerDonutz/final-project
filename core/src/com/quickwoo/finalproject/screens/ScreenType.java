@@ -1,3 +1,7 @@
+/* Michael Quick & Nicholas Woo
+ * 21 June 2022
+ * Enums for the different screens
+ */
 package com.quickwoo.finalproject.screens;
 
 import com.badlogic.gdx.Screen;

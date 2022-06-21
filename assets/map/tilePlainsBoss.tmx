@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="13">
+<map version="1.8" tiledversion="1.8.6" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="17">
  <properties>
   <property name="isBoss" type="bool" value="true"/>
  </properties>
@@ -140,24 +140,22 @@
   <object id="8" x="0" y="80">
    <polygon points="0,0 48,0 96,-48 400,-48 448,0 448,160 400,208 96,208 48,160 0,160 0,176 48,176 96,224 400,224 464,160 464,0 400,-64 96,-64 48,-16 0,-16"/>
   </object>
+  <object id="14" x="0" y="80">
+   <polyline points="0,0 0,160"/>
+  </object>
  </objectgroup>
  <objectgroup id="7" name="playerStart">
-  <object id="9" x="16" y="160">
+  <object id="15" x="16" y="160">
    <properties>
     <property name="playerLoc" type="int" value="1"/>
    </properties>
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="8" name="enemyStart">
-  <object id="10" x="320" y="80">
-   <point/>
-  </object>
-  <object id="11" x="400" y="208">
-   <point/>
-  </object>
-  <object id="12" x="256" y="160">
+ <objectgroup id="10" name="bossStart">
+  <object id="13" x="336" y="160">
    <point/>
   </object>
  </objectgroup>
+ <objectgroup id="8" name="enemyStart"/>
 </map>
