@@ -73,6 +73,9 @@ public class ECSEngine extends PooledEngine {
 
         // Add combat system
         this.addSystem(new PlayerCombatSystem(game.getInputManager(), game, this));
+
+        // Add sign system
+        this.addSystem(new TextBoxSystem(game.getInputManager(), game, this));
     }
 
     public void createPlayer(int x, int y, int drawOrder) {
@@ -87,7 +90,7 @@ public class ECSEngine extends PooledEngine {
         // Box2D
         final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
         box2DComponent.reset();
-        box2DComponent.body = bodyFactory.makeBox(x, y, 14, 21, 1.0f, BodyDef.BodyType.DynamicBody, true);
+        box2DComponent.body = bodyFactory.makeBox(x, y, 14, 21, 1.0f, BodyDef.BodyType.DynamicBody, true, false);
         box2DComponent.body.setUserData(player);
         player.add(box2DComponent);
 
@@ -247,7 +250,7 @@ public class ECSEngine extends PooledEngine {
 
         // Box2D
         final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
-        box2DComponent.body = bodyFactory.makeBox(x, y, 16, 16, 0.1f, BodyDef.BodyType.DynamicBody, true);
+        box2DComponent.body = bodyFactory.makeBox(x, y, 16, 16, 0.1f, BodyDef.BodyType.DynamicBody, true, false);
         box2DComponent.body.setUserData(slime);
         slime.add(box2DComponent);
 
@@ -292,6 +295,8 @@ public class ECSEngine extends PooledEngine {
         if (gameObject.getType() == GameObjectComponent.TYPE_TELEPORT) {
             gameObjectComponent.playerLoc = gameObject.getPlayerLoc();
             gameObjectComponent.map = assetManager.get(gameObject.getNextMap());
+        } else if (gameObject.getType() == GameObjectComponent.TYPE_SIGN) {
+
         }
         entity.add(gameObjectComponent);
 
@@ -299,7 +304,10 @@ public class ECSEngine extends PooledEngine {
         final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
         switch (gameObjectComponent.type) {
             case GameObjectComponent.TYPE_TELEPORT:
-                box2DComponent.body = bodyFactory.makeBox((gameObject.getX() + (gameObject.getRegion().getRegionWidth() / 2f)) * 2, (gameObject.getY() + (gameObject.getRegion().getRegionHeight() / 2f)) * 2, gameObject.getWidth(), gameObject.getHeight(), 1.0f, BodyDef.BodyType.StaticBody, true);
+                box2DComponent.body = bodyFactory.makeBox((gameObject.getX() + (gameObject.getRegion().getRegionWidth() / 2f)) * 2, (gameObject.getY() + (gameObject.getRegion().getRegionHeight() / 2f)) * 2, gameObject.getWidth(), gameObject.getHeight(), 1.0f, BodyDef.BodyType.StaticBody, true, false);
+                break;
+                case GameObjectComponent.TYPE_SIGN:
+                    box2DComponent.body = bodyFactory.makeBox((gameObject.getX() + (gameObject.getRegion().getRegionWidth() / 2f)) * 2, (gameObject.getY() + (gameObject.getRegion().getRegionHeight() / 2f)) * 2, gameObject.getWidth() * 2, gameObject.getHeight() * 2, 1.0f, BodyDef.BodyType.StaticBody, true, true);
                 break;
         }
         box2DComponent.body.setUserData(entity);
@@ -318,6 +326,10 @@ public class ECSEngine extends PooledEngine {
             case GameObjectComponent.TYPE_TELEPORT:
                 textureComponent.isDrawn = false;
                 break;
+            case GameObjectComponent.TYPE_SIGN:
+                textureComponent.isDrawn = true;
+                break;
+
         }
         entity.add(textureComponent);
 
@@ -326,6 +338,7 @@ public class ECSEngine extends PooledEngine {
         entity.add(collisionComponent);
 
         this.addEntity(entity);
+
     }
 
     public PlayerCameraSystem getCameraSystem() {

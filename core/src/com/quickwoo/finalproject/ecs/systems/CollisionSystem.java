@@ -14,6 +14,7 @@ import com.quickwoo.finalproject.ecs.Mapper;
 import com.quickwoo.finalproject.ecs.components.CollisionComponent;
 import com.quickwoo.finalproject.ecs.components.GameObjectComponent;
 import com.quickwoo.finalproject.ecs.components.PlayerComponent;
+import com.quickwoo.finalproject.ecs.components.StateComponent;
 import com.quickwoo.finalproject.map.Map;
 import com.quickwoo.finalproject.map.MapManager;
 
@@ -33,7 +34,7 @@ public class CollisionSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         final CollisionComponent collision = Mapper.collisionMapper.get(entity);
-
+        final StateComponent stateComponent = Mapper.stateMapper.get(entity);
         // Get the entity that the player collided into
         final Entity collidedEntity = collision.collisionEntity;
 
@@ -45,6 +46,11 @@ public class CollisionSystem extends IteratingSystem {
                     case GameObjectComponent.TYPE_TELEPORT:
                         Gdx.app.log(TAG, " Player hit teleport");
                         mapManager.setMap(new Map(gameObjectComponent.map, world, ecsEngine), gameObjectComponent.playerLoc);
+                        break;
+                    case GameObjectComponent.TYPE_SIGN:
+                        Gdx.app.log(TAG, " Player within interacting distance of sign");
+                        gameObjectComponent.isInteracted = true;
+                        break;
                 }
             }
         }

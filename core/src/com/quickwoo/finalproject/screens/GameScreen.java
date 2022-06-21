@@ -4,6 +4,7 @@
  */
 package com.quickwoo.finalproject.screens;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.Gdx;
@@ -20,12 +21,11 @@ import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.quickwoo.finalproject.Constants;
@@ -37,6 +37,7 @@ import com.quickwoo.finalproject.ecs.Mapper;
 import com.quickwoo.finalproject.ecs.components.Box2DComponent;
 import com.quickwoo.finalproject.ecs.components.HealthComponent;
 import com.quickwoo.finalproject.ecs.components.PlayerComponent;
+import com.quickwoo.finalproject.ecs.components.StateComponent;
 import com.quickwoo.finalproject.input.GameKeyInputListener;
 import com.quickwoo.finalproject.input.GameKeys;
 import com.quickwoo.finalproject.input.InputManager;
@@ -53,7 +54,6 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
     private final TiledMap tiledMap;
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final WorldContactListener worldContactListener;
-
     private final ExtendViewport viewport;
     private final OrthographicCamera cam;
     private final AssetManager assetManager;
@@ -63,10 +63,18 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
     private MapManager mapManager;
     private final FinalProject game;
     private boolean isPaused;
+    public static boolean isInteracted;
+    private SelectBox textBox;
+    public static String sign1 = "WASD TO MOVE|PRESS E TO CLOSE";
+    public static String sign2 = "UP-HOUSE|DOWN-CHEST|RIGHT-BOSS";
+
 
     public GameScreen(FinalProject game) {
+
         Box2D.init();
         isPaused = false;
+        isInteracted = false;
+
         this.game = game;
         assetManager = game.getAssetManager().manager;
 
@@ -106,6 +114,16 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         stage.addActor(pause);
         pause.setVisible(false);
 
+        // Create textbox skin
+        textBox = new SelectBox(skin);
+        textBox.setItems("hello");
+
+        textBox.setSize(350, 50);
+        textBox.setDisabled(true);
+        textBox.setPosition(10, 10);
+        stage.addActor(textBox);
+        textBox.setVisible(false);
+
         // Create a new physics world with no gravity
         world = new World(Vector2.Zero, false);
         worldContactListener = new WorldContactListener();
@@ -131,6 +149,7 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
     @Override
     public void show() {
         isPaused = false;
+        isInteracted = false;
         // Set both the input manager and stage as the input processor using an input multiplexer
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(stage);
@@ -166,6 +185,12 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
             ecsEngine.update(delta);
         }
 
+        if (isInteracted) {
+            textBox.setVisible(true);
+        } else {
+            textBox.setVisible(false);
+            textBox.setItems(sign1);
+        }
         // Render stage
         stage.act(delta);
         stage.draw();

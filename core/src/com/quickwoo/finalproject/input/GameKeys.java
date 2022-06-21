@@ -8,6 +8,7 @@ public enum GameKeys {
     LEFT(Input.Keys.A, Input.Keys.LEFT),
     RIGHT(Input.Keys.D, Input.Keys.RIGHT),
     SELECT(Input.Keys.F),
+    INTERACT(Input.Keys.E),
     BACK(Input.Keys.ESCAPE),
     GRAPHIC(Input.Keys.F11),
     SPACE(Input.Keys.SPACE);

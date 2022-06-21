@@ -14,6 +14,8 @@ public class StateComponent implements Component, Pool.Poolable {
     public static final int STATE_ATTACK_RIGHT = 7;
     public static final int STATE_SLIME_RIGHT = 8;
     public static final int STATE_SLIME_LEFT = 9;
+    public static final int STATE_INTERACT_PAUSE = 10;
+    public static final int STATE_INTERACT_UNPAUSE = 11;
     public float time = 0.0f;
     public boolean isLooping = false;
     public int state = 0;

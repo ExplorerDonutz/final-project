@@ -24,7 +24,7 @@ public class PlayerCombatSystem  extends IteratingSystem implements GameKeyInput
     private final ComponentMapper<AnimationComponent> animationMapper;
     private final FinalProject game;
     private boolean spacePressed = false;
-    private ECSEngine ecsEngine;
+    private final ECSEngine ecsEngine;
 
 
     public PlayerCombatSystem(InputManager inputManager, FinalProject game, ECSEngine ecsEngine) {
