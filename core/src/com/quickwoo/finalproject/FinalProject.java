@@ -24,7 +24,7 @@ import static com.quickwoo.finalproject.Constants.*;
 
 public class FinalProject extends Game {
     // Set to true to get debug information
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     public final String TAG = this.getClass().getSimpleName();
     private SpriteBatch batch;
     private OrthographicCamera cam;

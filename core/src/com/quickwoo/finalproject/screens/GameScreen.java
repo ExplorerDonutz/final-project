@@ -83,6 +83,7 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         textBox.setPosition(10, 10);
         stage.addActor(textBox);
         textBox.setVisible(false);
+        textBox.setDisabled(true);
 
         pause = new Window("", skin);
         pause.setFillParent(true);
