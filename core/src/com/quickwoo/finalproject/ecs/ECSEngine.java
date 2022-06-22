@@ -45,7 +45,7 @@ public class ECSEngine extends PooledEngine {
         this.stage = stage;
         bodyFactory = BodyFactory.getInstance(world);
         playerCameraSystem = new PlayerCameraSystem(game);
-        collisionSystem = new CollisionSystem(world, this);
+        collisionSystem = new CollisionSystem(world, this, game);
         this.assetManager = assetManager;
         if (FinalProject.DEBUG)
             this.addSystem(new DebugPhysicsSystem(world, game.getCamera()));
@@ -376,6 +376,7 @@ player.add(playerComponent);
         final EnemyComponent enemyComponent = this.createComponent(EnemyComponent.class);
         enemyComponent.speed = 2.0f;
         enemyComponent.player = player;
+        enemyComponent.isBoss = true;
         slime.add(enemyComponent);
 
         // Box2D

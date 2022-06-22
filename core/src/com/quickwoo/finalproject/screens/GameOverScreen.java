@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -22,6 +23,7 @@ public class GameOverScreen implements Screen {
     private final FinalProject game;
     private Stage stage;
     private FillViewport viewport;
+    private boolean bossDefeated = false;
 
     public GameOverScreen(FinalProject game) {
         this.game = game;
@@ -42,6 +44,14 @@ public class GameOverScreen implements Screen {
         // Create a table to organize actors on
         Table table = new Table();
         table.setFillParent(true);
+
+        if (bossDefeated) {
+            Image image = new Image(skin, "win");
+            table.add(image).size(300, 65.45f).fill().padBottom(10.0f);
+        } else {
+            Image image = new Image(skin, "lose");
+            table.add(image).size(300, 65.45f).fill().padBottom(10.0f);
+        }
 
         table.row();
         TextButton quitButton = new TextButton("Quit", skin);
@@ -86,6 +96,10 @@ public class GameOverScreen implements Screen {
     @Override
     public void hide() {
 
+    }
+
+    public void isBossDefeated(boolean bossDefeated) {
+        this.bossDefeated = bossDefeated;
     }
 
     @Override

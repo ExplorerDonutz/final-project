@@ -10,24 +10,29 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.quickwoo.finalproject.FinalProject;
 import com.quickwoo.finalproject.ecs.ECSEngine;
 import com.quickwoo.finalproject.ecs.Mapper;
 import com.quickwoo.finalproject.ecs.components.*;
 import com.quickwoo.finalproject.map.Map;
 import com.quickwoo.finalproject.map.MapManager;
 import com.quickwoo.finalproject.map.Maps;
+import com.quickwoo.finalproject.screens.GameOverScreen;
+import com.quickwoo.finalproject.screens.ScreenType;
 
 public class CollisionSystem extends IteratingSystem {
     private final String TAG = this.getClass().getSimpleName();
     private MapManager mapManager;
     private final World world;
     private final ECSEngine ecsEngine;
+    private final FinalProject game;
 
-    public CollisionSystem(World world, ECSEngine ecsEngine) {
+    public CollisionSystem(World world, ECSEngine ecsEngine, FinalProject game) {
         // Only iterate over entities with a player component
         super(Family.one(PlayerComponent.class).get());
         this.world = world;
         this.ecsEngine = ecsEngine;
+        this.game = game;
     }
 
     @Override
@@ -70,6 +75,14 @@ public class CollisionSystem extends IteratingSystem {
                 }
 
                 if (enemyHealth.health == 0) {
+                    if (enemyComponent.isBoss) {
+                        // Boss defeated, go to game over screen
+                        GameOverScreen gameOverScreen = new GameOverScreen(game);
+                        gameOverScreen.isBossDefeated(true);
+                        game.getScreenCache().put(ScreenType.GAMEOVER, gameOverScreen);
+                        game.setScreen(gameOverScreen);
+                    }
+
                     ecsEngine.removeEntity(collidedEntity);
                     mapManager.getCurrentMap().setEnemyCount(mapManager.getCurrentMap().getEnemyCount() - 1);
                 }
