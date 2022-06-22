@@ -152,6 +152,7 @@
   </object>
   <object id="39" gid="110" x="224" y="128" width="16" height="16">
    <properties>
+    <property name="text" value="WASD TO MOVE | E TO CLOSE"/>
     <property name="type" type="int" value="2"/>
    </properties>
   </object>

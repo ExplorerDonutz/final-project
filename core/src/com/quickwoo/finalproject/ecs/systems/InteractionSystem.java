@@ -38,7 +38,7 @@ public class InteractionSystem extends IteratingSystem implements GameKeyInputLi
 
         if (isInteracted) {
             if (gameObjectComponent.isInteractable) {
-                gameScreen.setSignText("SUCK");
+                gameScreen.setSignText(gameObjectComponent.text);
                 gameObjectComponent.isInteractable = false;
                 gameScreen.signInteracted(true);
             }

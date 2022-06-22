@@ -1,8 +1,3 @@
-/* Michael Quick & Nicholas Woo
- *  17 May 2022
- *  The menu screen for the game
- */
-
 package com.quickwoo.finalproject.screens;
 
 import com.badlogic.gdx.Gdx;
@@ -11,7 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -24,7 +19,7 @@ import com.quickwoo.finalproject.loader.AssetLoader;
 import static com.quickwoo.finalproject.Constants.HEIGHT;
 import static com.quickwoo.finalproject.Constants.WIDTH;
 
-public class MenuScreen implements Screen {
+public class TutorialScreen implements Screen {
     private final FinalProject game;
     private Stage stage;
     private Skin skin;
@@ -32,7 +27,7 @@ public class MenuScreen implements Screen {
     private FillViewport viewport;
     private Table table;
 
-    public MenuScreen(FinalProject game) {
+    public TutorialScreen(FinalProject game) {
         this.game = game;
     }
 
@@ -52,52 +47,37 @@ public class MenuScreen implements Screen {
         table = new Table();
         table.setFillParent(true);
 
-        Image image = new Image(skin, "Untitled");
-        table.add(image).size(300, 65.45f).fill().padBottom(10.0f);
-        table.row();
-        TextButton playButton = new TextButton("Play", skin);
+        Label text1 = new Label("WASD to move", skin);
+        Label text2 = new Label("Space to attack", skin);
+        Label text3 = new Label("E to interact", skin);
+        Label text4 = new Label("Beat the final boss to win", skin);
+
+        TextButton backButton = new TextButton("Back", skin);
         // Have the play button detect mouse clicks on itself
-        playButton.addListener((new ClickListener() {
+        backButton.addListener((new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 // Fade out then switch screens
-                stage.addAction(Actions.sequence(Actions.fadeOut(0.75f), Actions.run(() -> game.setScreen(ScreenType.GAME))));
+                stage.addAction(Actions.sequence(Actions.fadeOut(0.75f), Actions.run(() -> game.setScreen(ScreenType.MENU))));
             }
         }));
-        table.add(playButton).padBottom(10.0f).fillX();
 
         table.row();
 
-        TextButton tutorialButton = new TextButton("How To Play", skin);
-        // Have the play button detect mouse clicks on itself
-        tutorialButton.addListener((new ClickListener() {
-            @Override
-            public void clicked(InputEvent e, float x, float y) {
-                // Fade out then switch screens
-                stage.addAction(Actions.sequence(Actions.fadeOut(0.75f), Actions.run(() -> game.setScreen(ScreenType.TUTORIAL))));
-            }
-        }));
-        table.add(tutorialButton).padBottom(10.0f).fillX();
-
+        table.add(text1);
         table.row();
-        TextButton quitButton = new TextButton("Quit", skin);
-        // Have the quit button detect mouse clicks on itself
-        quitButton.addListener((new ClickListener() {
-            @Override
-            public void clicked(InputEvent e, float x, float y) {
-                Gdx.app.exit();
-            }
-        }));
-        table.add(quitButton).fillX();
+        table.add(text2);
+        table.row();
+        table.add(text3);
+        table.row();
+        table.add(text4);
+        table.row();
+        table.add(backButton);
         stage.addActor(table);
-
-        // Fade in screen
-        stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.75f)));
     }
 
     @Override
     public void render(float delta) {
-        // 256 RGB: 131 35 153 -> 100 RGB 51.2 13.7 59.8
         ScreenUtils.clear(0.512f, 0.137f, 0.598f, 0);
         viewport.apply(true);
         stage.act(delta);

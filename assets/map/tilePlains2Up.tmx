@@ -160,7 +160,6 @@
   <object id="1" x="272" y="48">
    <polygon points="0,0 0,-48 176,-48 176,128 0,128 0,64 16,64 16,112 160,112 160,-32 16,-32 16,16 0,16"/>
   </object>
-  <object id="2" x="208" y="128" width="16" height="16"/>
   <object id="5" x="64" y="32">
    <polygon points="0,0 0,96 208,96 208,0 0,0"/>
   </object>
@@ -274,6 +273,7 @@
   </object>
   <object id="29" gid="141" x="208" y="144" width="16" height="16">
    <properties>
+    <property name="text" value="THIS MY HOUSE"/>
     <property name="type" type="int" value="2"/>
    </properties>
   </object>

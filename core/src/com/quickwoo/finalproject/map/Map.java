@@ -44,6 +44,8 @@ public class Map {
                 final String nextMap = tiledMapObjProperties.get("nextMap", String.class);
                 final int playerLoc = tiledMapObjProperties.get("playerLoc", Integer.class);
                 gameObjects.add(new GameObject(type, tiledMapObj.getX(), tiledMapObj.getY(), width, height, tiledMapObj.getRotation(), nextMap, playerLoc, tiledMapObj.getTextureRegion()));
+            } else if (tiledMapObjProperties.get("text", String.class) != null) {
+                gameObjects.add(new GameObject(type, tiledMapObj.getX(), tiledMapObj.getY(), width, height, tiledMapObj.getRotation(), tiledMapObjProperties.get("text", String.class), tiledMapObj.getTextureRegion()));
             } else {
                 // This is a gameobject without teleporting
                 gameObjects.add(new GameObject(type, tiledMapObj.getX(), tiledMapObj.getY(), width, height, tiledMapObj.getRotation(), tiledMapObj.getTextureRegion()));

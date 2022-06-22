@@ -204,7 +204,7 @@ public class ECSEngine extends PooledEngine {
             healthComponent.healthBar = new HeartBar(69420, 32, 32, 0, Constants.HEIGHT - 32, skin);
             healthComponent.health = 69420;
         } else
-            healthComponent.healthBar = new HeartBar(3, 32, 32, 0, Constants.HEIGHT - 32, skin);
+            healthComponent.healthBar = new HeartBar(10, 32, 32, 0, Constants.HEIGHT - 32, skin);
 
         healthComponent.healthBar.setSize(256, 64);
         healthComponent.healthBar.setPosition(50, Constants.HEIGHT - 100);
@@ -307,6 +307,8 @@ public class ECSEngine extends PooledEngine {
         if (gameObject.getType() == GameObjectComponent.TYPE_TELEPORT) {
             gameObjectComponent.playerLoc = gameObject.getPlayerLoc();
             gameObjectComponent.map = gameObject.getNextMap();
+        } else if (gameObjectComponent.type == GameObjectComponent.TYPE_SIGN) {
+            gameObjectComponent.text = gameObject.getText();
         }
         entity.add(gameObjectComponent);
 

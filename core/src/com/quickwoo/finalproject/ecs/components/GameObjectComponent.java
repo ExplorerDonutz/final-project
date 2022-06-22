@@ -11,6 +11,7 @@ public class GameObjectComponent implements Component, Pool.Poolable {
     public String map;
     public int playerLoc;
     public boolean isInteractable = false;
+    public String text;
 
     public int getType() {
         return type;
@@ -22,5 +23,6 @@ public class GameObjectComponent implements Component, Pool.Poolable {
         map = null;
         playerLoc = 1;
         isInteractable = false;
+        text = null;
     }
 }
