@@ -303,7 +303,7 @@ player.add(playerComponent);
         gameObjectComponent.type = gameObject.getType();
         if (gameObject.getType() == GameObjectComponent.TYPE_TELEPORT) {
             gameObjectComponent.playerLoc = gameObject.getPlayerLoc();
-            gameObjectComponent.map = assetManager.get(gameObject.getNextMap());
+            gameObjectComponent.map = gameObject.getNextMap();
         }
         entity.add(gameObjectComponent);
 

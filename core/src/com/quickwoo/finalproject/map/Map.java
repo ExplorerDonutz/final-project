@@ -16,7 +16,6 @@ public class Map {
     private final TiledMap map;
     private final Array<GameObject> gameObjects;
     private final ECSEngine ecsEngine;
-    private final Array<Body> bodies;
     private Vector2 playerStartLocation;
     private boolean isBossMap;
 
@@ -53,8 +52,6 @@ public class Map {
 
         // Check if the map is the boss map
         isBossMap = map.getProperties().get("isBoss", boolean.class);
-
-        bodies = TiledObjectCollision.parseTiledObjectLayer(world, map.getLayers().get("Collision").getObjects());
     }
 
     public Vector2 getPlayerStartLocation() {
@@ -63,10 +60,6 @@ public class Map {
 
     public void setPlayerStartLocation(Vector2 playerStartLocation) {
         this.playerStartLocation = playerStartLocation;
-    }
-
-    public Array<Body> getBodies() {
-        return bodies;
     }
 
     public TiledMap getMap() {

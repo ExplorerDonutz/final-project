@@ -43,6 +43,7 @@ import com.quickwoo.finalproject.input.InputManager;
 import com.quickwoo.finalproject.loader.AssetLoader;
 import com.quickwoo.finalproject.map.Map;
 import com.quickwoo.finalproject.map.MapManager;
+import com.quickwoo.finalproject.map.Maps;
 
 import static com.quickwoo.finalproject.input.GameKeys.BACK;
 
@@ -116,11 +117,11 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
 
         // Load tiled map, parse the collision layer, and create a renderer to render the map with the pixel to meter scale
         tiledMap = assetManager.get(AssetLoader.MAP_START);
-        mapManager = new MapManager(world, ecsEngine);
+        mapManager = new MapManager(world, ecsEngine, game.getAssetManager());
         mapManager.addMapListener(this);
         map = new Map(tiledMap, world, ecsEngine);
         mapRenderer = new OrthogonalTiledMapRenderer(null, Constants.PIXELS_TO_METERS, game.getBatch());
-        mapManager.setMap(map, 1);
+        mapManager.setMap(Maps.MAP_START, 1);
         ecsEngine.getCameraSystem().setMap(map);
         ecsEngine.getCollisionSystem().setMapManager(mapManager);
 

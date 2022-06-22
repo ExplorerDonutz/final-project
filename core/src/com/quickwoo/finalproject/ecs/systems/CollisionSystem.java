@@ -15,6 +15,7 @@ import com.quickwoo.finalproject.ecs.Mapper;
 import com.quickwoo.finalproject.ecs.components.*;
 import com.quickwoo.finalproject.map.Map;
 import com.quickwoo.finalproject.map.MapManager;
+import com.quickwoo.finalproject.map.Maps;
 
 public class CollisionSystem extends IteratingSystem {
     private final String TAG = this.getClass().getSimpleName();
@@ -45,7 +46,7 @@ public class CollisionSystem extends IteratingSystem {
                     case GameObjectComponent.TYPE_TELEPORT:
                         if (mapManager.getCurrentMap().getEnemyCount() == 0) {
                             Gdx.app.log(TAG, " Player hit teleport");
-                            mapManager.setMap(new Map(gameObjectComponent.map, world, ecsEngine), gameObjectComponent.playerLoc);
+                            mapManager.setMap(Maps.valueOf(gameObjectComponent.map), gameObjectComponent.playerLoc);
                             mapManager.getCurrentMap().isCleared(true);
                         }
                 }

@@ -127,126 +127,126 @@
  <objectgroup id="7" name="gameObjects">
   <object id="21" gid="149" x="0" y="96" width="16" height="16">
    <properties>
-    <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="nextMap" value="MAP_2"/>
     <property name="playerLoc" type="int" value="2"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="22" gid="149" x="0" y="112" width="16" height="16">
    <properties>
-    <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="nextMap" value="MAP_2"/>
     <property name="playerLoc" type="int" value="2"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="23" gid="149" x="0" y="144" width="16" height="16">
    <properties>
-    <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="nextMap" value="MAP_2"/>
     <property name="playerLoc" type="int" value="2"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="24" gid="149" x="0" y="160" width="16" height="16">
    <properties>
-    <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="nextMap" value="MAP_2"/>
     <property name="playerLoc" type="int" value="2"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="25" gid="149" x="0" y="176" width="16" height="16">
    <properties>
-    <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="nextMap" value="MAP_2"/>
     <property name="playerLoc" type="int" value="2"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="26" gid="149" x="0" y="192" width="16" height="16">
    <properties>
-    <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="nextMap" value="MAP_2"/>
     <property name="playerLoc" type="int" value="2"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="27" gid="149" x="0" y="224" width="16" height="16">
    <properties>
-    <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="nextMap" value="MAP_2"/>
     <property name="playerLoc" type="int" value="2"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="28" gid="149" x="0" y="240" width="16" height="16">
    <properties>
-    <property name="nextMap" value="map/tilePlains2.tmx"/>
+    <property name="nextMap" value="MAP_2"/>
     <property name="playerLoc" type="int" value="2"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="29" gid="149" x="464" y="96" width="16" height="16">
    <properties>
-    <property name="nextMap" value="map/tilePlainsBoss.tmx"/>
+    <property name="nextMap" value="MAP_BOSS"/>
     <property name="playerLoc" type="int" value="1"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="30" gid="149" x="464" y="112" width="16" height="16">
    <properties>
-    <property name="nextMap" value="map/tilePlainsBoss.tmx"/>
+    <property name="nextMap" value="MAP_BOSS"/>
     <property name="playerLoc" type="int" value="1"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="31" gid="149" x="464" y="128" width="16" height="16">
    <properties>
-    <property name="nextMap" value="map/tilePlainsBoss.tmx"/>
+    <property name="nextMap" value="MAP_BOSS"/>
     <property name="playerLoc" type="int" value="1"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="32" gid="149" x="464" y="144" width="16" height="16">
    <properties>
-    <property name="nextMap" value="map/tilePlainsBoss.tmx"/>
+    <property name="nextMap" value="MAP_BOSS"/>
     <property name="playerLoc" type="int" value="1"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="33" gid="149" x="464" y="160" width="16" height="16">
    <properties>
-    <property name="nextMap" value="map/tilePlainsBoss.tmx"/>
+    <property name="nextMap" value="MAP_BOSS"/>
     <property name="playerLoc" type="int" value="1"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="34" gid="149" x="464" y="176" width="16" height="16">
    <properties>
-    <property name="nextMap" value="map/tilePlainsBoss.tmx"/>
+    <property name="nextMap" value="MAP_BOSS"/>
     <property name="playerLoc" type="int" value="1"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="35" gid="149" x="464" y="192" width="16" height="16">
    <properties>
-    <property name="nextMap" value="map/tilePlainsBoss.tmx"/>
+    <property name="nextMap" value="MAP_BOSS"/>
     <property name="playerLoc" type="int" value="1"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="36" gid="149" x="464" y="208" width="16" height="16">
    <properties>
-    <property name="nextMap" value="map/tilePlainsBoss.tmx"/>
+    <property name="nextMap" value="MAP_BOSS"/>
     <property name="playerLoc" type="int" value="1"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="37" gid="149" x="464" y="224" width="16" height="16">
    <properties>
-    <property name="nextMap" value="map/tilePlainsBoss.tmx"/>
+    <property name="nextMap" value="MAP_BOSS"/>
     <property name="playerLoc" type="int" value="1"/>
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
   <object id="38" gid="149" x="464" y="240" width="16" height="16">
    <properties>
-    <property name="nextMap" value="map/tilePlainsBoss.tmx"/>
+    <property name="nextMap" value="MAP_BOSS"/>
     <property name="playerLoc" type="int" value="1"/>
     <property name="type" type="int" value="1"/>
    </properties>

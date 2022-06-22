@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Pool;
 public class GameObjectComponent implements Component, Pool.Poolable {
     public static final int TYPE_TELEPORT = 1;
     public int type = 0;
-    public TiledMap map;
+    public String map;
     public int playerLoc;
 
     public int getType() {
