@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.6" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="29">
+<map version="1.8" tiledversion="1.8.6" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="30">
  <properties>
   <property name="isBoss" type="bool" value="false"/>
  </properties>
@@ -118,7 +118,7 @@
 0,155,0,0,0,194,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,257,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,257,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,256,0,0,276,0,0,0,0,0,0,257,0,0,
-0,276,0,0,0,0,0,0,0,0,0,0,0,141,0,0,0,257,0,0,0,0,20,0,274,0,0,257,0,0,
+0,276,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,257,0,0,0,0,20,0,274,0,0,257,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,257,0,0,0,0,0,0,0,0,0,257,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,291,0,0,0,0,262,267,267,267,267,267,267,267,267,267,264,0,0,
 0,0,0,0,273,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -270,6 +270,11 @@
     <property name="nextMap" value="MAP_2"/>
     <property name="playerLoc" type="int" value="3"/>
     <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="29" gid="141" x="208" y="144" width="16" height="16">
+   <properties>
+    <property name="type" type="int" value="2"/>
    </properties>
   </object>
  </objectgroup>

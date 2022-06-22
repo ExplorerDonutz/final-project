@@ -54,8 +54,12 @@ public class CollisionSystem extends IteratingSystem {
                             mapManager.setMap(Maps.valueOf(gameObjectComponent.map), gameObjectComponent.playerLoc);
                             mapManager.getCurrentMap().isCleared(true);
                         }
+                        break;
+                    case GameObjectComponent.TYPE_SIGN:
+                        Gdx.app.log(TAG, " Player is in interacting distance of sign");
+                        gameObjectComponent.isInteractable = true;
                 }
-            } else if (enemyComponent != null){
+            } else if (enemyComponent != null) {
                 Gdx.app.log(TAG, "Player hit enemy");
                 BattleComponent battleComponent = Mapper.battleMapper.get(entity);
                 HealthComponent enemyHealth = Mapper.healthMapper.get(collidedEntity);
@@ -63,12 +67,12 @@ public class CollisionSystem extends IteratingSystem {
                 Box2DComponent playerBody = Mapper.box2DMapper.get(entity);
                 Box2DComponent enemyBody = Mapper.box2DMapper.get(collidedEntity);
                 if (battleComponent.attack) {
-                    enemyHealth.health --;
+                    enemyHealth.health--;
                     bounceOff(playerBody.body, enemyBody.body);
                     collision.reset();
                 } else if (enemyComponent.coolDown == 0) {
                     // Lower player health by 1 and set new value to the counter
-                    playerHealth.health --;
+                    playerHealth.health--;
                     playerHealth.healthBar.setHeartCount(playerHealth.health);
                     // Give player a chance to knock enemies off before they attack again
                     enemyComponent.coolDown = 75;
@@ -89,7 +93,7 @@ public class CollisionSystem extends IteratingSystem {
             }
         }
         // Reset the collision component of the player entity
-        //collision.reset();
+        collision.reset();
     }
 
     public void setMapManager(MapManager mapManager) {

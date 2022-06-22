@@ -20,12 +20,10 @@ import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.quickwoo.finalproject.Constants;
@@ -44,6 +42,7 @@ import com.quickwoo.finalproject.loader.AssetLoader;
 import com.quickwoo.finalproject.map.Map;
 import com.quickwoo.finalproject.map.MapManager;
 import com.quickwoo.finalproject.map.Maps;
+import org.w3c.dom.Text;
 
 import static com.quickwoo.finalproject.input.GameKeys.BACK;
 
@@ -61,6 +60,8 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
     private final com.quickwoo.finalproject.map.Map map;
     private final Stage stage;
     private final Window pause;
+    private final SelectBox textBox;
+    private String signText;
     private MapManager mapManager;
     private final FinalProject game;
     private boolean isPaused;
@@ -74,6 +75,14 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
         // Create skin, stage, and its menu window
         skin = assetManager.get(AssetLoader.SKIN);
         stage = new Stage(new ExtendViewport(Constants.WIDTH, Constants.HEIGHT), game.getBatch());
+
+        signText = "TEST";
+        textBox = new SelectBox(skin);
+        textBox.setSize(350, 50);
+        textBox.setItems(signText);
+        textBox.setPosition(10, 10);
+        stage.addActor(textBox);
+        textBox.setVisible(false);
 
         pause = new Window("", skin);
         pause.setFillParent(true);
@@ -230,5 +239,14 @@ public class GameScreen implements Screen, GameKeyInputListener, MapManager.MapL
 
     public World getWorld() {
         return world;
+    }
+
+    public void signInteracted(boolean isInteracted) {
+        textBox.setVisible(isInteracted);
+    }
+
+    public void setSignText(String text) {
+        signText = text;
+        textBox.setItems(signText);
     }
 }

@@ -73,6 +73,9 @@ public class ECSEngine extends PooledEngine {
 
         // Add combat system
         this.addSystem(new PlayerCombatSystem(game.getInputManager(), game, this));
+
+        // Interaction system
+        this.addSystem(new InteractionSystem(game, this, screen));
     }
 
     public void createPlayer(int x, int y, int drawOrder) {
@@ -82,7 +85,7 @@ public class ECSEngine extends PooledEngine {
         // Player
         final PlayerComponent playerComponent = this.createComponent(PlayerComponent.class);
         playerComponent.speed = 5.0f;
-player.add(playerComponent);
+        player.add(playerComponent);
 
         // Box2D
         final Box2DComponent box2DComponent = this.createComponent(Box2DComponent.class);
@@ -137,7 +140,7 @@ player.add(playerComponent);
 
         //Attack animation Down
         walkSheetDown = assetManager.get(AssetLoader.PLAYER_ATTACK_DOWN);
-        TextureRegion[][] tmpDown = TextureRegion.split(walkSheetDown, walkSheetDown.getWidth()/FRAME_COlS,walkSheetDown.getHeight()/FRAME_ROWS);
+        TextureRegion[][] tmpDown = TextureRegion.split(walkSheetDown, walkSheetDown.getWidth() / FRAME_COlS, walkSheetDown.getHeight() / FRAME_ROWS);
         TextureRegion[] walkFramesDown = new TextureRegion[FRAME_COlS * FRAME_ROWS];
         int indexDown = 0;
         for (int i = 0; i < FRAME_ROWS; i++) {
@@ -149,7 +152,7 @@ player.add(playerComponent);
 
         //Attack animation up
         walkSheetUp = assetManager.get(AssetLoader.PLAYER_ATTACK_UP);
-        TextureRegion[][] tmpUp = TextureRegion.split(walkSheetUp, walkSheetUp.getWidth()/FRAME_COlS,walkSheetUp.getHeight()/FRAME_ROWS);
+        TextureRegion[][] tmpUp = TextureRegion.split(walkSheetUp, walkSheetUp.getWidth() / FRAME_COlS, walkSheetUp.getHeight() / FRAME_ROWS);
         TextureRegion[] walkFramesUp = new TextureRegion[FRAME_COlS * FRAME_ROWS];
         int indexUp = 0;
         for (int i = 0; i < FRAME_ROWS; i++) {
@@ -161,7 +164,7 @@ player.add(playerComponent);
 
         //Attack animation left
         walkSheetLeft = assetManager.get(AssetLoader.PLAYER_ATTACK_LEFT);
-        TextureRegion[][] tmpLeft = TextureRegion.split(walkSheetLeft, walkSheetLeft.getWidth()/FRAME_COlS,walkSheetLeft.getHeight()/FRAME_ROWS);
+        TextureRegion[][] tmpLeft = TextureRegion.split(walkSheetLeft, walkSheetLeft.getWidth() / FRAME_COlS, walkSheetLeft.getHeight() / FRAME_ROWS);
         TextureRegion[] walkFramesLeft = new TextureRegion[FRAME_COlS * FRAME_ROWS];
         int indexLeft = 0;
         for (int i = 0; i < FRAME_ROWS; i++) {
@@ -173,7 +176,7 @@ player.add(playerComponent);
 
         //Attack animation right
         walkSheetRight = assetManager.get(AssetLoader.PLAYER_ATTACK_RIGHT);
-        TextureRegion[][] tmpRight = TextureRegion.split(walkSheetRight, walkSheetRight.getWidth()/FRAME_COlS,walkSheetRight.getHeight()/FRAME_ROWS);
+        TextureRegion[][] tmpRight = TextureRegion.split(walkSheetRight, walkSheetRight.getWidth() / FRAME_COlS, walkSheetRight.getHeight() / FRAME_ROWS);
         TextureRegion[] walkFramesRight = new TextureRegion[FRAME_COlS * FRAME_ROWS];
         int indexRight = 0;
         for (int i = 0; i < FRAME_ROWS; i++) {
@@ -204,7 +207,7 @@ player.add(playerComponent);
             healthComponent.healthBar = new HeartBar(3, 32, 32, 0, Constants.HEIGHT - 32, skin);
 
         healthComponent.healthBar.setSize(256, 64);
-        healthComponent.healthBar.setPosition(50,Constants.HEIGHT - 100);
+        healthComponent.healthBar.setPosition(50, Constants.HEIGHT - 100);
         stage.addActor(healthComponent.healthBar);
         player.add(healthComponent);
 
@@ -225,7 +228,7 @@ player.add(playerComponent);
         //Set up the animation for the slime moving right
         walkSheetRight = new Texture(Gdx.files.internal("RPG Sprites/sprSlimeRight.png"));
 
-        TextureRegion[][] tmpRight = TextureRegion.split(walkSheetRight, walkSheetRight.getWidth()/FRAME_COlS,walkSheetRight.getHeight()/FRAME_ROWS);
+        TextureRegion[][] tmpRight = TextureRegion.split(walkSheetRight, walkSheetRight.getWidth() / FRAME_COlS, walkSheetRight.getHeight() / FRAME_ROWS);
 
         TextureRegion[] walkFrames = new TextureRegion[FRAME_COlS * FRAME_ROWS];
         int indexRight = 0;
@@ -240,7 +243,7 @@ player.add(playerComponent);
         //Set up animation for the slime moving left
         walkSheetLeft = new Texture(Gdx.files.internal("RPG Sprites/sprSlimeLeft.png"));
 
-        TextureRegion[][] tmpLeft = TextureRegion.split(walkSheetLeft, walkSheetLeft.getWidth()/FRAME_COlS, walkSheetLeft.getHeight()/FRAME_ROWS);
+        TextureRegion[][] tmpLeft = TextureRegion.split(walkSheetLeft, walkSheetLeft.getWidth() / FRAME_COlS, walkSheetLeft.getHeight() / FRAME_ROWS);
 
         TextureRegion[] walkFramesLeft = new TextureRegion[FRAME_COlS * FRAME_ROWS];
         int indexLeft = 0;
@@ -313,13 +316,15 @@ player.add(playerComponent);
             case GameObjectComponent.TYPE_TELEPORT:
                 box2DComponent.body = bodyFactory.makeBox((gameObject.getX() + (gameObject.getRegion().getRegionWidth() / 2f)) * 2, (gameObject.getY() + (gameObject.getRegion().getRegionHeight() / 2f)) * 2, gameObject.getWidth(), gameObject.getHeight(), 1.0f, BodyDef.BodyType.StaticBody, true, false);
                 break;
+            case GameObjectComponent.TYPE_SIGN:
+                box2DComponent.body = bodyFactory.makeBox((gameObject.getX() + (gameObject.getRegion().getRegionWidth() / 2f)) * 2, (gameObject.getY() + (gameObject.getRegion().getRegionHeight() / 2f)) * 2, gameObject.getWidth() * 2, gameObject.getHeight() * 2, 1.0f, BodyDef.BodyType.StaticBody, true, true);
         }
         box2DComponent.body.setUserData(entity);
         entity.add(box2DComponent);
 
         // Transform
         final TransformComponent transformComponent = this.createComponent(TransformComponent.class);
-        transformComponent.scale.set(1,1);
+        transformComponent.scale.set(1, 1);
         transformComponent.position.set(gameObject.getX(), gameObject.getY(), 1);
         entity.add(transformComponent);
 
@@ -330,6 +335,8 @@ player.add(playerComponent);
             case GameObjectComponent.TYPE_TELEPORT:
                 textureComponent.isDrawn = false;
                 break;
+            case GameObjectComponent.TYPE_SIGN:
+                textureComponent.isDrawn = true;
         }
         entity.add(textureComponent);
 
@@ -346,7 +353,7 @@ player.add(playerComponent);
         //Set up the animation for the slime moving right
         walkSheetRight = new Texture(Gdx.files.internal("RPG Sprites/sprSlimeRight.png"));
 
-        TextureRegion[][] tmpRight = TextureRegion.split(walkSheetRight, walkSheetRight.getWidth()/FRAME_COlS,walkSheetRight.getHeight()/FRAME_ROWS);
+        TextureRegion[][] tmpRight = TextureRegion.split(walkSheetRight, walkSheetRight.getWidth() / FRAME_COlS, walkSheetRight.getHeight() / FRAME_ROWS);
 
         TextureRegion[] walkFrames = new TextureRegion[FRAME_COlS * FRAME_ROWS];
         int indexRight = 0;
@@ -361,7 +368,7 @@ player.add(playerComponent);
         //Set up animation for the slime moving left
         walkSheetLeft = new Texture(Gdx.files.internal("RPG Sprites/sprSlimeLeft.png"));
 
-        TextureRegion[][] tmpLeft = TextureRegion.split(walkSheetLeft, walkSheetLeft.getWidth()/FRAME_COlS, walkSheetLeft.getHeight()/FRAME_ROWS);
+        TextureRegion[][] tmpLeft = TextureRegion.split(walkSheetLeft, walkSheetLeft.getWidth() / FRAME_COlS, walkSheetLeft.getHeight() / FRAME_ROWS);
 
         TextureRegion[] walkFramesLeft = new TextureRegion[FRAME_COlS * FRAME_ROWS];
         int indexLeft = 0;
@@ -417,6 +424,7 @@ player.add(playerComponent);
 
         this.addEntity(slime);
     }
+
     public PlayerCameraSystem getCameraSystem() {
         return playerCameraSystem;
     }
